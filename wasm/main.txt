@@ -4,8 +4,7 @@ import (
 	"embed"
 	"fmt"
 	"math/rand"
-	"space/wasm/app"
-	"space/wasm/network"
+  "byline/browser"
 	"time"
 
 	"github.com/andrewarrow/feedback/wasm"
@@ -22,17 +21,9 @@ func main() {
 	wasm.EmbeddedTemplates = embeddedTemplates
 	rand.Seed(time.Now().UnixNano())
 	fmt.Println("Go Web Assembly")
-	app.Global, app.Document = wasm.NewGlobal()
+	browser.Global, browser.Document = wasm.NewGlobal()
 
-	<-app.Global.Ready
-	if wasm.UseLive {
-		go func() {
-			wasm.LoadAllTemplates(viewList, network.DoGet)
-			app.RegisterEvents()
-		}()
-	} else {
-		app.RegisterEvents()
-	}
+	<-browser.Global.Ready
 
 	select {}
 }

@@ -1,5 +1,10 @@
-#cp wasm/main.txt main.go
-#go build
+cp wasm/main.txt main.go
+GOOS=js GOARCH=wasm go build -ldflags="-s -w -X main.useLive=true -X main.viewList=$file_string" -o assets/other/json.wasm 
+cd assets/other
+rm json.wasm.gz
+gzip json.wasm
+cd ../..
+
 cp web/main.txt main.go
 go build
 echo 3
