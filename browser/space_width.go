@@ -96,3 +96,17 @@ var fractions = []string{
 	"11/12",
 	"full",
 }
+
+var textSizes = []string{
+	"",
+	"xs",
+	"sm",
+	"base",
+	"lg",
+	"xl",
+	"2xl",
+	"3xl",
+	"4xl",
+	"5xl",
+	"6xl",
+}
