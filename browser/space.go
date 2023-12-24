@@ -82,6 +82,10 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.Padding(1)
 	} else if k == "P" {
 		space.Padding(-1)
+	} else if k == "x" {
+		space.RemoveAttr()
+	} else if k == "X" {
+		space.RemoveNode()
 	} else if k == ":" {
 		space.TypeStart = true
 	} else if k == "." {
