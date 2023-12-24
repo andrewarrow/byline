@@ -59,6 +59,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.CurrentLine++
 	} else if k == "f" {
 		space.SetFlex()
+	} else if k == "c" {
+		space.Child()
 	} else if k == "d" {
 		space.Duplicate()
 	} else if k == "=" {

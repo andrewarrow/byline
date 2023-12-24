@@ -46,6 +46,7 @@ func findWidth(m map[string]bool) int {
 }
 
 var sizes = []string{
+	"",
 	"1/12",
 	"1/6",
 	"1/5",
