@@ -10,13 +10,9 @@ func (s *Space) SetFlex() {
 	for i, line := range s.Lines {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
-			tokens := strings.Split(strings.TrimSpace(line), " ")
-			m := map[string]bool{}
-			for _, token := range tokens[1:] {
-				m[token] = true
-			}
+			m, tag := makeClassMap(line)
 			m["flex"] = !m["flex"]
-			buffer = append(buffer, spaces+tokens[0]+" "+makeClasses(m))
+			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
 		}
 		buffer = append(buffer, line)

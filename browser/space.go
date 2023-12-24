@@ -61,6 +61,10 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.SetFlex()
 	} else if k == "d" {
 		space.Duplicate()
+	} else if k == "=" {
+		space.Width(1)
+	} else if k == "-" {
+		space.Width(-1)
 	} else if k == ":" {
 		space.TypeStart = true
 	}
