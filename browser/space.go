@@ -21,7 +21,7 @@ func keyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
 	if k == "ArrowUp" && space.CurrentLine > 0 {
 		space.CurrentLine--
-	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-2 {
+	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
 	}
 
