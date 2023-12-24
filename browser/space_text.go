@@ -13,5 +13,4 @@ func (s *Space) SetText(t string) {
 		buffer = append(buffer, line)
 	}
 	s.Markup = strings.Join(buffer, "\n")
-	s.Render()
 }

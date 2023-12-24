@@ -17,6 +17,7 @@ type Space struct {
 	Markup      string
 	TypeStart   bool
 	Buffer      []string
+	AttrIndex   int
 }
 
 var space = Space{}
@@ -61,6 +62,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.CurrentLine++
 	} else if k == "f" {
 		space.SetFlex()
+	} else if k == "a" {
+		space.AttrIndex++
 	} else if k == "c" {
 		space.Child()
 	} else if k == "d" {
@@ -87,6 +90,7 @@ func keyPress(this js.Value, p []js.Value) any {
 	w := Document.ByIdWrap(fmt.Sprintf("line%d", space.CurrentLine+1))
 	w.AddClass("bg-white")
 	w.AddClass("text-black")
+	space.Render()
 
 	return nil
 }

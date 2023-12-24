@@ -38,7 +38,6 @@ func (s *Space) IdLogic(prefix string, list []string, val int) {
 		buffer = append(buffer, line)
 	}
 	s.Markup = strings.Join(buffer, "\n")
-	s.Render()
 }
 
 func (id *IncreaseDecrease) find(m map[string]bool) int {

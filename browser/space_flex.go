@@ -26,7 +26,6 @@ func (s *Space) SetFlex() {
 		buffer = append(buffer, line)
 	}
 	s.Markup = strings.Join(buffer, "\n")
-	s.Render()
 }
 
 var re = regexp.MustCompile(`^\s+`)

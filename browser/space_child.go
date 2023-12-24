@@ -11,5 +11,4 @@ func (s *Space) Child() {
 		}
 	}
 	s.Markup = strings.Join(buffer, "\n")
-	s.Render()
 }

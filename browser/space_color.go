@@ -15,5 +15,4 @@ func (s *Space) Color() {
 		buffer = append(buffer, line)
 	}
 	s.Markup = strings.Join(buffer, "\n")
-	s.Render()
 }
