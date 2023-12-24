@@ -10,14 +10,19 @@ func (s *Space) Duplicate() {
 	maxCount := len(spaces)
 
 	bufferCopy := []string{}
+	count := 0
 	for i := s.CurrentLine; i < len(lines); i++ {
 		line := lines[i]
 		spaces := getSpaces(line)
-		count := len(spaces)
+		count = len(spaces)
 		if count < maxCount {
 			break
 		}
+		//fmt.Println(count, line, maxCount)
 		bufferCopy = append(bufferCopy, line)
+	}
+	if count == maxCount {
+		bufferCopy = bufferCopy[0 : len(bufferCopy)-1]
 	}
 
 	buffer := []string{}
