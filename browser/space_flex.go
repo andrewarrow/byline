@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -9,19 +10,26 @@ func (s *Space) SetFlex() {
 	lines := strings.Split(s.Markup, "\n")
 	for i, line := range lines {
 		if i == s.CurrentLine {
+			spaces := getSpaces(line)
 			tokens := strings.Split(strings.TrimSpace(line), " ")
 			m := map[string]bool{}
 			for _, token := range tokens[1:] {
 				m[token] = true
 			}
 			m["flex"] = !m["flex"]
-			buffer = append(buffer, tokens[0]+" "+makeClasses(m))
+			buffer = append(buffer, spaces+tokens[0]+" "+makeClasses(m))
 			continue
 		}
 		buffer = append(buffer, line)
 	}
 	s.Markup = strings.Join(buffer, "\n")
 	s.Render()
+}
+
+var re = regexp.MustCompile(`^\s+`)
+
+func getSpaces(s string) string {
+	return re.FindString(s)
 }
 
 func makeClasses(m map[string]bool) string {
