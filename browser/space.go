@@ -2,19 +2,34 @@ package browser
 
 import (
 	"fmt"
+	"strings"
 	"syscall/js"
+
+	"github.com/andrewarrow/feedback/wasm"
 )
 
 type Space struct {
 	CurrentLine int
 	MaxLines    int
+	Left        *wasm.Wrapper
+	Right       *wasm.Wrapper
+	Markup      string
 }
 
 var space = Space{}
 
 func RegisterSpaceEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(keyPress))
-	space.MaxLines = 6
+	space.Markup = `tag text-lg font-bold
+  tag p-3
+    tag text-lg font-bold
+  tag p-3
+  tag text-lg font-bold
+  tag p-3`
+	space.MaxLines = len(strings.Split(space.Markup, "\n"))
+	space.Left = Document.ByIdWrap("left")
+	space.Right = Document.ByIdWrap("right")
+	space.Render()
 }
 
 func keyPress(this js.Value, p []js.Value) any {

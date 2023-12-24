@@ -14,7 +14,7 @@ div text-lg
       p id=line6
         &nbsp;&nbsp;tag p-3
     div ml-3 w-1/2 id=right
-      div id=tag1 bg-r w-9 h-9
+      div id=tag1 bg-r w-64 h-64
         div id=tag2  br-g w-9 h-9
           div id=tag3 bg-r w-9 h-9
         div id=tag4 br-g w-9 h-9
