@@ -97,12 +97,3 @@ var fractions = []string{
 	"11/12",
 	"full",
 }
-
-func makeClassMap(line string) (map[string]bool, string) {
-	tokens := strings.Split(strings.TrimSpace(line), " ")
-	m := map[string]bool{}
-	for _, token := range tokens[1:] {
-		m[token] = true
-	}
-	return m, tokens[0]
-}
