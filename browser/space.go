@@ -12,7 +12,7 @@ func RegisterSpaceEvents() {
 }
 
 func keyPress(this js.Value, p []js.Value) any {
-	k := p[0].Get("key")
+	k := p[0].Get("key").String()
 	if k == "ArrowUp" {
 	} else if k == "ArrowDown" {
 	}
