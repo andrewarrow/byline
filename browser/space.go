@@ -44,6 +44,7 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.Duplicate()
 	}
 
+	space.MaxLines = len(strings.Split(space.Markup, "\n"))
 	for i := 0; i < space.MaxLines; i++ {
 		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
 		w.RemoveClass("bg-white")
