@@ -3,6 +3,8 @@ package browser
 import (
 	"fmt"
 	"strings"
+
+	"github.com/andrewarrow/feedback/markup"
 )
 
 func (s *Space) Render() {
@@ -14,4 +16,9 @@ func (s *Space) Render() {
 		p.Set("id", fmt.Sprintf("line%d", i+1))
 		s.Left.AppendChild(p)
 	}
+
+	m := map[string]any{}
+	h := markup.ToHTMLFromLines(m, lines)
+	fmt.Println(h)
+	s.Right.Set("innerHTML", h)
 }

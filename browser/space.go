@@ -20,12 +20,12 @@ var space = Space{}
 
 func RegisterSpaceEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(keyPress))
-	space.Markup = `div br-g w-64 h-64
-  div br-g w-9 h-9
-    div br-g w-9 h-9
-  div br-g w-9 h-9
-  div br-g w-9 h-9
-  div br-g w-9 h-9`
+	space.Markup = `div bg-r w-64 h-64
+  div bg-r w-9 h-9
+    div bg-r w-9 h-9
+  div bg-r w-9 h-9
+  div bg-r w-9 h-9
+  div bg-r w-9 h-9`
 	space.MaxLines = len(strings.Split(space.Markup, "\n"))
 	space.Left = Document.ByIdWrap("left")
 	space.Right = Document.ByIdWrap("right")
