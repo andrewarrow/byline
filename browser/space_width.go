@@ -17,10 +17,10 @@ func (s *Space) Width(val int) {
 	s.IdLogic("w", fractions, val)
 }
 
-func (s *Space) IdLogic(val int) {
+func (s *Space) IdLogic(prefix string, list []string, val int) {
 	id := IncreaseDecrease{}
-	id.List = fractions
-	id.Prefix = "w"
+	id.List = list
+	id.Prefix = prefix
 
 	buffer := []string{}
 	for i, line := range s.Lines {

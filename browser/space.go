@@ -65,10 +65,14 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.Duplicate()
 	} else if k == "r" {
 		space.Color()
-	} else if k == "=" {
+	} else if k == "W" {
 		space.Width(1)
-	} else if k == "-" {
+	} else if k == "w" {
 		space.Width(-1)
+	} else if k == "P" {
+		space.Padding(1)
+	} else if k == "p" {
+		space.Padding(-1)
 	} else if k == ":" {
 		space.TypeStart = true
 	}
