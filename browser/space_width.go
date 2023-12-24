@@ -4,25 +4,33 @@ import (
 	"strings"
 )
 
-func makeClassMap(line string) (map[string]bool, string) {
-	tokens := strings.Split(strings.TrimSpace(line), " ")
-	m := map[string]bool{}
-	for _, token := range tokens[1:] {
-		m[token] = true
-	}
-	return m, tokens[0]
+type IncreaseDecrease struct {
+	List   []string
+	Prefix string
+}
+
+func (s *Space) Padding(val int) {
+	s.IdLogic("p", spacing, val)
 }
 
 func (s *Space) Width(val int) {
+	s.IdLogic("w", fractions, val)
+}
+
+func (s *Space) IdLogic(val int) {
+	id := IncreaseDecrease{}
+	id.List = fractions
+	id.Prefix = "w"
+
 	buffer := []string{}
 	for i, line := range s.Lines {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
-			w := findWidth(m)
-			if w+val >= 0 && w+val < len(sizes) {
-				newW := sizes[w+val]
-				m["w-"+newW] = true
+			w := id.find(m)
+			if w+val >= 0 && w+val < len(id.List) {
+				newW := id.List[w+val]
+				m[id.Prefix+"-"+newW] = true
 			}
 			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
@@ -33,9 +41,9 @@ func (s *Space) Width(val int) {
 	s.Render()
 }
 
-func findWidth(m map[string]bool) int {
-	for i, s := range sizes {
-		key := "w-" + s
+func (id *IncreaseDecrease) find(m map[string]bool) int {
+	for i, s := range id.List {
+		key := id.Prefix + "-" + s
 		if m[key] == true {
 			m[key] = false
 			return i
@@ -46,6 +54,7 @@ func findWidth(m map[string]bool) int {
 }
 
 var spacing = []string{
+	"",
 	"1",
 	"2",
 	"3",
@@ -68,7 +77,7 @@ var spacing = []string{
 	"96",
 }
 
-var sizes = []string{
+var fractions = []string{
 	"",
 	"1/12",
 	"1/6",
@@ -87,4 +96,13 @@ var sizes = []string{
 	"7/8",
 	"11/12",
 	"full",
+}
+
+func makeClassMap(line string) (map[string]bool, string) {
+	tokens := strings.Split(strings.TrimSpace(line), " ")
+	m := map[string]bool{}
+	for _, token := range tokens[1:] {
+		m[token] = true
+	}
+	return m, tokens[0]
 }
