@@ -18,7 +18,7 @@ func (s *Space) Render() {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
 			str = fmt.Sprintf(strings.ReplaceAll(spaces, " ", "&nbsp;"))
-			str = str + " " + tag + " " + sortedList(m)
+			str = str + " " + tag + " " + sortedList(m, s.AttrIndex)
 		} else {
 			str = fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
 		}
@@ -33,13 +33,14 @@ func (s *Space) Render() {
 	s.Right.Set("innerHTML", h)
 }
 
-func sortedList(m map[string]bool) string {
+func sortedList(m map[string]bool, index int) string {
 	buffer := []string{}
 
 	for k, _ := range m {
 		buffer = append(buffer, k)
 	}
 	sort.Strings(buffer)
+	buffer = append(buffer[index:], buffer[0:index]...)
 
 	return strings.Join(buffer, " ")
 }
