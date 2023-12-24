@@ -14,6 +14,8 @@ type Space struct {
 	Left        *wasm.Wrapper
 	Right       *wasm.Wrapper
 	Markup      string
+	TypeStart   bool
+	Buffer      []string
 }
 
 var space = Space{}
@@ -29,11 +31,24 @@ func RegisterSpaceEvents() {
 	space.MaxLines = len(strings.Split(space.Markup, "\n"))
 	space.Left = Document.ByIdWrap("left")
 	space.Right = Document.ByIdWrap("right")
+	space.Buffer = []string{}
 	space.Render()
 }
 
 func keyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
+	if space.TypeStart {
+		if k == "Enter" {
+			text := strings.Join(space.Buffer, "")
+			fmt.Println(text)
+			space.Buffer = []string{}
+			space.TypeStart = false
+			return nil
+		}
+		fmt.Print(k)
+		space.Buffer = append(space.Buffer, k)
+		return nil
+	}
 	if k == "ArrowUp" && space.CurrentLine > 0 {
 		space.CurrentLine--
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
@@ -42,6 +57,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.SetFlex()
 	} else if k == "d" {
 		space.Duplicate()
+	} else if k == ":" {
+		space.TypeStart = true
 	}
 
 	space.MaxLines = len(strings.Split(space.Markup, "\n"))
