@@ -23,7 +23,7 @@ func RegisterSpaceEvents() {
 	space.Markup = `div bg-r w-64 h-64
   div bg-r w-9 h-9
     div bg-r w-6 h-6
-      div bg-r w-3 h-3
+    div bg-r w-3 h-3
   div bg-r w-9 h-9
   div bg-r w-9 h-9`
 	space.MaxLines = len(strings.Split(space.Markup, "\n"))
@@ -38,6 +38,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.CurrentLine--
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
+	} else if k == "f" {
+		space.SetFlex()
 	}
 
 	for i := 0; i < space.MaxLines; i++ {
