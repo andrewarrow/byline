@@ -84,6 +84,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.Padding(-1)
 	} else if k == ":" {
 		space.TypeStart = true
+	} else if k == "." {
+		space.Parentize()
 	}
 
 	space.Render()

@@ -18,7 +18,7 @@ func (s *Space) Render() {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
 			str = fmt.Sprintf(strings.ReplaceAll(spaces, " ", "&nbsp;"))
-			str = str + " " + tag + " " + sortedList(m, s.AttrIndex)
+			str = str + tag + " " + sortedList(m, s.AttrIndex)
 		} else {
 			str = fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
 		}
