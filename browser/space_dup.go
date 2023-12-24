@@ -1,6 +1,8 @@
 package browser
 
-import "strings"
+import (
+	"strings"
+)
 
 func (s *Space) Duplicate() {
 	lines := strings.Split(s.Markup, "\n")
@@ -19,11 +21,13 @@ func (s *Space) Duplicate() {
 	}
 
 	buffer := []string{}
+	fired := false
 	for i, line := range lines {
 		spaces := getSpaces(line)
 		count := len(spaces)
-		if count < maxCount && i > s.CurrentLine {
-			buffer = append(buffer, bufferCopy...)
+		if count <= maxCount && i >= s.CurrentLine && fired == false {
+			fired = true
+			buffer = append(buffer, strings.Join(bufferCopy, "\n"))
 		}
 		buffer = append(buffer, line)
 	}
