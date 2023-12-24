@@ -11,12 +11,15 @@ func makeClassMap(line string) (map[string]bool, string) {
 	return m, tokens[0]
 }
 
-func (s *Space) Width(i int) {
+func (s *Space) Width(val int) {
 	buffer := []string{}
 	for i, line := range s.Lines {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
+			w := findWidth(m)
+			newW := sizes[w+val]
+			m["w-"+newW] = true
 			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
 		}
@@ -24,6 +27,18 @@ func (s *Space) Width(i int) {
 	}
 	s.Markup = strings.Join(buffer, "\n")
 	s.Render()
+}
+
+func findWidth(m map[string]bool) int {
+	for i, s := range sizes {
+		key := "w" + s
+		if m[key] == true {
+			m[key] = false
+			return i
+		}
+	}
+
+	return 0
 }
 
 var sizes = []string{
