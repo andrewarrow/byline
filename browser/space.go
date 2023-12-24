@@ -11,6 +11,7 @@ import (
 type Space struct {
 	CurrentLine int
 	MaxLines    int
+	Lines       []string
 	Left        *wasm.Wrapper
 	Right       *wasm.Wrapper
 	Markup      string
@@ -28,7 +29,8 @@ func RegisterSpaceEvents() {
     div text-center m-3 p-3 w-full bg-blue-300 rounded-full text-4xl text-black font-bold
       Welcome To byLine!
     div w-1/4`
-	space.MaxLines = len(strings.Split(space.Markup, "\n"))
+	space.Lines = strings.Split(space.Markup, "\n")
+	space.MaxLines = len(space.Lines)
 	space.Left = Document.ByIdWrap("left")
 	space.Right = Document.ByIdWrap("right")
 	space.Buffer = []string{}
@@ -36,16 +38,18 @@ func RegisterSpaceEvents() {
 }
 
 func keyPress(this js.Value, p []js.Value) any {
+	space.Lines = strings.Split(space.Markup, "\n")
+	space.MaxLines = len(space.Lines)
+
 	k := p[0].Get("key").String()
 	if space.TypeStart {
 		if k == "Enter" {
 			text := strings.Join(space.Buffer, "")
-			fmt.Println(text)
+			space.SetText(text)
 			space.Buffer = []string{}
 			space.TypeStart = false
 			return nil
 		}
-		fmt.Print(k)
 		space.Buffer = append(space.Buffer, k)
 		return nil
 	}
@@ -61,7 +65,6 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.TypeStart = true
 	}
 
-	space.MaxLines = len(strings.Split(space.Markup, "\n"))
 	for i := 0; i < space.MaxLines; i++ {
 		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
 		w.RemoveClass("bg-white")

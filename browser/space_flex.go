@@ -7,8 +7,7 @@ import (
 
 func (s *Space) SetFlex() {
 	buffer := []string{}
-	lines := strings.Split(s.Markup, "\n")
-	for i, line := range lines {
+	for i, line := range s.Lines {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			tokens := strings.Split(strings.TrimSpace(line), " ")

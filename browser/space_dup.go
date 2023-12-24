@@ -5,14 +5,13 @@ import (
 )
 
 func (s *Space) Duplicate() {
-	lines := strings.Split(s.Markup, "\n")
-	spaces := getSpaces(lines[s.CurrentLine])
+	spaces := getSpaces(s.Lines[s.CurrentLine])
 	maxCount := len(spaces)
 
 	bufferCopy := []string{}
 	count := 0
-	for i := s.CurrentLine; i < len(lines); i++ {
-		line := lines[i]
+	for i := s.CurrentLine; i < len(s.Lines); i++ {
+		line := s.Lines[i]
 		spaces := getSpaces(line)
 		count = len(spaces)
 		if count < maxCount {
@@ -27,7 +26,7 @@ func (s *Space) Duplicate() {
 
 	buffer := []string{}
 	fired := false
-	for i, line := range lines {
+	for i, line := range s.Lines {
 		spaces := getSpaces(line)
 		count := len(spaces)
 		if count <= maxCount && i >= s.CurrentLine && fired == false {
