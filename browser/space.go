@@ -22,12 +22,12 @@ func RegisterSpaceEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(keyPress))
 	space.Markup = `div bg-gray-900 w-full min-h-screen
   div flex
-    div w-1/8
-      |
-    div w-full bg-blue-300 rounded-full
+    div w-1/4
+      &nbsp;
+    div text-center m-3 p-3 w-full bg-blue-300 rounded-full text-4xl text-black font-bold
       Welcome To byLine!
-    div w-1/8
-      |`
+    div w-1/4
+      &nbsp;`
 	space.MaxLines = len(strings.Split(space.Markup, "\n"))
 	space.Left = Document.ByIdWrap("left")
 	space.Right = Document.ByIdWrap("right")
