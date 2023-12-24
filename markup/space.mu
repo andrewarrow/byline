@@ -5,7 +5,7 @@ div text-lg
         vid text-lg font-bold
         p id=line2
         &nbsp;&nbsp;vid p-3
-      p id=line3 bg-white text-black
+      p id=line3
         vid text-lg font-bold
         p id=line4
         &nbsp;&nbsp;vid p-3

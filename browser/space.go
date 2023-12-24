@@ -7,22 +7,32 @@ import (
 
 type Space struct {
 	CurrentLine int
+	MaxLines    int
 }
 
 var space = Space{}
 
 func RegisterSpaceEvents() {
-	space.CurrentLine = 1
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(keyPress))
+	space.MaxLines = 6
 }
 
 func keyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
-	if k == "ArrowUp" {
+	if k == "ArrowUp" && space.CurrentLine > 0 {
 		space.CurrentLine--
-	} else if k == "ArrowDown" {
+	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-2 {
 		space.CurrentLine++
 	}
-	fmt.Println(space)
+
+	for i := 0; i < space.MaxLines; i++ {
+		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
+		w.RemoveClass("bg-white")
+		w.RemoveClass("text-black")
+	}
+	w := Document.ByIdWrap(fmt.Sprintf("line%d", space.CurrentLine+1))
+	w.AddClass("bg-white")
+	w.AddClass("text-black")
+
 	return nil
 }
