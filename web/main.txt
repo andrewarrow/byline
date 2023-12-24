@@ -32,9 +32,6 @@ func main() {
 
 	if arg == "render" {
 		router.RenderMarkup()
-	} else if arg == "seed" {
-		r := router.NewRouter("DATABASE_URL", embeddedFile)
-		app.Seed(r.ToContext())
 	} else if arg == "run" {
 		router.BuildTag = buildTag
 		router.EmbeddedTemplates = embeddedTemplates
@@ -44,10 +41,10 @@ func main() {
 		r := router.NewRouter("DATABASE_URL", embeddedFile)
 		r.Paths["/"] = app.HandleWelcome
 		r.Paths["space"] = app.HandleSpace
-		r.Paths["login"] = app.Login
-		r.Paths["register"] = app.Register
-		r.Paths["tickets"] = app.Ticket
-		r.Paths["markup"] = app.Markup
+		//r.Paths["login"] = app.Login
+		//r.Paths["register"] = app.Register
+		//r.Paths["tickets"] = app.Ticket
+		//r.Paths["markup"] = app.Markup
 		r.ListenAndServe(":" + os.Args[2])
 	} else if arg == "help" {
 	}
