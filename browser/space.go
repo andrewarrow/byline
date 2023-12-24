@@ -18,6 +18,7 @@ type Space struct {
 	TypeStart   bool
 	Buffer      []string
 	AttrIndex   int
+	Detail      bool
 }
 
 var space = Space{}
@@ -41,10 +42,17 @@ func RegisterSpaceEvents() {
 }
 
 func keyPress(this js.Value, p []js.Value) any {
+	k := p[0].Get("key").String()
+	if space.Detail {
+		if k == "Enter" {
+			Document.ByIdWrap("detail").Hide()
+			space.Detail = false
+		}
+		return nil
+	}
 	space.Lines = strings.Split(space.Markup, "\n")
 	space.MaxLines = len(space.Lines)
 
-	k := p[0].Get("key").String()
 	if space.TypeStart {
 		if k == "Enter" {
 			text := strings.Join(space.Buffer, "")
@@ -62,6 +70,25 @@ func keyPress(this js.Value, p []js.Value) any {
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
 		space.AttrIndex = 0
+	} else {
+		Document.ByIdWrap("detail").Show()
+		space.Detail = true
+	}
+
+	space.Render()
+	for i := 0; i < space.MaxLines; i++ {
+		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
+		w.RemoveClass("bg-white")
+		w.RemoveClass("text-black")
+	}
+	w := Document.ByIdWrap(fmt.Sprintf("line%d", space.CurrentLine+1))
+	w.AddClass("bg-white")
+	w.AddClass("text-black")
+
+	return nil
+}
+
+/*
 	} else if k == "f" {
 		space.SetFlex()
 	} else if k == "a" {
@@ -90,17 +117,4 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.TypeStart = true
 	} else if k == "." {
 		space.Parentize()
-	}
-
-	space.Render()
-	for i := 0; i < space.MaxLines; i++ {
-		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
-		w.RemoveClass("bg-white")
-		w.RemoveClass("text-black")
-	}
-	w := Document.ByIdWrap(fmt.Sprintf("line%d", space.CurrentLine+1))
-	w.AddClass("bg-white")
-	w.AddClass("text-black")
-
-	return nil
-}
+*/
