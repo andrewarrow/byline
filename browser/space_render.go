@@ -40,7 +40,9 @@ func sortedList(m map[string]bool, index int) string {
 		buffer = append(buffer, k)
 	}
 	sort.Strings(buffer)
-	buffer = append(buffer[index:], buffer[0:index]...)
+	if index < len(buffer) {
+		buffer = append(buffer[index:], buffer[0:index]...)
+	}
 
 	return strings.Join(buffer, " ")
 }

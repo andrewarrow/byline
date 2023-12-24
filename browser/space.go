@@ -64,6 +64,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.SetFlex()
 	} else if k == "a" {
 		space.AttrIndex++
+	} else if k == "A" {
+		space.AttrIndex--
 	} else if k == "c" {
 		space.Child()
 	} else if k == "d" {
