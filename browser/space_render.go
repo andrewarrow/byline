@@ -8,6 +8,7 @@ import (
 )
 
 func (s *Space) Render() {
+	s.Left.Set("innerHTML", "")
 	lines := strings.Split(s.Markup, "\n")
 	for i, line := range lines {
 
