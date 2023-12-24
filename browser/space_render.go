@@ -19,6 +19,5 @@ func (s *Space) Render() {
 
 	m := map[string]any{}
 	h := markup.ToHTMLFromLines(m, lines)
-	fmt.Println(h)
 	s.Right.Set("innerHTML", h)
 }
