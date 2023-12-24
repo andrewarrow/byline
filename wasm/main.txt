@@ -24,6 +24,14 @@ func main() {
 	browser.Global, browser.Document = wasm.NewGlobal()
 
 	<-browser.Global.Ready
+	if wasm.UseLive {
+		go func() {
+			wasm.LoadAllTemplates(viewList, wasm.DoGet)
+			browser.RegisterEvents()
+		}()
+	} else {
+		browser.RegisterEvents()
+	}
 
 	select {}
 }
