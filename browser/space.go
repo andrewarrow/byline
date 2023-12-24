@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -13,6 +12,9 @@ func RegisterSpaceEvents() {
 }
 
 func keyPress(this js.Value, p []js.Value) any {
-	fmt.Println(p)
+	k := p[0].Get("key")
+	if k == "ArrowUp" {
+	} else if k == "ArrowDown" {
+	}
 	return nil
 }
