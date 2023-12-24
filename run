@@ -1,4 +1,6 @@
-cp wasm/main.txt main.go
-go build
+#cp wasm/main.txt main.go
+#go build
 cp web/main.txt main.go
 go build
+echo 3
+./byline run 3000
