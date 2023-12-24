@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -20,11 +19,11 @@ func (s *Space) Width(val int) {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
-			fmt.Println(m)
 			w := findWidth(m)
-			newW := sizes[w+val]
-			m["w-"+newW] = true
-			fmt.Println(m)
+			if w+val >= 0 && w+val < len(sizes) {
+				newW := sizes[w+val]
+				m["w-"+newW] = true
+			}
 			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
 		}
@@ -63,4 +62,5 @@ var sizes = []string{
 	"5/6",
 	"7/8",
 	"11/12",
+	"full",
 }
