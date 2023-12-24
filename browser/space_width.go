@@ -1,6 +1,9 @@
 package browser
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 func makeClassMap(line string) (map[string]bool, string) {
 	tokens := strings.Split(strings.TrimSpace(line), " ")
@@ -17,9 +20,11 @@ func (s *Space) Width(val int) {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
+			fmt.Println(m)
 			w := findWidth(m)
 			newW := sizes[w+val]
 			m["w-"+newW] = true
+			fmt.Println(m)
 			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
 		}
@@ -31,7 +36,7 @@ func (s *Space) Width(val int) {
 
 func findWidth(m map[string]bool) int {
 	for i, s := range sizes {
-		key := "w" + s
+		key := "w-" + s
 		if m[key] == true {
 			m[key] = false
 			return i
