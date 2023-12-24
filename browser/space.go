@@ -58,8 +58,10 @@ func keyPress(this js.Value, p []js.Value) any {
 	}
 	if k == "ArrowUp" && space.CurrentLine > 0 {
 		space.CurrentLine--
+		space.AttrIndex = 0
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
+		space.AttrIndex = 0
 	} else if k == "f" {
 		space.SetFlex()
 	} else if k == "a" {
