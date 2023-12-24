@@ -63,6 +63,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.Child()
 	} else if k == "d" {
 		space.Duplicate()
+	} else if k == "r" {
+		space.Color()
 	} else if k == "=" {
 		space.Width(1)
 	} else if k == "-" {

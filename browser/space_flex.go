@@ -11,7 +11,15 @@ func (s *Space) SetFlex() {
 		if i == s.CurrentLine {
 			spaces := getSpaces(line)
 			m, tag := makeClassMap(line)
-			m["flex"] = !m["flex"]
+			if m["flex"] == false {
+				m["flex"] = true
+				m["items-center"] = true
+				m["justify-center"] = true
+			} else {
+				m["flex"] = false
+				m["items-center"] = false
+				m["justify-center"] = false
+			}
 			buffer = append(buffer, spaces+tag+" "+makeClasses(m))
 			continue
 		}
