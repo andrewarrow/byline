@@ -6,6 +6,6 @@ gzip json.wasm
 cd ../..
 
 cp web/main.txt main.go
-go build
+uuid=$(uuidgen); go build -ldflags="-X main.buildTag=$uuid"
 echo 3
 ./byline run 3000
