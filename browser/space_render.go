@@ -15,7 +15,8 @@ func (s *Space) Render() {
 		str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
 		p := Document.NewTag("p", str)
 		p.Set("id", fmt.Sprintf("line%d", i+1))
-		s.Left.AppendChild(p)
+		p.AddClass("whitespace-nowrap")
+		s.Left.AppendChild(p.JValue)
 	}
 
 	m := map[string]any{}
