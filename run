@@ -1,0 +1,4 @@
+cp wasm/main.txt main.go
+go build
+cp web/main.txt main.go
+go build
