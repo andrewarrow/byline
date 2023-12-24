@@ -82,6 +82,7 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.TypeStart = true
 	}
 
+	space.Render()
 	for i := 0; i < space.MaxLines; i++ {
 		w := Document.ByIdWrap(fmt.Sprintf("line%d", i+1))
 		w.RemoveClass("bg-white")
@@ -90,7 +91,6 @@ func keyPress(this js.Value, p []js.Value) any {
 	w := Document.ByIdWrap(fmt.Sprintf("line%d", space.CurrentLine+1))
 	w.AddClass("bg-white")
 	w.AddClass("text-black")
-	space.Render()
 
 	return nil
 }
