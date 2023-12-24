@@ -1,5 +1,7 @@
 module byline
 
+replace github.com/andrewarrow/feedback => /Users/aa/os/feedback
+
 go 1.21.0
 
 require github.com/andrewarrow/feedback v0.0.0-20231223220532-4e85e4042721
