@@ -9,6 +9,7 @@ import (
 type Vim struct {
 	Lines  []string
 	Editor *wasm.Wrapper
+	Cursor *Cursor
 }
 
 var vim = Vim{}
@@ -17,6 +18,7 @@ func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	vim.Lines = []string{"tag hi", "  tag there"}
 	vim.Editor = Document.ByIdWrap("editor")
+	vim.Cursor = NewCursor(Document.ByIdWrap("cursor"))
 	vim.Render()
 }
 
@@ -26,9 +28,15 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	if k == "Meta" || k == "Shift" || k == "Control" {
 		return nil
 	}
+	vim.Cursor.Clear()
 	if k == "ArrowUp" {
+		vim.Cursor.Y--
 	} else if k == "ArrowDown" {
-	} else if k == "x" {
+		vim.Cursor.Y++
+	} else if k == "ArrowRight" {
+		vim.Cursor.X++
+	} else if k == "ArrowLeft" {
+		vim.Cursor.X--
 	} else if k == "a" {
 	} else if k == "k" {
 	} else if k == "d" {

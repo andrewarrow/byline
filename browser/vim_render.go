@@ -14,4 +14,5 @@ func (v *Vim) Render() {
 		//p.AddClass("whitespace-nowrap")
 		v.Editor.AppendChild(p.JValue)
 	}
+	v.Cursor.Render()
 }
