@@ -47,6 +47,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		if k == "Enter" {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
+		} else if k == "ArrowUp" {
+		} else if k == "ArrowDown" {
 		}
 		return nil
 	}
@@ -71,6 +73,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.CurrentLine++
 		space.AttrIndex = 0
 	} else {
+		items := []string{"text-center", "text-left", "text-right"}
+		Document.RenderToId("menu", "menu", items)
 		Document.ByIdWrap("detail").Show()
 		space.Detail = true
 	}

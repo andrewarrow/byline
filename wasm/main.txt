@@ -25,8 +25,9 @@ func main() {
 
 	<-browser.Global.Ready
 	if wasm.UseLive {
+    files, _ := embeddedTemplates.ReadDir("views")
 		go func() {
-			wasm.LoadAllTemplates(viewList, wasm.DoGet)
+			wasm.LoadAllTemplates(files)
 			browser.RegisterEvents()
 		}()
 	} else {
