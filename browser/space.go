@@ -52,6 +52,26 @@ func keyPress(this js.Value, p []js.Value) any {
 	space.Lines = strings.Split(space.Markup, "\n")
 	space.MaxLines = len(space.Lines)
 
+	if space.ChangeMenu != nil {
+		if k == "Enter" {
+			Document.ByIdWrap("detail").Hide()
+			space.Detail = false
+			space.ChangeMenu = nil
+			space.Render()
+		} else if k == "Escape" {
+			Document.ByIdWrap("detail").Hide()
+			space.ChangeMenu = nil
+			space.Detail = false
+		} else if k == "ArrowUp" {
+			space.ChangeMenu.Selected--
+			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
+		} else if k == "ArrowDown" {
+			space.ChangeMenu.Selected++
+			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
+		}
+		return nil
+	}
+
 	if space.Detail {
 		if k == "Enter" {
 			Document.ByIdWrap("detail").Hide()
