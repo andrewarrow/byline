@@ -12,9 +12,16 @@ func (v *Vim) Insert(k string) {
 	}
 
 	s := v.Lines[v.Y]
+	if k == "Backspace" {
+		prefix := s[0 : v.X-1]
+		suffix := s[v.X:]
+		v.Lines[v.Y] = prefix + suffix
+		v.X--
+		return
+	}
+
 	prefix := s[0:v.X]
 	suffix := s[v.X:]
 	v.X++
-
 	v.Lines[v.Y] = prefix + k + suffix
 }
