@@ -45,7 +45,7 @@ func RegisterSpaceEvents() {
 func keyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
 	//fmt.Println(k)
-	if k == "Meta" {
+	if k == "Meta" || k == "Shift" || k == "Control" {
 		return nil
 	}
 	space.Lines = strings.Split(space.Markup, "\n")
@@ -57,11 +57,20 @@ func keyPress(this js.Value, p []js.Value) any {
 			space.Detail = false
 			space.Add(space.Menu.Value())
 			space.Render()
+		} else if k == "Escape" {
+			Document.ByIdWrap("detail").Hide()
+			space.Detail = false
+		} else if k == "Backspace" {
+			space.Menu.Backspace()
+			Document.RenderToId("menu", "menu", space.Menu)
 		} else if k == "ArrowUp" {
 			space.Menu.Selected--
 			Document.RenderToId("menu", "menu", space.Menu)
 		} else if k == "ArrowDown" {
 			space.Menu.Selected++
+			Document.RenderToId("menu", "menu", space.Menu)
+		} else {
+			space.Menu.Filter(k)
 			Document.RenderToId("menu", "menu", space.Menu)
 		}
 		return nil
@@ -84,8 +93,10 @@ func keyPress(this js.Value, p []js.Value) any {
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
 		space.AttrIndex = 0
+	} else if k == "X" {
+		space.RemoveAttr()
 	} else {
-		space.Menu = NewMenu()
+		space.Menu = NewMenu(k)
 		Document.RenderToId("menu", "menu", space.Menu)
 		Document.ByIdWrap("detail").Show()
 		space.Detail = true
