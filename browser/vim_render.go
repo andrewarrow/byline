@@ -2,17 +2,25 @@ package browser
 
 import (
 	"fmt"
-	"strings"
 )
 
 func (v *Vim) Render() {
 	v.Editor.Set("innerHTML", "")
 	for i, line := range v.Lines {
-		str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
-		p := Document.NewTag("p", str)
-		p.Set("id", fmt.Sprintf("line%d", i+1))
+		p := Document.NewTag("p", "")
+		p.Set("id", fmt.Sprintf("p%d", i+1))
 		//p.AddClass("whitespace-nowrap")
 		v.Editor.AppendChild(p.JValue)
+
+		for j, char := range line {
+			s := fmt.Sprintf("%c", char)
+			if s == " " {
+				s = "&nbsp;"
+			}
+			span := Document.NewTag("span", s)
+			span.Set("id", fmt.Sprintf("s%d-%d", i+1, j+1))
+			p.AppendChild(span.JValue)
+		}
 	}
 	v.Cursor.Render()
 }

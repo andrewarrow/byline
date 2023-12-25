@@ -18,7 +18,7 @@ func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	vim.Lines = []string{"tag hi", "  tag there"}
 	vim.Editor = Document.ByIdWrap("editor")
-	vim.Cursor = NewCursor(Document.ByIdWrap("cursor"))
+	vim.Cursor = NewCursor()
 	vim.Render()
 }
 

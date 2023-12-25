@@ -1,20 +1,12 @@
 package browser
 
-import (
-	"fmt"
-
-	"github.com/andrewarrow/feedback/wasm"
-)
-
 type Cursor struct {
-	Div *wasm.Wrapper
-	X   int
-	Y   int
+	X int
+	Y int
 }
 
-func NewCursor(d *wasm.Wrapper) *Cursor {
+func NewCursor() *Cursor {
 	nc := Cursor{}
-	nc.Div = d
 	return &nc
 }
 
@@ -31,6 +23,6 @@ func (c *Cursor) Render() {
 	//top := fmt.Sprintf("top-%d", c.Y)
 	//c.Div.AddClass(left)
 	//c.Div.AddClass(top)
-	s := c.Div.JValue.Get("style")
-	s.Set("left", fmt.Sprintf("%dch", c.X))
+	//s.Set("left", fmt.Sprintf("%dch", c.X))
+	//s.Set("top", fmt.Sprintf("%dch", c.Y))
 }
