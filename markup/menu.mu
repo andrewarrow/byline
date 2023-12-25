@@ -1,7 +1,6 @@
 {{ define "menu" }}
-  {{ $items := index . "items" }}
-  {{ $selected := index . "selected" }}
-  {{ range $i, $item := $items }}
+  {{ $selected := .Selected }}
+  {{ range $i, $item := .Items }}
     {{ if eq $i $selected }}
       p bg-white text-black
         {{ $item }}

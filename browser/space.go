@@ -19,6 +19,7 @@ type Space struct {
 	Buffer      []string
 	AttrIndex   int
 	Detail      bool
+	Menu        *Menu
 }
 
 var space = Space{}
@@ -48,7 +49,11 @@ func keyPress(this js.Value, p []js.Value) any {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
 		} else if k == "ArrowUp" {
+			space.Menu.Selected--
+			Document.RenderToId("menu", "menu", space.Menu)
 		} else if k == "ArrowDown" {
+			space.Menu.Selected++
+			Document.RenderToId("menu", "menu", space.Menu)
 		}
 		return nil
 	}
@@ -73,11 +78,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.CurrentLine++
 		space.AttrIndex = 0
 	} else {
-		m := map[string]any{}
-		items := []string{"text-center2", "text-left", "text-right"}
-		m["items"] = items
-		m["selected"] = 1
-		Document.RenderToId("menu", "menu", m)
+		space.Menu = NewMenu()
+		Document.RenderToId("menu", "menu", space.Menu)
 		Document.ByIdWrap("detail").Show()
 		space.Detail = true
 	}
