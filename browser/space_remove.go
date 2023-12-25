@@ -4,6 +4,9 @@ import (
 	"strings"
 )
 
+func (s *Space) Add(t string) {
+}
+
 func (s *Space) RemoveAttr() {
 	buffer := []string{}
 	for i, line := range s.Lines {

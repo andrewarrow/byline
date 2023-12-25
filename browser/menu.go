@@ -11,3 +11,7 @@ func NewMenu() *Menu {
 	m.Selected = 0
 	return &m
 }
+
+func (m *Menu) Value() string {
+	return m.Items[m.Selected]
+}

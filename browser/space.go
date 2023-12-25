@@ -44,10 +44,15 @@ func RegisterSpaceEvents() {
 
 func keyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
+	//fmt.Println(k)
+	if k == "Meta" {
+		return nil
+	}
 	if space.Detail {
 		if k == "Enter" {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
+			space.Add(space.Menu.Value())
 		} else if k == "ArrowUp" {
 			space.Menu.Selected--
 			Document.RenderToId("menu", "menu", space.Menu)
