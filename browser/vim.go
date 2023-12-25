@@ -7,11 +7,11 @@ import (
 )
 
 type Vim struct {
-	Lines  []string
-	Editor *wasm.Wrapper
-	X      int
-	Y      int
-	Insert bool
+	Lines      []string
+	Editor     *wasm.Wrapper
+	X          int
+	Y          int
+	InsertMode bool
 }
 
 var vim = Vim{}
@@ -30,10 +30,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		return nil
 	}
 	if k == "Escape" {
-		vim.Insert = false
+		vim.InsertMode = false
 	}
-	if vim.Insert {
-		vim.HandleInsert(k)
+	if vim.InsertMode {
+		vim.Insert(k)
 		vim.Render()
 		return nil
 	}
@@ -61,7 +61,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 			vim.X++
 		}
 	} else if k == "i" {
-		vim.Insert = true
+		vim.InsertMode = true
 	} else if k == "d" {
 	} else if k == "A" {
 	} else if k == "c" {
