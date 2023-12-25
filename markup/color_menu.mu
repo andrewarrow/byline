@@ -1,12 +1,13 @@
 {{ define "color_menu" }}
   {{ $selected := .Selected }}
+  {{ $value := .Value }}
   {{ range $i, $item := .Colors }}
     {{ if eq $i $selected }}
       p bg-white text-black
-        {{ $item }}
+        {{ $item }}-{{ $value }}
     {{ else }}
       p
-        {{ $item }}
+        {{ $item }}-{{ $value }}
     {{ end }}
   {{ end }}
   {{ end }}

@@ -65,6 +65,18 @@ func keyPress(this js.Value, p []js.Value) any {
 		} else if k == "ArrowUp" {
 			space.ChangeMenu.Selected--
 			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
+		} else if k == "ArrowLeft" {
+			space.ChangeMenu.Value -= 100
+			if space.ChangeMenu.Value < 100 {
+				space.ChangeMenu.Value = 100
+			}
+			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
+		} else if k == "ArrowRight" {
+			space.ChangeMenu.Value += 100
+			if space.ChangeMenu.Value > 900 {
+				space.ChangeMenu.Value = 900
+			}
+			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
 		} else if k == "ArrowDown" {
 			space.ChangeMenu.Selected++
 			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
