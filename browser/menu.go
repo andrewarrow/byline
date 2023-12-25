@@ -7,7 +7,7 @@ type Menu struct {
 
 func NewMenu() *Menu {
 	m := Menu{}
-	m.Items = []string{"wefwef", "wefwefwe"}
+	m.Items = []string{"text-center", "text-left", "text-right", "text-white", "text-black"}
 	m.Selected = 0
 	return &m
 }

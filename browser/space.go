@@ -48,11 +48,15 @@ func keyPress(this js.Value, p []js.Value) any {
 	if k == "Meta" {
 		return nil
 	}
+	space.Lines = strings.Split(space.Markup, "\n")
+	space.MaxLines = len(space.Lines)
+
 	if space.Detail {
 		if k == "Enter" {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
 			space.Add(space.Menu.Value())
+			space.Render()
 		} else if k == "ArrowUp" {
 			space.Menu.Selected--
 			Document.RenderToId("menu", "menu", space.Menu)
@@ -62,8 +66,6 @@ func keyPress(this js.Value, p []js.Value) any {
 		}
 		return nil
 	}
-	space.Lines = strings.Split(space.Markup, "\n")
-	space.MaxLines = len(space.Lines)
 
 	if space.TypeStart {
 		if k == "Enter" {
