@@ -33,6 +33,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.Y < 0 {
 			vim.Y++
 		}
+		if vim.X >= len(vim.Lines[vim.Y]) {
+			vim.X = len(vim.Lines[vim.Y]) - 1
+		}
 	} else if k == "ArrowDown" {
 		vim.Y++
 		if vim.Y >= len(vim.Lines) {
@@ -40,8 +43,14 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "ArrowRight" {
 		vim.X++
+		if vim.X >= len(vim.Lines[vim.Y]) {
+			vim.X--
+		}
 	} else if k == "ArrowLeft" {
 		vim.X--
+		if vim.X < 0 {
+			vim.X++
+		}
 	} else if k == "a" {
 	} else if k == "k" {
 	} else if k == "d" {
