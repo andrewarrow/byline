@@ -74,9 +74,9 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.AttrIndex = 0
 	} else {
 		m := map[string]any{}
-		items := []string{"text-center", "text-left", "text-right"}
+		items := []string{"text-center2", "text-left", "text-right"}
 		m["items"] = items
-		m["selected"] = 0
+		m["selected"] = 1
 		Document.RenderToId("menu", "menu", m)
 		Document.ByIdWrap("detail").Show()
 		space.Detail = true
