@@ -75,6 +75,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		suffix := vim.Lines[vim.Y][vim.X+1:]
 		vim.Lines[vim.Y] = prefix + suffix
 		vim.X--
+		if vim.X < 0 {
+			vim.X = 0
+		}
 	} else if k == "c" {
 	} else if k == " " {
 	}
