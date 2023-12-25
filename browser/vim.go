@@ -11,6 +11,7 @@ type Vim struct {
 	Editor *wasm.Wrapper
 	X      int
 	Y      int
+	Insert bool
 }
 
 var vim = Vim{}
@@ -26,6 +27,14 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
 	//fmt.Println(k)
 	if k == "Meta" || k == "Shift" || k == "Control" {
+		return nil
+	}
+	if k == "Escape" {
+		vim.Insert = false
+	}
+	if vim.Insert {
+		vim.HandleInsert(k)
+		vim.Render()
 		return nil
 	}
 	if k == "ArrowUp" {
@@ -51,8 +60,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.X < 0 {
 			vim.X++
 		}
-	} else if k == "a" {
-	} else if k == "k" {
+	} else if k == "i" {
+		vim.Insert = true
 	} else if k == "d" {
 	} else if k == "A" {
 	} else if k == "c" {
