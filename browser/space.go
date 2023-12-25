@@ -5,6 +5,7 @@ import (
 	"strings"
 	"syscall/js"
 
+	"github.com/andrewarrow/feedback/markup"
 	"github.com/andrewarrow/feedback/wasm"
 )
 
@@ -57,7 +58,6 @@ func keyPress(this js.Value, p []js.Value) any {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
 			space.ChangeMenu = nil
-			space.Render()
 		} else if k == "Escape" {
 			Document.ByIdWrap("detail").Hide()
 			space.ChangeMenu = nil
@@ -81,6 +81,10 @@ func keyPress(this js.Value, p []js.Value) any {
 			space.ChangeMenu.Selected++
 			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
 		}
+		color := markup.Colors[space.ChangeMenu.Selected]
+		s := fmt.Sprintf("bg-%s-%d", color, space.ChangeMenu.Value)
+		space.Replace("bg-", s)
+		space.Render()
 		return nil
 	}
 
