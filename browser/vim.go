@@ -70,7 +70,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Y++
 		vim.X = 1
 		vim.InsertMode = true
-	} else if k == "A" {
+	} else if k == "x" {
+		prefix := vim.Lines[vim.Y][0:vim.X]
+		suffix := vim.Lines[vim.Y][vim.X+1:]
+		vim.Lines[vim.Y] = prefix + suffix
+		vim.X--
 	} else if k == "c" {
 	} else if k == " " {
 	}
