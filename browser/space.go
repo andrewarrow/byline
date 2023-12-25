@@ -95,8 +95,8 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.AttrIndex = 0
 	} else if k == "X" {
 		space.RemoveAttr()
-	} else {
-		space.Menu = NewMenu(k)
+	} else if k == " " {
+		space.Menu = NewMenu("")
 		Document.RenderToId("menu", "menu", space.Menu)
 		Document.ByIdWrap("detail").Show()
 		space.Detail = true
