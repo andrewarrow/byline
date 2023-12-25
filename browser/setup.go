@@ -10,5 +10,7 @@ func RegisterEvents() {
 		//RegisterLoginEvents()
 	} else if Global.Start == "space.html" {
 		RegisterSpaceEvents()
+	} else if Global.Start == "vim.html" {
+		RegisterVimEvents()
 	}
 }
