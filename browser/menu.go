@@ -50,5 +50,8 @@ var allItems = []string{
 	"items-center", "justify-left", "justify-center", "justify-right", "center-text",
 	"rounded", "rounded-full", "p-3", "m-3", "w-full",
 	"w-1/2", "w-64", "h-full", "h-64", "ml-auto", "space-y-3", "space-x-3",
+	"ml-3", "mr-3", "mt-3", "mb-3",
+	"pl-3", "pr-3", "pt-3", "pb-3",
+	"border", "border-2", "border-black", "border-r-2", "border-b-2",
 	"whitespace-nowrap",
 }

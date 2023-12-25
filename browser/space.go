@@ -58,10 +58,12 @@ func keyPress(this js.Value, p []js.Value) any {
 			Document.ByIdWrap("detail").Hide()
 			space.Detail = false
 			space.ChangeMenu = nil
+			return nil
 		} else if k == "Escape" {
 			Document.ByIdWrap("detail").Hide()
 			space.ChangeMenu = nil
 			space.Detail = false
+			return nil
 		} else if k == "ArrowUp" {
 			space.ChangeMenu.Selected--
 			Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
@@ -134,6 +136,10 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.RemoveAttr()
 	} else if k == "a" {
 		space.AttrIndex++
+	} else if k == "k" {
+		space.Child()
+	} else if k == "d" {
+		space.Duplicate()
 	} else if k == "A" {
 		space.AttrIndex--
 	} else if k == "c" {
