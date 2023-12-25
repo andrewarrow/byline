@@ -62,7 +62,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "i" {
 		vim.InsertMode = true
-	} else if k == "d" {
+	} else if k == "o" {
+		vim.Lines = append(vim.Lines, "  ")
+		vim.InsertMode = true
 	} else if k == "A" {
 	} else if k == "c" {
 	} else if k == " " {
