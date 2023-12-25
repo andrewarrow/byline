@@ -20,6 +20,7 @@ type Space struct {
 	AttrIndex   int
 	Detail      bool
 	Menu        *Menu
+	ChangeMenu  *ChangeMenu
 }
 
 var space = Space{}
@@ -99,6 +100,11 @@ func keyPress(this js.Value, p []js.Value) any {
 		space.AttrIndex++
 	} else if k == "A" {
 		space.AttrIndex--
+	} else if k == "c" {
+		space.ChangeMenu = NewChangeMenu()
+		Document.RenderToId("menu", space.ChangeMenu.Template(), space.ChangeMenu)
+		Document.ByIdWrap("detail").Show()
+		space.Detail = true
 	} else if k == " " {
 		space.Menu = NewMenu("")
 		Document.RenderToId("menu", "menu", space.Menu)
