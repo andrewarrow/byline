@@ -19,15 +19,18 @@ func NewCursor(d *wasm.Wrapper) *Cursor {
 }
 
 func (c *Cursor) Clear() {
-	left := fmt.Sprintf("left-%d", c.X)
-	top := fmt.Sprintf("top-%d", c.Y)
-	c.Div.RemoveClass(left)
-	c.Div.RemoveClass(top)
+	//left := fmt.Sprintf("left-%d", c.X)
+	//top := fmt.Sprintf("top-%d", c.Y)
+	//c.Div.RemoveClass(left)
+	//left: 1ch;
+	//c.Div.RemoveClass(top)
 }
 
 func (c *Cursor) Render() {
-	left := fmt.Sprintf("left-%d", c.X)
-	top := fmt.Sprintf("top-%d", c.Y)
-	c.Div.AddClass(left)
-	c.Div.AddClass(top)
+	//left := fmt.Sprintf("left-%d", c.X)
+	//top := fmt.Sprintf("top-%d", c.Y)
+	//c.Div.AddClass(left)
+	//c.Div.AddClass(top)
+	s := c.Div.JValue.Get("style")
+	s.Set("left", fmt.Sprintf("%dch", c.X))
 }
