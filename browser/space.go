@@ -93,8 +93,12 @@ func keyPress(this js.Value, p []js.Value) any {
 	} else if k == "ArrowDown" && space.CurrentLine < space.MaxLines-1 {
 		space.CurrentLine++
 		space.AttrIndex = 0
-	} else if k == "X" {
+	} else if k == "x" {
 		space.RemoveAttr()
+	} else if k == "a" {
+		space.AttrIndex++
+	} else if k == "A" {
+		space.AttrIndex--
 	} else if k == " " {
 		space.Menu = NewMenu("")
 		Document.RenderToId("menu", "menu", space.Menu)
@@ -118,10 +122,6 @@ func keyPress(this js.Value, p []js.Value) any {
 /*
 	} else if k == "f" {
 		space.SetFlex()
-	} else if k == "a" {
-		space.AttrIndex++
-	} else if k == "A" {
-		space.AttrIndex--
 	} else if k == "c" {
 		space.Child()
 	} else if k == "d" {

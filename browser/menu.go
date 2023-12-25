@@ -37,11 +37,18 @@ func (m *Menu) FillItems() {
 	for _, item := range allItems {
 		if strings.Contains(item, m.Search) {
 			m.Items = append(m.Items, item)
+			if len(m.Items) > 9 {
+				break
+			}
 		}
 	}
 }
 
 var allItems = []string{
-	"text-center", "text-left", "text-right", "text-white", "text-black",
-	"cursor-pointer",
+	"bg-r", "text-center", "text-left", "text-right", "text-white", "text-black",
+	"cursor-pointer", "flex", "flex-grow", "flex-col", "items-start", "items-end",
+	"items-center", "justify-left", "justify-center", "justify-right", "center-text",
+	"rounded", "rounded-full", "p-3", "m-3", "w-full",
+	"w-1/2", "w-64", "h-full", "h-64", "ml-auto", "space-y-3", "space-x-3",
+	"whitespace-nowrap",
 }
