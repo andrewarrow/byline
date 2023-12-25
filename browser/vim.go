@@ -50,6 +50,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.Y >= len(vim.Lines) {
 			vim.Y--
 		}
+		if vim.X >= len(vim.Lines[vim.Y]) {
+			vim.X = len(vim.Lines[vim.Y]) - 1
+		}
 	} else if k == "ArrowRight" {
 		vim.X++
 		if vim.X >= len(vim.Lines[vim.Y]) {
@@ -64,6 +67,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.InsertMode = true
 	} else if k == "o" {
 		vim.Lines = append(vim.Lines, "  ")
+		vim.Y++
+		vim.X = 1
 		vim.InsertMode = true
 	} else if k == "A" {
 	} else if k == "c" {
