@@ -1,3 +1,5 @@
+./byline render
+
 cp wasm/main.txt main.go
 GOOS=js GOARCH=wasm go build -ldflags="-s -w -X main.useLive=true -X main.viewList=$file_string" -o assets/other/json.wasm 
 cd assets/other
