@@ -19,8 +19,11 @@ func (v *Vim) Render() {
 			}
 			span := Document.NewTag("span", s)
 			span.Set("id", fmt.Sprintf("s%d-%d", i+1, j+1))
+			if v.X == j && v.Y == i {
+				span.AddClass("bg-white")
+				span.AddClass("text-black")
+			}
 			p.AppendChild(span.JValue)
 		}
 	}
-	v.Cursor.Render()
 }

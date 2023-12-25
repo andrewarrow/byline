@@ -2,7 +2,6 @@ html attr-1
   head
     {{ $build := index . "build" }}
     link rel=stylesheet type=text/css href=/assets/css/tail.min.css?id!{{$build}}
-    link rel=stylesheet type=text/css href=/assets/css/main.css?id!{{$build}}
     {{ if index . "USE_LIVE_TEMPLATES" }}
       script src=https://cdn.tailwindcss.com
     {{ end }}
