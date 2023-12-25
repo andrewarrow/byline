@@ -26,6 +26,9 @@ func (m *Menu) Filter(s string) {
 	m.FillItems()
 }
 func (m *Menu) Backspace() {
+	if m.Search == "" {
+		return
+	}
 	m.Search = m.Search[0 : len(m.Search)-1]
 	m.FillItems()
 }
