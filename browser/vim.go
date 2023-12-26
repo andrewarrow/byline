@@ -12,6 +12,9 @@ type Vim struct {
 	X          int
 	Y          int
 	InsertMode bool
+	VisualMode bool
+	FromY      int
+	ToY        int
 }
 
 var vim = Vim{}
@@ -31,6 +34,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	}
 	if k == "Escape" {
 		vim.InsertMode = false
+		vim.VisualMode = false
+	}
+	if vim.VisualMode {
+		vim.VisualArrows(k)
+		vim.Render()
+		return nil
 	}
 	if vim.InsertMode {
 		vim.Insert(k)
@@ -78,7 +87,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.X < 0 {
 			vim.X = 0
 		}
-	} else if k == "c" {
+	} else if k == "V" {
+		vim.VisualMode = true
+		vim.FromY = vim.Y
 	} else if k == " " {
 	}
 

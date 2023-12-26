@@ -7,7 +7,7 @@ func (v *Vim) Insert(k string) {
 	if k == "ArrowUp" || k == "ArrowDown" || k == "ArrowLeft" || k == "ArrowRight" {
 		return
 	}
-	if k == "Enter" || k == "" || k == "" || k == "" {
+	if k == "Enter" {
 		return
 	}
 

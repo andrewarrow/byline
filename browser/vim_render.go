@@ -9,6 +9,9 @@ func (v *Vim) Render() {
 	for i, line := range v.Lines {
 		p := Document.NewTag("p", "")
 		p.Set("id", fmt.Sprintf("p%d", i+1))
+		if v.VisualMode && v.FromY >= i {
+			p.AddClass("bg-gray-400")
+		}
 		//p.AddClass("whitespace-nowrap")
 		v.Editor.AppendChild(p.JValue)
 
