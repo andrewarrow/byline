@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/andrewarrow/feedback/wasm"
@@ -13,6 +14,9 @@ func saveLines(s string) {
 }
 
 func loadLines() []string {
-	lines := wasm.DoGet("/space/load/index.mu")
+	jsonString := wasm.DoGet("/space/load/index.mu")
+	var m map[string]any
+	json.Unmarshal([]byte(jsonString), &m)
+	lines := m["lines"].(string)
 	return strings.Split(lines, "\n")
 }
