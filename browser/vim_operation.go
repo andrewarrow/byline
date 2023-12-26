@@ -30,6 +30,7 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
+		op.InsertY--
 	}
 	v.Lines = buffer
 	v.Stack = append(v.Stack, op)

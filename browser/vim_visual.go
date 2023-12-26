@@ -19,6 +19,7 @@ func (v *Vim) VisualArrows(k string) {
 		op.Data = v.Yanked
 		op.InsertY = start
 		vim.RunOp(op)
+		v.Y = len(v.Lines) - 1
 	} else if k == "ArrowUp" {
 		v.Y--
 		//fmt.Println(v.Y, v.FromY, v.ToY)

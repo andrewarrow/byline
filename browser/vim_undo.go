@@ -13,7 +13,7 @@ func (v *Vim) UndoOp(op *Operation) {
 	buffer := []string{}
 	if op.Name == "add_lines" {
 		for i, line := range v.Lines {
-			if i > op.InsertY && i <= op.InsertY+len(op.Data) {
+			if i >= op.InsertY && i < op.InsertY+len(op.Data) {
 				continue
 			}
 			buffer = append(buffer, line)
