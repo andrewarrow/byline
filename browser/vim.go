@@ -14,8 +14,8 @@ type Vim struct {
 	InsertMode   bool
 	VisualMode   bool
 	DeleteMode   bool
-	FromY        int
-	ToY          int
+	StartY       int
+	EndY         int
 	Deleted      string
 	DeletedLines []string
 	Stack        []*Operation
@@ -108,28 +108,30 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "V" {
 		vim.VisualMode = true
-		vim.FromY = vim.Y
-		vim.ToY = vim.Y
+		vim.StartY = vim.Y
+		vim.EndY = vim.Y
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "p" {
-		yanked := vim.Lines[vim.FromY : vim.ToY+1]
-		if vim.Deleted != "" {
-			yanked = []string{vim.Deleted}
-			vim.Deleted = ""
-		}
-		if len(vim.DeletedLines) > 0 {
-			yanked = vim.DeletedLines
-			vim.DeletedLines = []string{}
-		}
+		/*
+			yanked := vim.Lines[vim.FromY : vim.ToY+1]
+			if vim.Deleted != "" {
+				yanked = []string{vim.Deleted}
+				vim.Deleted = ""
+			}
+			if len(vim.DeletedLines) > 0 {
+				yanked = vim.DeletedLines
+				vim.DeletedLines = []string{}
+			}
 
-		prefix := append(vim.Lines[0:vim.Y+1], yanked...)
-		vim.Lines = append(prefix, vim.Lines[vim.Y+1:]...)
+			prefix := append(vim.Lines[0:vim.Y+1], yanked...)
+			vim.Lines = append(prefix, vim.Lines[vim.Y+1:]...)
 
-		vim.FromY = 0
-		vim.ToY = 0
+			vim.FromY = 0
+			vim.ToY = 0
+		*/
 	}
 
 	vim.Render()
