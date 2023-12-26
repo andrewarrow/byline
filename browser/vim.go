@@ -39,24 +39,6 @@ func RegisterVimEvents() {
 	vim.Render()
 }
 
-func vimPaste(this js.Value, p []js.Value) any {
-	p[0].Call("preventDefault")
-	//e := wasm.GetItemMap(p[0], 0)
-	o := p[0].Get("clipboardData")
-	paste := o.Call("getData", "text").String()
-	current := vim.Lines[vim.Y]
-	vim.Lines[vim.Y] = current[0:len(current)-2] + paste
-	vim.Render()
-	/*
-		for _, char := range paste {
-			s := fmt.Sprintf("%c", char)
-			params := []js.Value{}
-			vimKeyPress(this, params)
-		}*/
-
-	return nil
-}
-
 func vimKeyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
 	//fmt.Println(k)
@@ -73,7 +55,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		op := NewOperation("remove_lines")
 		op.Data = []string{string(vim.Lines[vim.Y])}
 		vim.Yanked = op.Data
-		op.InsertY = vim.Y - 1
+		op.InsertY = vim.Y
 		vim.RunOp(op)
 		vim.Render()
 		return nil
