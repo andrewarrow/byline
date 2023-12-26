@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"strings"
 	"syscall/js"
 
 	"github.com/andrewarrow/feedback/markup"
@@ -127,6 +128,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		m := map[string]any{}
 		h := markup.ToHTMLFromLines(m, vim.Lines)
 		vim.Preview.Set("innerHTML", h)
+		go saveLines(strings.Join(vim.Lines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "u" {
