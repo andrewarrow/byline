@@ -7,16 +7,17 @@ import (
 )
 
 type Vim struct {
-	Lines      []string
-	Editor     *wasm.Wrapper
-	X          int
-	Y          int
-	InsertMode bool
-	VisualMode bool
-	DeleteMode bool
-	FromY      int
-	ToY        int
-	Deleted    string
+	Lines        []string
+	Editor       *wasm.Wrapper
+	X            int
+	Y            int
+	InsertMode   bool
+	VisualMode   bool
+	DeleteMode   bool
+	FromY        int
+	ToY          int
+	Deleted      string
+	DeletedLines []string
 }
 
 var vim = Vim{}
@@ -108,6 +109,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.Deleted != "" {
 			yanked = []string{vim.Deleted}
 			vim.Deleted = ""
+		}
+		if len(vim.DeletedLines) > 0 {
+			yanked = vim.DeletedLines
+			vim.DeletedLines = []string{}
 		}
 		saved := vim.Lines[vim.Y+1:]
 		vim.Lines = append(vim.Lines[0:vim.Y+1], yanked...)
