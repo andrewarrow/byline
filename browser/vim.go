@@ -134,6 +134,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		go saveLines(strings.Join(vim.Lines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
+	} else if k == "D" {
+		s := vim.Lines[vim.Y]
+		vim.Lines[vim.Y] = s[0:vim.X] + " "
+		vim.InsertMode = true
+		vim.X = len(vim.Lines[vim.Y]) - 1
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "p" {
