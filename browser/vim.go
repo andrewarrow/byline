@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"syscall/js"
 
 	"github.com/andrewarrow/feedback/wasm"
@@ -25,7 +24,7 @@ var vim = Vim{}
 
 func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.Lines = []string{"tag hi", "  tag there", "  this is more", "  and this is even more"}
+	vim.Lines = []string{"001 tag hi", "  002 tag there", "  003 this is more", "  004 and this is even more"}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Render()
 }
@@ -113,12 +112,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 		if len(vim.DeletedLines) > 0 {
 			yanked = vim.DeletedLines
-			fmt.Println("2", yanked)
 			vim.DeletedLines = []string{}
 		}
-		saved := vim.Lines[vim.Y+1:]
-		vim.Lines = append(vim.Lines[0:vim.Y+1], yanked...)
-		vim.Lines = append(vim.Lines, saved...)
+
+		prefix := append(vim.Lines[0:vim.Y+1], yanked...)
+		vim.Lines = append(prefix, vim.Lines[vim.Y+1:]...)
+
 		vim.FromY = 0
 		vim.ToY = 0
 	}
