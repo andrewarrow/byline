@@ -10,7 +10,7 @@ func (v *Vim) pageLines() []string {
 
 	for _, line := range v.Lines {
 		buffer = append(buffer, line)
-		if size(buffer) > 20 {
+		if len(buffer) > 20 {
 			break
 		}
 	}
