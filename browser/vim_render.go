@@ -5,9 +5,23 @@ import (
 	"strings"
 )
 
+func (v *Vim) pageLines() []string {
+	buffer := []string{}
+
+	for _, line := range v.Lines {
+		buffer = append(buffer, line)
+		if size(buffer) > 20 {
+			break
+		}
+	}
+
+	return buffer
+}
+
 func (v *Vim) Render() {
 	v.Editor.Set("innerHTML", "")
-	for i, line := range v.Lines {
+	page := v.pageLines()
+	for i, line := range page {
 		p := Document.NewTag("p", "")
 		p.Set("id", fmt.Sprintf("p%d", i+1))
 		if v.VisualMode {
