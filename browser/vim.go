@@ -13,8 +13,10 @@ type Vim struct {
 	Y          int
 	InsertMode bool
 	VisualMode bool
+	DeleteMode bool
 	FromY      int
 	ToY        int
+	Deleted    string
 }
 
 var vim = Vim{}
@@ -35,6 +37,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	if k == "Escape" {
 		vim.InsertMode = false
 		vim.VisualMode = false
+		vim.DeleteMode = false
+	}
+	if vim.DeleteMode && k == "d" {
+		vim.Deleted = vim.Lines[vim.Y]
+		vim.DeleteMode = false
+		vim.Lines = append(vim.Lines[0:vim.Y], vim.Lines[vim.Y+1:]...)
 	}
 	if vim.VisualMode {
 		vim.VisualArrows(k)
@@ -91,8 +99,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.VisualMode = true
 		vim.FromY = vim.Y
 		vim.ToY = vim.Y
+	} else if k == "d" {
+		vim.DeleteMode = true
 	} else if k == "p" {
 		yanked := vim.Lines[vim.FromY : vim.ToY+1]
+		if vim.Deleted != "" {
+			yanked = []string{vim.Deleted}
+		}
 		saved := vim.Lines[vim.Y+1:]
 		vim.Lines = append(vim.Lines[0:vim.Y+1], yanked...)
 		vim.Lines = append(vim.Lines, saved...)
