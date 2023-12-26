@@ -18,6 +18,7 @@ type Vim struct {
 	ToY          int
 	Deleted      string
 	DeletedLines []string
+	Stack        []Operation
 }
 
 var vim = Vim{}
@@ -26,6 +27,7 @@ func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	vim.Lines = []string{"001 tag hi", "  002 tag there", "  003 this is more", "  004 and this is even more"}
 	vim.Editor = Document.ByIdWrap("editor")
+	vim.Stack = []Operation{}
 	vim.Render()
 }
 
@@ -84,9 +86,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "i" {
 		vim.InsertMode = true
 	} else if k == "o" {
-		prefix := vim.Lines[0 : vim.Y+1]
-		suffix := append([]string{"  "}, vim.Lines[vim.Y+1:]...)
-		vim.Lines = append(prefix, suffix...)
+		op := NewOperation("add_lines")
+		op.Data = []string{"  "}
+		op.InsertY = vim.Y
+		vim.RunOp(op)
+
 		vim.Y++
 		vim.X = 1
 		vim.InsertMode = true
@@ -104,6 +108,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ToY = vim.Y
 	} else if k == "d" {
 		vim.DeleteMode = true
+	} else if k == "u" {
+		vim.Undo()
 	} else if k == "p" {
 		yanked := vim.Lines[vim.FromY : vim.ToY+1]
 		if vim.Deleted != "" {
