@@ -9,6 +9,12 @@ func (v *Vim) VisualArrows(k string) {
 		start, end := blockOfLines(v.StartY, v.EndY)
 		lines := v.Lines[start : end+1]
 		v.Yanked = append([]string{}, lines...)
+	} else if k == ">" {
+		start, end := blockOfLines(v.StartY, v.EndY)
+		op := NewOperation("indent_lines")
+		op.From = start
+		op.To = end
+		vim.RunOp(op)
 	} else if k == "d" {
 		v.VisualMode = false
 		start, end := blockOfLines(v.StartY, v.EndY)
