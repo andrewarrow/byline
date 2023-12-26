@@ -6,7 +6,9 @@ func (v *Vim) VisualArrows(k string) {
 		v.EndY++
 	} else if k == "y" {
 		v.VisualMode = false
-		v.DeletedLines = []string{}
+		start, end := blockOfLines(v.StartY, v.EndY)
+		lines := v.Lines[start : end+1]
+		v.Yanked = append([]string{}, lines...)
 	} else if k == "d" {
 		/*
 			v.DeletedLines = append([]string{}, v.Lines[v.FromY:v.ToY+1]...)
@@ -23,4 +25,13 @@ func (v *Vim) VisualArrows(k string) {
 	if k == "Enter" {
 		return
 	}
+}
+
+func blockOfLines(start, end int) (int, int) {
+	if start > end {
+		return end, start
+	} else if start < end {
+		return start, end
+	}
+	return start, start
 }

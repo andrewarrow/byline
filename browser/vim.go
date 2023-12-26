@@ -7,18 +7,17 @@ import (
 )
 
 type Vim struct {
-	Lines        []string
-	Editor       *wasm.Wrapper
-	X            int
-	Y            int
-	InsertMode   bool
-	VisualMode   bool
-	DeleteMode   bool
-	StartY       int
-	EndY         int
-	Deleted      string
-	DeletedLines []string
-	Stack        []*Operation
+	Lines      []string
+	Editor     *wasm.Wrapper
+	X          int
+	Y          int
+	InsertMode bool
+	VisualMode bool
+	DeleteMode bool
+	StartY     int
+	EndY       int
+	Yanked     []string
+	Stack      []*Operation
 }
 
 var vim = Vim{}
@@ -46,6 +45,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.DeleteMode = false
 		op := NewOperation("remove_lines")
 		op.Data = []string{string(vim.Lines[vim.Y])}
+		vim.Yanked = op.Data
 		op.InsertY = vim.Y - 1
 		vim.RunOp(op)
 		vim.Render()
@@ -115,23 +115,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "p" {
-		/*
-			yanked := vim.Lines[vim.FromY : vim.ToY+1]
-			if vim.Deleted != "" {
-				yanked = []string{vim.Deleted}
-				vim.Deleted = ""
-			}
-			if len(vim.DeletedLines) > 0 {
-				yanked = vim.DeletedLines
-				vim.DeletedLines = []string{}
-			}
-
-			prefix := append(vim.Lines[0:vim.Y+1], yanked...)
-			vim.Lines = append(prefix, vim.Lines[vim.Y+1:]...)
-
-			vim.FromY = 0
-			vim.ToY = 0
-		*/
+		op := NewOperation("add_lines")
+		op.Data = vim.Yanked
+		op.InsertY = vim.Y
+		vim.RunOp(op)
 	}
 
 	vim.Render()
