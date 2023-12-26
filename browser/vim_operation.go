@@ -18,10 +18,10 @@ func (v *Vim) RunOp(op *Operation) {
 	buffer := []string{}
 	if op.Name == "add_lines" {
 		for i, line := range v.Lines {
+			buffer = append(buffer, line)
 			if i == op.InsertY {
 				buffer = append(buffer, op.Data...)
 			}
-			buffer = append(buffer, line)
 		}
 	}
 	v.Lines = buffer
