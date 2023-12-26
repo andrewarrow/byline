@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"syscall/js"
 
 	"github.com/andrewarrow/feedback/markup"
@@ -25,6 +26,7 @@ type Vim struct {
 var vim = Vim{}
 
 func RegisterVimEvents() {
+	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	vim.Lines = []string{"div p-3",
 		"  div flex",
@@ -36,6 +38,16 @@ func RegisterVimEvents() {
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Stack = []*Operation{}
 	vim.Render()
+}
+
+func vimPaste(this js.Value, p []js.Value) any {
+	p[0].Call("preventDefault")
+	//e := wasm.GetItemMap(p[0], 0)
+	o := p[0].Get("clipboardData")
+	paste := o.Call("getData", "text").String()
+	fmt.Println(paste)
+
+	return nil
 }
 
 func vimKeyPress(this js.Value, p []js.Value) any {
