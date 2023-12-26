@@ -25,5 +25,5 @@ func (v *Vim) RunOp(op *Operation) {
 		}
 	}
 	v.Lines = buffer
-	v.Operations = append(v.Operations, op)
+	v.Stack = append(v.Stack, op)
 }
