@@ -115,6 +115,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.VisualMode = true
 		vim.StartY = vim.Y
 		vim.EndY = vim.Y
+	} else if k == "a" {
+		vim.InsertMode = true
+		vim.Lines[vim.Y] += " "
+		vim.X++
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "u" {
