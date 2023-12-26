@@ -9,7 +9,7 @@ func (v *Vim) Render() {
 	for i, line := range v.Lines {
 		p := Document.NewTag("p", "")
 		p.Set("id", fmt.Sprintf("p%d", i+1))
-		if v.VisualMode && i == v.Y {
+		if v.VisualMode && (i >= v.FromY && i <= v.ToY) {
 			p.AddClass("bg-gray-600")
 		}
 		//p.AddClass("whitespace-nowrap")

@@ -90,6 +90,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "V" {
 		vim.VisualMode = true
 		vim.FromY = vim.Y
+		vim.ToY = vim.Y
 	} else if k == " " {
 	}
 
