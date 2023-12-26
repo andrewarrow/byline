@@ -43,9 +43,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.DeleteMode = false
 	}
 	if vim.DeleteMode && k == "d" {
-		vim.Deleted = vim.Lines[vim.Y]
 		vim.DeleteMode = false
-		vim.Lines = append(vim.Lines[0:vim.Y], vim.Lines[vim.Y+1:]...)
+		op := NewOperation("remove_lines")
+		op.Data = []string{vim.Lines[vim.Y-1]}
+		op.InsertY = vim.Y
+		vim.RunOp(op)
+		vim.Render()
+		return nil
 	}
 	if vim.VisualMode {
 		vim.VisualArrows(k)

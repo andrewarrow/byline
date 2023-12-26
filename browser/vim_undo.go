@@ -18,6 +18,13 @@ func (v *Vim) UndoOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
+	} else if op.Name == "remove_lines" {
+		for i, line := range v.Lines {
+			buffer = append(buffer, line)
+			if i == op.InsertY {
+				buffer = append(buffer, op.Data...)
+			}
+		}
 	}
 	v.Lines = buffer
 	v.Y = op.InsertY
