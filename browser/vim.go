@@ -3,12 +3,14 @@ package browser
 import (
 	"syscall/js"
 
+	"github.com/andrewarrow/feedback/markup"
 	"github.com/andrewarrow/feedback/wasm"
 )
 
 type Vim struct {
 	Lines      []string
 	Editor     *wasm.Wrapper
+	Preview    *wasm.Wrapper
 	X          int
 	Y          int
 	InsertMode bool
@@ -31,6 +33,7 @@ func RegisterVimEvents() {
 		"    div",
 		"      right"}
 	vim.Editor = Document.ByIdWrap("editor")
+	vim.Preview = Document.ByIdWrap("preview")
 	vim.Stack = []*Operation{}
 	vim.Render()
 }
@@ -119,6 +122,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.InsertMode = true
 		vim.Lines[vim.Y] += " "
 		vim.X++
+	} else if k == "Enter" {
+		m := map[string]any{}
+		h := markup.ToHTMLFromLines(m, vim.Lines)
+		vim.Preview.Set("innerHTML", h)
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "u" {
