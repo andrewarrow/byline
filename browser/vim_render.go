@@ -2,6 +2,7 @@ package browser
 
 import (
 	"fmt"
+	"strings"
 )
 
 func (v *Vim) Render() {
@@ -12,8 +13,13 @@ func (v *Vim) Render() {
 		if v.VisualMode && (i >= v.FromY && i <= v.ToY) {
 			p.AddClass("bg-gray-600")
 		}
-		//p.AddClass("whitespace-nowrap")
 		v.Editor.AppendChild(p.JValue)
+		//p.AddClass("whitespace-nowrap")
+		if i != vim.Y {
+			str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
+			p.Set("innerHTML", str)
+			continue
+		}
 
 		for j, char := range line {
 			s := fmt.Sprintf("%c", char)
