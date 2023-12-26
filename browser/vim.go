@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"syscall/js"
 
 	"github.com/andrewarrow/feedback/wasm"
@@ -112,6 +113,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 		if len(vim.DeletedLines) > 0 {
 			yanked = vim.DeletedLines
+			fmt.Println("2", yanked)
 			vim.DeletedLines = []string{}
 		}
 		saved := vim.Lines[vim.Y+1:]
