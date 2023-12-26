@@ -83,7 +83,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "i" {
 		vim.InsertMode = true
 	} else if k == "o" {
-		vim.Lines = append(vim.Lines, "  ")
+		prefix := vim.Lines[0 : vim.Y+1]
+		suffix := append([]string{"  "}, vim.Lines[vim.Y+1:]...)
+		vim.Lines = append(prefix, suffix...)
 		vim.Y++
 		vim.X = 1
 		vim.InsertMode = true
