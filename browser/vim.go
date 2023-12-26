@@ -9,26 +9,29 @@ import (
 )
 
 type Vim struct {
-	Lines      []string
-	Editor     *wasm.Wrapper
-	Preview    *wasm.Wrapper
-	X          int
-	Y          int
-	InsertMode bool
-	VisualMode bool
-	DeleteMode bool
-	StartY     int
-	EndY       int
-	Yanked     []string
-	Stack      []*Operation
+	OffsetLines []string
+	Editor      *wasm.Wrapper
+	Preview     *wasm.Wrapper
+	X           int
+	Y           int
+	InsertMode  bool
+	VisualMode  bool
+	DeleteMode  bool
+	StartY      int
+	EndY        int
+	Yanked      []string
+	Stack       []*Operation
+	Offset      int
 }
+
+const MAX_LINES = 20
 
 var vim = Vim{}
 
 func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.Lines = []string{"div p-3",
+	vim.OffsetLines = []string{"div p-3",
 		"  div flex",
 		"    div",
 		"      left",
@@ -38,7 +41,7 @@ func RegisterVimEvents() {
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Stack = []*Operation{}
 	go func() {
-		vim.Lines = loadLines()
+		vim.OffsetLines = loadLines()
 		vim.Render()
 	}()
 }
@@ -57,7 +60,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	if vim.DeleteMode && k == "d" {
 		vim.DeleteMode = false
 		op := NewOperation("remove_lines")
-		op.Data = []string{string(vim.Lines[vim.Y])}
+		op.Data = []string{string(vim.getLine())}
 		vim.Yanked = op.Data
 		op.InsertY = vim.Y
 		vim.RunOp(op)
@@ -79,20 +82,21 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.Y < 0 {
 			vim.Y++
 		}
-		if vim.X >= len(vim.Lines[vim.Y]) {
-			vim.X = len(vim.Lines[vim.Y]) - 1
+		if vim.X >= len(vim.getLine()) {
+			vim.X = len(vim.getLine()) - 1
 		}
 	} else if k == "ArrowDown" {
 		vim.Y++
-		if vim.Y >= len(vim.Lines) {
+		if vim.Y >= MAX_LINES {
 			vim.Y--
+			vim.Offset++
 		}
-		if vim.X >= len(vim.Lines[vim.Y]) {
-			vim.X = len(vim.Lines[vim.Y]) - 1
+		if vim.X >= len(vim.getLine()) {
+			vim.X = len(vim.getLine()) - 1
 		}
 	} else if k == "ArrowRight" {
 		vim.X++
-		if vim.X >= len(vim.Lines[vim.Y]) {
+		if vim.X >= len(vim.getLine()) {
 			vim.X--
 		}
 	} else if k == "ArrowLeft" {
@@ -112,13 +116,14 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = 1
 		vim.InsertMode = true
 	} else if k == "x" {
-		prefix := vim.Lines[vim.Y][0:vim.X]
-		suffix := vim.Lines[vim.Y][vim.X+1:]
-		vim.Lines[vim.Y] = prefix + suffix
-		vim.X--
-		if vim.X < 0 {
-			vim.X = 0
-		}
+		/*
+			prefix := vim.Lines[vim.Y][0:vim.X]
+			suffix := vim.Lines[vim.Y][vim.X+1:]
+			vim.Lines[vim.Y] = prefix + suffix
+			vim.X--
+			if vim.X < 0 {
+				vim.X = 0
+			}*/
 	} else if k == "V" {
 		vim.VisualMode = true
 		vim.StartY = vim.Y
@@ -129,16 +134,17 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X++
 	} else if k == "Enter" {
 		m := map[string]any{}
-		h := markup.ToHTMLFromLines(m, vim.Lines)
+		h := markup.ToHTMLFromLines(m, vim.OffsetLines)
 		vim.Preview.Set("innerHTML", h)
-		go saveLines(strings.Join(vim.Lines, "\n"))
+		go saveLines(strings.Join(vim.OffsetLines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "D" {
-		s := vim.Lines[vim.Y]
-		vim.Lines[vim.Y] = s[0:vim.X] + " "
-		vim.InsertMode = true
-		vim.X = len(vim.Lines[vim.Y]) - 1
+		/*
+			s := vim.Lines[vim.Y]
+			vim.Lines[vim.Y] = s[0:vim.X] + " "
+			vim.InsertMode = true
+			vim.X = len(vim.Lines[vim.Y]) - 1*/
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "p" {

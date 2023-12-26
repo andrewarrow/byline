@@ -5,17 +5,17 @@ import (
 	"strings"
 )
 
-func (v *Vim) pageLines() []string {
-	buffer := []string{}
+func (v *Vim) getLine() string {
+	return v.OffsetLines[v.Offset+v.Y]
+}
 
-	for _, line := range v.Lines {
-		buffer = append(buffer, line)
-		if len(buffer) > 20 {
-			break
-		}
+func (v *Vim) pageLines() []string {
+	if len(v.OffsetLines) < MAX_LINES {
+		return v.OffsetLines
 	}
 
-	return buffer
+	end := v.Offset + MAX_LINES
+	return v.OffsetLines[v.Offset:end]
 }
 
 func (v *Vim) Render() {
