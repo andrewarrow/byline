@@ -18,6 +18,14 @@ func (v *Vim) UndoOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
+	} else if op.Name == "indent_lines" {
+		for i, line := range v.Lines {
+			fixedLine := line
+			if i >= op.From && i <= op.To {
+				fixedLine = line[2:]
+			}
+			buffer = append(buffer, fixedLine)
+		}
 	} else if op.Name == "remove_lines" {
 		for i, line := range v.Lines {
 			buffer = append(buffer, line)

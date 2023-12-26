@@ -10,6 +10,7 @@ func (v *Vim) VisualArrows(k string) {
 		lines := v.Lines[start : end+1]
 		v.Yanked = append([]string{}, lines...)
 	} else if k == ">" {
+		v.VisualMode = false
 		start, end := blockOfLines(v.StartY, v.EndY)
 		op := NewOperation("indent_lines")
 		op.From = start

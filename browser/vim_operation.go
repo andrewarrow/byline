@@ -28,7 +28,7 @@ func (v *Vim) RunOp(op *Operation) {
 	} else if op.Name == "indent_lines" {
 		for i, line := range v.Lines {
 			spaces := ""
-			if i >= op.From && i < op.To {
+			if i >= op.From && i <= op.To {
 				spaces = "  "
 			}
 			buffer = append(buffer, spaces+line)
