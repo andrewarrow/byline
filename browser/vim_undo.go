@@ -20,4 +20,5 @@ func (v *Vim) UndoOp(op *Operation) {
 		}
 	}
 	v.Lines = buffer
+	v.Y = op.InsertY
 }
