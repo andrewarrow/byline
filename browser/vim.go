@@ -21,7 +21,7 @@ var vim = Vim{}
 
 func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.Lines = []string{"tag hi", "  tag there"}
+	vim.Lines = []string{"tag hi", "  tag there", "  this is more", "  and this is even more"}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Render()
 }
@@ -91,7 +91,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.VisualMode = true
 		vim.FromY = vim.Y
 		vim.ToY = vim.Y
-	} else if k == " " {
+	} else if k == "p" {
+		yanked := vim.Lines[vim.FromY : vim.ToY+1]
+		saved := vim.Lines[vim.Y+1:]
+		vim.Lines = append(vim.Lines[0:vim.Y+1], yanked...)
+		vim.Lines = append(vim.Lines, saved...)
+		vim.FromY = 0
+		vim.ToY = 0
 	}
 
 	vim.Render()
