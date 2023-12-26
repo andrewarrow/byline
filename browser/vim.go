@@ -105,6 +105,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		yanked := vim.Lines[vim.FromY : vim.ToY+1]
 		if vim.Deleted != "" {
 			yanked = []string{vim.Deleted}
+			vim.Deleted = ""
 		}
 		saved := vim.Lines[vim.Y+1:]
 		vim.Lines = append(vim.Lines[0:vim.Y+1], yanked...)
