@@ -6,5 +6,6 @@ go.sum
 views
 .DS_Store
 env.sh
+index.mu
 data
 assets/css/tail.min.css

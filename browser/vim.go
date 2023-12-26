@@ -37,7 +37,10 @@ func RegisterVimEvents() {
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Stack = []*Operation{}
-	vim.Render()
+	go func() {
+		vim.Lines = loadLines()
+		vim.Render()
+	}()
 }
 
 func vimKeyPress(this js.Value, p []js.Value) any {
