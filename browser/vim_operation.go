@@ -25,7 +25,7 @@ func (v *Vim) RunOp(op *Operation) {
 		}
 	} else if op.Name == "remove_lines" {
 		for i, line := range v.Lines {
-			if i > op.InsertY && i <= op.InsertY+len(op.Data) {
+			if i >= op.InsertY && i < op.InsertY+len(op.Data) {
 				continue
 			}
 			buffer = append(buffer, line)

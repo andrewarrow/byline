@@ -10,12 +10,15 @@ func (v *Vim) VisualArrows(k string) {
 		lines := v.Lines[start : end+1]
 		v.Yanked = append([]string{}, lines...)
 	} else if k == "d" {
-		/*
-			v.DeletedLines = append([]string{}, v.Lines[v.FromY:v.ToY+1]...)
-			fmt.Println("1", v.DeletedLines)
-			v.Lines = append(v.Lines[0:v.FromY], v.Lines[v.ToY+1:]...)
-			v.VisualMode = false
-		*/
+		v.VisualMode = false
+		start, end := blockOfLines(v.StartY, v.EndY)
+		lines := v.Lines[start : end+1]
+		v.Yanked = append([]string{}, lines...)
+
+		op := NewOperation("remove_lines")
+		op.Data = v.Yanked
+		op.InsertY = start
+		vim.RunOp(op)
 	} else if k == "ArrowUp" {
 		v.Y--
 		//fmt.Println(v.Y, v.FromY, v.ToY)
