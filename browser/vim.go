@@ -24,7 +24,12 @@ var vim = Vim{}
 
 func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.Lines = []string{"001 tag hi", "  002 tag there", "  003 this is more", "  004 and this is even more"}
+	vim.Lines = []string{"div p-3",
+		"  div flex",
+		"    div",
+		"      left",
+		"    div",
+		"      right"}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Stack = []*Operation{}
 	vim.Render()
