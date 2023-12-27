@@ -12,13 +12,20 @@ func (v *Vim) getLine() string {
 func (v *Vim) pageLines() []string {
 	buffer := []string{}
 
+	count := 0
 	data := v.SavedLines
 	if v.FocusStart > 0 {
 		data = data[v.FocusStart:v.FocusEnd]
+		spaces := getSpaces(data[0])
+		count = len(spaces)
 	}
 
 	for _, line := range data {
-		buffer = append(buffer, line)
+		fixedLine := line
+		if count > 0 {
+			fixedLine = line[count:]
+		}
+		buffer = append(buffer, fixedLine)
 		if len(buffer) > MAX_LINES {
 			break
 		}
