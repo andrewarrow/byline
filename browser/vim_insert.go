@@ -11,19 +11,17 @@ func (v *Vim) Insert(k string) {
 		return
 	}
 
-	/*
-		s := v.Lines[v.Y]
-		if k == "Backspace" {
-			prefix := s[0 : v.X-1]
-			suffix := s[v.X:]
-			v.Lines[v.Y] = prefix + suffix
-			v.X--
-			return
-		}
-
-		prefix := s[0:v.X]
+	s := v.getLine()
+	if k == "Backspace" {
+		prefix := s[0 : v.X-1]
 		suffix := s[v.X:]
-		v.X++
-		v.Lines[v.Y] = prefix + k + suffix
-	*/
+		v.SavedLines[v.Y+v.Offset] = prefix + suffix
+		v.X--
+		return
+	}
+
+	prefix := s[0:v.X]
+	suffix := s[v.X:]
+	v.X++
+	v.SavedLines[v.Y+v.Offset] = prefix + k + suffix
 }

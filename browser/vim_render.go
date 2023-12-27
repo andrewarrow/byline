@@ -6,16 +6,18 @@ import (
 )
 
 func (v *Vim) getLine() string {
-	return v.OffsetLines[v.Offset+v.Y]
+	return v.SavedLines[v.Offset+v.Y]
 }
 
 func (v *Vim) pageLines() []string {
-	if len(v.OffsetLines) < MAX_LINES {
-		return v.OffsetLines
+	buffer := []string{}
+	for _, line := range v.SavedLines {
+		buffer = append(buffer, line)
+		if len(buffer) > MAX_LINES {
+			break
+		}
 	}
-
-	end := v.Offset + MAX_LINES
-	return v.OffsetLines[v.Offset:end]
+	return buffer
 }
 
 func (v *Vim) Render() {
