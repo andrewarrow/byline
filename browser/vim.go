@@ -8,10 +8,12 @@ import (
 
 type Vim struct {
 	OffsetLines []string
+	SavedLines  []string
 	Editor      *wasm.Wrapper
 	Preview     *wasm.Wrapper
 	X           int
 	Y           int
+	FocusY      int
 	InsertMode  bool
 	VisualMode  bool
 	DeleteMode  bool
@@ -35,11 +37,13 @@ func RegisterVimEvents() {
 		"      left",
 		"    div",
 		"      right"}
+	vim.SavedLines = append([]string{}, vim.OffsetLines...)
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Stack = []*Operation{}
 	go func() {
 		vim.OffsetLines = loadLines()
+		vim.SavedLines = append([]string{}, vim.OffsetLines...)
 		vim.Render()
 	}()
 }
@@ -77,8 +81,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	}
 	if k == "ArrowUp" {
 		vim.Y--
-		if vim.Y < 0 {
+		if vim.Y < 0 && vim.FocusY == 0 {
 			vim.Y++
+		} else if vim.Y < 0 && vim.FocusY > 0 {
+			vim.Refocus()
 		}
 		if vim.X >= len(vim.getLine()) {
 			vim.X = len(vim.getLine()) - 1
