@@ -23,16 +23,13 @@ func (v *Vim) Insert(k string) {
 	if v.FocusLevel == 0 {
 		prefix = s[0:v.X]
 		suffix = s[v.X:]
-		v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, correctLength, v.X)
 	} else {
-		current := getSpaces(v.OffsetLines[v.Y])
-		correct := current + v.FocusLevelSpaces()
-		correctLength = len(correct) + 1
-
-		prefix = s[0 : correctLength+v.X-1]
-		suffix = s[correctLength-1+v.X:]
+		//s = v.FocusLevelSpaces() + s
+		prefix = s[0 : v.X+v.FocusLevel]
+		suffix = s[v.X+v.FocusLevel:]
 	}
 
+	v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, correctLength, v.X)
 	//|div_p-|3|1|6
 	//|__div_bg-red-900_p-3_|rounded_|3|19
 
