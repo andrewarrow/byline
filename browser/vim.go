@@ -16,6 +16,8 @@ type Vim struct {
 	X           int
 	Y           int
 	FocusY      int
+	FocusStart  int
+	FocusEnd    int
 	InsertMode  bool
 	VisualMode  bool
 	DeleteMode  bool

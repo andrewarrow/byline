@@ -4,23 +4,28 @@ func (v *Vim) Focus() {
 	if v.FocusY > 0 && v.Y == 0 {
 		return
 	}
-	buffer := []string{}
 	spaces := getSpaces(v.getLine())
 	count := len(spaces)
-	for i, line := range v.OffsetLines {
-		if i < v.Y {
+	first := 0
+	last := 0
+	for i, line := range v.SavedLines {
+		if i < v.Y+v.Offset {
 			continue
 		}
+		if first == 0 {
+			first = i
+		}
 		s := getSpaces(line)
-		if len(s) <= count && i > v.Y {
+		if len(s) <= count && i > v.Y+v.Offset {
+			last = i
 			break
 		}
-		buffer = append(buffer, line[count:])
 	}
-	v.FocusY = v.Y
+	v.FocusY = v.Y + v.Offset
+	v.FocusStart = first
+	v.FocusEnd = last
 	v.X = 0
 	v.Y = 0
-	v.OffsetLines = buffer
 }
 
 func (v *Vim) Refocus() {
