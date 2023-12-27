@@ -3,9 +3,9 @@ package browser
 import "fmt"
 
 func (v *Vim) Focus() {
-	//if v.FocusY > 0 && v.Y == 0 {
-	//	return
-	//}
+	if v.Y == 0 {
+		return
+	}
 	spaces := getSpaces(v.getLine())
 	count := len(spaces)
 	first := 0
