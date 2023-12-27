@@ -1,10 +1,8 @@
 package browser
 
 import (
-	"strings"
 	"syscall/js"
 
-	"github.com/andrewarrow/feedback/markup"
 	"github.com/andrewarrow/feedback/wasm"
 )
 
@@ -133,10 +131,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		//vim.Lines[vim.Y] += " "
 		vim.X++
 	} else if k == "Enter" {
-		m := map[string]any{}
-		h := markup.ToHTMLFromLines(m, vim.OffsetLines)
-		vim.Preview.Set("innerHTML", h)
-		go saveLines(strings.Join(vim.OffsetLines, "\n"))
+		//m := map[string]any{}
+		//h := markup.ToHTMLFromLines(m, vim.OffsetLines)
+		//vim.Preview.Set("innerHTML", h)
+		vim.Focus()
+		//go saveLines(strings.Join(vim.OffsetLines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "D" {
