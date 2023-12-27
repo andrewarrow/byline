@@ -20,14 +20,8 @@ func (v *Vim) Insert(k string) {
 	suffix := ""
 	correctLength := 0
 	s := v.getLine()
-	if v.FocusLevel == 0 {
-		prefix = s[0:v.X]
-		suffix = s[v.X:]
-	} else {
-		//s = v.FocusLevelSpaces() + s
-		prefix = s[0 : v.X+v.FocusLevel]
-		suffix = s[v.X+v.FocusLevel:]
-	}
+	prefix = s[0 : v.X+v.FocusLevel-1]
+	suffix = s[v.X+v.FocusLevel:]
 
 	v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, correctLength, v.X)
 	//|div_p-|3|1|6
