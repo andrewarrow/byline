@@ -59,7 +59,7 @@ func (v *Vim) searchUp() int {
 	for i := v.FocusStart - 1; i >= 0; i-- {
 		line := v.SavedLines[i]
 		s := len(getSpaces(line))
-		if s <= v.FocusLevel {
+		if s < v.FocusLevel {
 			correct = i
 			break
 		}
