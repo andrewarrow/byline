@@ -1,5 +1,7 @@
 package browser
 
+import "strings"
+
 func (v *Vim) Insert(k string) {
 	//chars := []rune(v.Lines[v.Y])
 	//replacementRune := []rune(k)[0]
@@ -11,11 +13,12 @@ func (v *Vim) Insert(k string) {
 		return
 	}
 
-	s := v.getLine()
+	s := v.getLineAdjustForFocus()
+	v.DebugLine = s
 	if k == "Backspace" {
 		prefix := s[0 : v.X-1]
 		suffix := s[v.X:]
-		v.SavedLines[v.Y+v.Offset] = prefix + suffix
+		v.SavedLines[v.Y+v.FocusStart] = prefix + suffix
 		v.X--
 		return
 	}
@@ -23,5 +26,13 @@ func (v *Vim) Insert(k string) {
 	prefix := s[0:v.X]
 	suffix := s[v.X:]
 	v.X++
-	v.SavedLines[v.Y+v.Offset] = prefix + k + suffix
+	v.SavedLines[v.Y+v.FocusStart] = prefix + k + suffix
+}
+
+func (v *Vim) FocusLevelSpaces() string {
+	buffer := []string{}
+	for i := 0; i < v.FocusLevel-2; i++ {
+		buffer = append(buffer, " ")
+	}
+	return strings.Join(buffer, "")
 }

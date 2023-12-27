@@ -14,6 +14,7 @@ type Vim struct {
 	Editor      *wasm.Wrapper
 	Preview     *wasm.Wrapper
 	Debug       *wasm.Wrapper
+	DebugLine   string
 	X           int
 	Y           int
 	FocusY      int
