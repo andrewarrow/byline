@@ -29,7 +29,6 @@ func (v *Vim) Focus() {
 }
 
 func (v *Vim) Refocus() {
-	v.OffsetLines = append([]string{}, v.SavedLines...)
-	v.Y = v.FocusY - 1
+	v.Y = v.FocusStart - 1
 	v.Focus()
 }
