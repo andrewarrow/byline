@@ -1,6 +1,9 @@
 package browser
 
 func (v *Vim) Focus() {
+	if v.FocusY > 0 && v.Y == 0 {
+		return
+	}
 	buffer := []string{}
 	spaces := getSpaces(v.getLine())
 	count := len(spaces)
