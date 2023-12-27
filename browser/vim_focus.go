@@ -1,7 +1,5 @@
 package browser
 
-import "fmt"
-
 func (v *Vim) Focus() {
 	if v.Y == 0 {
 		return
@@ -36,15 +34,13 @@ func (v *Vim) Focus() {
 }
 
 func (v *Vim) Refocus() {
-	//offsetY := v.Y - v.FocusStart
-	//search up
 	up := v.searchUp()
-	fmt.Println("up", up)
 
 	v.Y = up
 	v.FocusStart = 0
 	v.FocusEnd = 0
 	v.FocusY = 0
+	v.FocusLevel = 0
 	if v.Y == 0 {
 		return
 	}
@@ -52,10 +48,7 @@ func (v *Vim) Refocus() {
 }
 
 func (v *Vim) searchUp() int {
-	// FocusStart 10
-	//
 	correct := 0
-	//offsetY := v.FocusStart + v.Y
 	for i := v.FocusStart - 1; i >= 0; i-- {
 		line := v.SavedLines[i]
 		s := len(getSpaces(line))
