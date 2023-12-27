@@ -1,22 +1,23 @@
 package browser
 
 func (v *Vim) Focus() {
-	if v.FocusY > 0 && v.Y == 0 {
-		return
-	}
+	//if v.FocusY > 0 && v.Y == 0 {
+	//	return
+	//}
 	spaces := getSpaces(v.getLine())
 	count := len(spaces)
 	first := 0
 	last := 0
+	offsetY := v.FocusStart + v.Y
 	for i, line := range v.SavedLines {
-		if i < v.Y+v.Offset {
+		if i < offsetY {
 			continue
 		}
 		if first == 0 {
 			first = i
 		}
 		s := getSpaces(line)
-		if len(s) <= count && i > v.Y+v.Offset {
+		if len(s) <= count && i > offsetY {
 			last = i
 			break
 		}
