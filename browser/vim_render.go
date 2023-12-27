@@ -33,7 +33,22 @@ func (v *Vim) pageLines() []string {
 	return buffer
 }
 
+func (v *Vim) RenderDebug() {
+	debug := `<p>Saved Lines: %d</p>
+<p>FocusStart: %d</p>
+<p>FocusEnd: %d</p>
+<p>Y: %d</p>
+<p>FocusY: %d</p>
+`
+	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
+		v.FocusStart,
+		v.FocusEnd,
+		v.Y,
+		v.FocusY))
+}
+
 func (v *Vim) Render() {
+	v.RenderDebug()
 	v.Editor.Set("innerHTML", "")
 	page := v.pageLines()
 	for i, line := range page {

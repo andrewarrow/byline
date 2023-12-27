@@ -13,6 +13,7 @@ type Vim struct {
 	SavedLines  []string
 	Editor      *wasm.Wrapper
 	Preview     *wasm.Wrapper
+	Debug       *wasm.Wrapper
 	X           int
 	Y           int
 	FocusY      int
@@ -44,6 +45,7 @@ func RegisterVimEvents() {
 	vim.SavedLines = append([]string{}, vim.OffsetLines...)
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
+	vim.Debug = Document.ByIdWrap("debug")
 	vim.Stack = []*Operation{}
 	go func() {
 		vim.OffsetLines = loadLines()
