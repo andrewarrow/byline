@@ -16,8 +16,7 @@ func (v *Vim) pageLines() []string {
 	data := v.SavedLines
 	if v.FocusStart > 0 {
 		data = data[v.FocusStart:v.FocusEnd]
-		spaces := getSpaces(data[0])
-		count = len(spaces)
+		count = v.FocusLevel
 	}
 
 	for _, line := range data {
@@ -39,12 +38,14 @@ func (v *Vim) RenderDebug() {
 <p>FocusEnd: %d</p>
 <p>Y: %d</p>
 <p>FocusY: %d</p>
+<p>FocusLevel: %d</p>
 `
 	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
 		v.FocusStart,
 		v.FocusEnd,
 		v.Y,
-		v.FocusY))
+		v.FocusY,
+		v.FocusLevel))
 }
 
 func (v *Vim) Render() {

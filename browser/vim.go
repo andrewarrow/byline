@@ -19,6 +19,7 @@ type Vim struct {
 	FocusY      int
 	FocusStart  int
 	FocusEnd    int
+	FocusLevel  int
 	InsertMode  bool
 	VisualMode  bool
 	DeleteMode  bool
