@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -15,15 +16,25 @@ func (v *Vim) Insert(k string) {
 		return
 	}
 
+	prefix := ""
+	suffix := ""
+	correctLength := 0
 	s := v.getLine()
-	current := getSpaces(v.OffsetLines[v.Y])
-	correct := current + v.FocusLevelSpaces()
-	correctLength := len(correct) + 1
+	if v.FocusLevel == 0 {
+		prefix = s[0:v.X]
+		suffix = s[v.X:]
+		v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, correctLength, v.X)
+	} else {
+		current := getSpaces(v.OffsetLines[v.Y])
+		correct := current + v.FocusLevelSpaces()
+		correctLength = len(correct) + 1
 
-	prefix := s[0 : correctLength+v.X-1]
-	suffix := s[correctLength-1+v.X:]
+		prefix = s[0 : correctLength+v.X-1]
+		suffix = s[correctLength-1+v.X:]
+	}
 
-	//v.DebugLine = fmt.Sprintf("%s|%s", prefix, suffix)
+	//|div_p-|3|1|6
+	//|__div_bg-red-900_p-3_|rounded_|3|19
 
 	if k == "Backspace" {
 		v.SavedLines[v.Y+v.FocusStart] = prefix + suffix
