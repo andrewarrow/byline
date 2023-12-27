@@ -8,10 +8,6 @@ import (
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart]
 }
-func (v *Vim) getLineAdjustForFocus() string {
-	s := v.SavedLines[v.Y+v.FocusStart]
-	return s
-}
 
 func (v *Vim) pageLines() []string {
 	buffer := []string{}
@@ -43,7 +39,7 @@ func (v *Vim) RenderDebug() {
 <p>Y: %d</p>
 <p>FocusY: %d</p>
 <p>FocusLevel: %d</p>
-<p>DebugLine: %s</p>
+<p class="font-mono">DebugLine: %s</p>
 `
 	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
 		v.FocusStart,
@@ -51,7 +47,7 @@ func (v *Vim) RenderDebug() {
 		v.Y,
 		v.FocusY,
 		v.FocusLevel,
-		v.DebugLine))
+		strings.ReplaceAll(v.DebugLine, " ", "_")))
 }
 
 func (v *Vim) Render() {
