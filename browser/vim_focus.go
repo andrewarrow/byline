@@ -30,5 +30,11 @@ func (v *Vim) Focus() {
 
 func (v *Vim) Refocus() {
 	v.Y = v.FocusStart - 1
+	if v.Y == 0 {
+		v.FocusStart = 0
+		v.FocusEnd = 0
+		v.FocusY = 0
+		return
+	}
 	v.Focus()
 }
