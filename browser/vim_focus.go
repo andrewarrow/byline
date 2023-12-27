@@ -21,6 +21,9 @@ func (v *Vim) Focus() {
 			break
 		}
 	}
+	if last == 0 {
+		last = len(v.SavedLines)
+	}
 	v.FocusY = v.Y + v.Offset
 	v.FocusStart = first
 	v.FocusEnd = last
