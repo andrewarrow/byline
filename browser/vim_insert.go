@@ -18,15 +18,11 @@ func (v *Vim) Insert(k string) {
 	s := v.getLine()
 	current := getSpaces(v.OffsetLines[v.Y])
 	correct := current + v.FocusLevelSpaces()
-	correctLength := len(correct)
+	correctLength := len(correct) + 1
 
-	//delta := v.FocusLevel - len(current) - 2
-	//delta = v.X + delta
-	//prefix := s[delta:delta+1]
-	//suffix := s[delta:]
 	prefix := s[0 : correctLength+v.X-1]
-	suffix := s[correctLength+v.X:]
-	//prefix := v.SavedLines[v.Y+v.FocusStart]
+	suffix := s[correctLength-1+v.X:]
+
 	//v.DebugLine = fmt.Sprintf("%s|%s", prefix, suffix)
 
 	if k == "Backspace" {
