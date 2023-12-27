@@ -108,7 +108,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "ArrowRight" {
 		vim.X++
-		if vim.X >= len(vim.getLine()) {
+		if vim.X+vim.FocusLevel >= len(vim.getLine()) {
 			vim.X--
 		}
 	} else if k == "ArrowLeft" {
