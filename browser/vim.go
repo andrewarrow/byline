@@ -90,6 +90,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	if k == "ArrowUp" {
 		vim.Y--
 		if vim.Y < 0 && vim.FocusY == 0 {
+			vim.Offset--
+			if vim.Offset < 0 {
+				vim.Offset = 0
+			}
 			vim.Y++
 		} else if vim.Y < 0 && vim.FocusY > 0 {
 			vim.Refocus()
