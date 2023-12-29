@@ -142,7 +142,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.EndY = vim.Y
 	} else if k == "a" {
 		vim.InsertMode = true
-		//vim.Lines[vim.Y] += " "
+		vim.SavedLines[vim.Y+vim.FocusStart] += " "
 		vim.X++
 	} else if k == "Enter" {
 		m := map[string]any{}
