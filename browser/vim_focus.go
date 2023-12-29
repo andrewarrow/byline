@@ -31,6 +31,7 @@ func (v *Vim) Focus() {
 	v.FocusLevel = count
 	v.X = 0
 	v.Y = 0
+	v.Offset = 0
 }
 
 func (v *Vim) Refocus() {

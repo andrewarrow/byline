@@ -41,7 +41,7 @@ func (v *Vim) pageLines() []string {
 		buffer = append(buffer, fixedLine)
 	}
 
-	return windowOfLines(0, buffer)
+	return windowOfLines(v.Offset, buffer)
 
 }
 
@@ -73,16 +73,22 @@ func (v *Vim) RenderDebug() {
 <p>FocusStart: %d</p>
 <p>FocusEnd: %d</p>
 <p>Y: %d</p>
+<p>X: %d</p>
 <p>FocusY: %d</p>
 <p>FocusLevel: %d</p>
+<p>Offset: %d</p>
+<p>Location: %d</p>
 <p class="font-mono">DebugLine: %s</p>
 `
 	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
 		v.FocusStart,
 		v.FocusEnd,
 		v.Y,
+		v.X,
 		v.FocusY,
 		v.FocusLevel,
+		v.Offset,
+		v.Location,
 		strings.ReplaceAll(v.DebugLine, " ", "_")))
 }
 

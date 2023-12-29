@@ -17,6 +17,7 @@ type Vim struct {
 	DebugLine   string
 	X           int
 	Y           int
+	Location    int
 	FocusY      int
 	FocusStart  int
 	FocusEnd    int
@@ -103,8 +104,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "ArrowDown" {
 		vim.Y++
-		location := vim.Offset + vim.Y
-		if location >= len(vim.SavedLines)-1 {
+		vim.Location = vim.Offset + vim.Y + vim.FocusStart
+		if vim.Location >= len(vim.SavedLines)-1-vim.FocusStart {
 			vim.Y--
 		}
 		if vim.Y >= MAX_LINES {
