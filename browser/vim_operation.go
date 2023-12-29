@@ -17,24 +17,25 @@ func NewOperation(name string) *Operation {
 }
 
 func (v *Vim) RunOp(op *Operation) {
-	/*
-		buffer := []string{}
-		if op.Name == "add_lines" {
-			for i, line := range v.Lines {
-				buffer = append(buffer, line)
-				if i == op.InsertY {
-					buffer = append(buffer, op.Data...)
-				}
+	buffer := []string{}
+	if op.Name == "add_lines" {
+		for i, line := range v.SavedLines {
+			buffer = append(buffer, line)
+			if i == op.InsertY {
+				buffer = append(buffer, op.Data...)
 			}
-		} else if op.Name == "indent_lines" {
+		}
+	} else if op.Name == "indent_lines" {
+		/*
 			for i, line := range v.Lines {
 				spaces := ""
 				if i >= op.From && i <= op.To {
 					spaces = "  "
 				}
 				buffer = append(buffer, spaces+line)
-			}
-		} else if op.Name == "remove_lines" {
+			}*/
+	} else if op.Name == "remove_lines" {
+		/*
 			for i, line := range v.Lines {
 				if i >= op.InsertY && i < op.InsertY+len(op.Data) {
 					continue
@@ -42,8 +43,8 @@ func (v *Vim) RunOp(op *Operation) {
 				buffer = append(buffer, line)
 			}
 			op.InsertY--
-		}
-		v.Lines = buffer
-		v.Stack = append(v.Stack, op)
-	*/
+		*/
+	}
+	v.SavedLines = buffer
+	v.Stack = append(v.Stack, op)
 }
