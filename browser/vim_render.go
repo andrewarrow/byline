@@ -8,6 +8,7 @@ import (
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
+
 func windowOfLines(offset int, lines []string) []string {
 	buffer := []string{}
 
@@ -40,7 +41,7 @@ func (v *Vim) pageLines() []string {
 		buffer = append(buffer, fixedLine)
 	}
 
-	return windowOfLines(v.Offset, buffer)
+	return windowOfLines(0, buffer)
 
 }
 
