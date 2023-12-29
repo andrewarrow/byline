@@ -157,7 +157,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		m := map[string]any{}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
-		//vim.Focus()
+		vim.Focus()
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true

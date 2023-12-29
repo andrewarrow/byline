@@ -8,7 +8,7 @@ func (v *Vim) Focus() {
 	count := len(spaces)
 	first := 0
 	last := 0
-	offsetY := v.FocusStart + v.Y
+	offsetY := v.FocusStart + v.Y + v.Offset
 	for i, line := range v.SavedLines {
 		if i < offsetY {
 			continue

@@ -8,20 +8,40 @@ import (
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
-
-func (v *Vim) pageLines() []string {
+func windowOfLines(offset int, lines []string) []string {
 	buffer := []string{}
 
-	data := v.SavedLines
-	data = data[v.Offset:]
-
-	for _, line := range data {
+	for _, line := range lines[offset:] {
 		buffer = append(buffer, line)
 		if len(buffer) > MAX_LINES {
 			break
 		}
 	}
 	return buffer
+}
+
+func (v *Vim) pageLines() []string {
+
+	if v.FocusStart == 0 {
+		return windowOfLines(v.Offset, v.SavedLines)
+	}
+
+	buffer := []string{}
+	count := 0
+	data := v.SavedLines
+	data = data[v.FocusStart:v.FocusEnd]
+	count = v.FocusLevel
+
+	for _, line := range data {
+		fixedLine := line
+		if count > 0 {
+			fixedLine = line[count:]
+		}
+		buffer = append(buffer, fixedLine)
+	}
+
+	return windowOfLines(v.Offset, buffer)
+
 }
 
 func (v *Vim) pageLines2() []string {
