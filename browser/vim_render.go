@@ -12,6 +12,21 @@ func (v *Vim) getLine() string {
 func (v *Vim) pageLines() []string {
 	buffer := []string{}
 
+	data := v.SavedLines
+	data = data[v.Offset:]
+
+	for _, line := range data {
+		buffer = append(buffer, line)
+		if len(buffer) > MAX_LINES {
+			break
+		}
+	}
+	return buffer
+}
+
+func (v *Vim) pageLines2() []string {
+	buffer := []string{}
+
 	count := 0
 	data := v.SavedLines
 	if v.FocusStart > 0 {
