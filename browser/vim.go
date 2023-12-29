@@ -128,14 +128,15 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = 1
 		vim.InsertMode = true
 	} else if k == "x" {
-		/*
-			prefix := vim.Lines[vim.Y][0:vim.X]
-			suffix := vim.Lines[vim.Y][vim.X+1:]
-			vim.Lines[vim.Y] = prefix + suffix
-			vim.X--
-			if vim.X < 0 {
-				vim.X = 0
-			}*/
+		s := vim.getLine()
+		vim.X++
+		prefix := s[0 : vim.X+vim.FocusLevel]
+		suffix := s[vim.X+vim.FocusLevel:]
+		vim.SavedLines[vim.Y+vim.FocusStart] = prefix[0:len(prefix)-1] + suffix
+		vim.X--
+		if vim.X < 0 {
+			vim.X = 0
+		}
 	} else if k == "V" {
 		vim.VisualMode = true
 		vim.StartY = vim.Y
