@@ -27,13 +27,13 @@ func (v *Vim) Insert(k string) {
 	//|__div_bg-red-900_p-3_|rounded_|3|19
 
 	if k == "Backspace" {
-		v.SavedLines[v.Y+v.FocusStart] = prefix[0:len(prefix)-1] + suffix
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = prefix[0:len(prefix)-1] + suffix
 		v.X--
 		return
 	}
 
 	v.X++
-	v.SavedLines[v.Y+v.FocusStart] = prefix + k + suffix
+	v.SavedLines[v.Y+v.FocusStart+v.Offset] = prefix + k + suffix
 }
 
 func (v *Vim) FocusLevelSpaces() string {

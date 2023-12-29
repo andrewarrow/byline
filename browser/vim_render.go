@@ -6,7 +6,7 @@ import (
 )
 
 func (v *Vim) getLine() string {
-	return v.SavedLines[v.Y+v.FocusStart]
+	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
 
 func (v *Vim) pageLines() []string {

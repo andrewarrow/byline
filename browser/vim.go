@@ -140,7 +140,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X++
 		prefix := s[0 : vim.X+vim.FocusLevel]
 		suffix := s[vim.X+vim.FocusLevel:]
-		vim.SavedLines[vim.Y+vim.FocusStart] = prefix[0:len(prefix)-1] + suffix
+		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] = prefix[0:len(prefix)-1] + suffix
 		vim.X--
 		if vim.X < 0 {
 			vim.X = 0
@@ -157,16 +157,15 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		m := map[string]any{}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
-		vim.Focus()
+		//vim.Focus()
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "D" {
-		/*
-			s := vim.Lines[vim.Y]
-			vim.Lines[vim.Y] = s[0:vim.X] + " "
-			vim.InsertMode = true
-			vim.X = len(vim.Lines[vim.Y]) - 1*/
+		s := vim.getLine()
+		prefix := s[0 : vim.X+1+vim.FocusLevel]
+		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] = prefix[0 : len(prefix)-1]
+		vim.X = len(prefix) - 1
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "p" {
