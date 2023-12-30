@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/andrewarrow/feedback/markup"
@@ -18,6 +19,10 @@ func (v *Vim) BottomKeyPress(k string) {
 	vim.Bottom.Set("innerHTML", vim.BottomText)
 }
 
+func sp(width int) string {
+	return fmt.Sprintf("%-*s", width, " ")
+}
+
 func (v *Vim) BottomCommand(text string) {
 	m := map[string]any{}
 	if text == "w" {
@@ -26,13 +31,16 @@ func (v *Vim) BottomCommand(text string) {
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if text == "3" {
 		op := NewOperation("add_lines")
-		op.Data = []string{"    div flex w-full items-center",
-			"      div bg-r",
-			"        one",
-			"      div bg-r w-full text-center",
-			"        two",
-			"      div bg-r",
-			"        three"}
+		size := len(getSpaces(v.getLine())) + 2
+		op.Data = []string{
+			fmt.Sprintf("%sdiv flex w-full items-center", sp(size)),
+			fmt.Sprintf("%sdiv bg-r", sp(size+2)),
+			fmt.Sprintf("%sone", sp(size+4)),
+			fmt.Sprintf("%sdiv bg-r w-full text-center", sp(size+2)),
+			fmt.Sprintf("%stwo", sp(size+4)),
+			fmt.Sprintf("%sdiv bg-r", sp(size+2)),
+			fmt.Sprintf("%sthree", sp(size+4)),
+		}
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 	} else if text == "debug" {
