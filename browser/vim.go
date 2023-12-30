@@ -104,8 +104,14 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "ArrowDown" {
 		vim.Y++
-		vim.Location = vim.Offset + vim.Y + vim.FocusStart
-		if vim.Location >= len(vim.SavedLines)-1 {
+		size := vim.FocusEnd - vim.FocusStart
+		if size == 0 {
+			vim.Location = vim.Offset + vim.Y
+			size = len(vim.SavedLines) - 1
+		} else {
+			vim.Location = vim.Offset + vim.Y
+		}
+		if vim.Location >= size {
 			vim.Y--
 		}
 		if vim.Y >= MAX_LINES {

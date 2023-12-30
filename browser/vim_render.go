@@ -45,29 +45,6 @@ func (v *Vim) pageLines() []string {
 
 }
 
-func (v *Vim) pageLines2() []string {
-	buffer := []string{}
-
-	count := 0
-	data := v.SavedLines
-	if v.FocusStart > 0 {
-		data = data[v.FocusStart:v.FocusEnd]
-		count = v.FocusLevel
-	}
-
-	for _, line := range data {
-		fixedLine := line
-		if count > 0 {
-			fixedLine = line[count:]
-		}
-		buffer = append(buffer, fixedLine)
-		if len(buffer) > MAX_LINES {
-			break
-		}
-	}
-	return buffer
-}
-
 func (v *Vim) RenderDebug() {
 	debug := `<p>Saved Lines: %d</p>
 <p>FocusStart: %d</p>
