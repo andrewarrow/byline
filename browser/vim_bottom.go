@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/andrewarrow/feedback/markup"
+	"github.com/brianvoe/gofakeit"
 )
 
 func (v *Vim) BottomKeyPress(k string) {
@@ -29,6 +30,9 @@ func (v *Vim) BottomCommand(text string) {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+	} else if text == "hacker" {
+		text := gofakeit.HackerPhrase()
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
 	} else if text == "grow" {
 		vim.GrowMode = true
 	} else if text == "img" {
