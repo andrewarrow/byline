@@ -26,12 +26,12 @@ func (v *Vim) BottomCommand(text string) {
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if text == "3" {
 		op := NewOperation("add_lines")
-		op.Data = []string{"    div flex space-x-9",
-			"      div",
+		op.Data = []string{"    div flex w-full items-center",
+			"      div bg-r",
 			"        one",
-			"      div",
+			"      div bg-r w-full text-center",
 			"        two",
-			"      div",
+			"      div bg-r",
 			"        three"}
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
