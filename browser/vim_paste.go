@@ -7,9 +7,8 @@ func vimPaste(this js.Value, p []js.Value) any {
 	//e := wasm.GetItemMap(p[0], 0)
 	o := p[0].Get("clipboardData")
 	paste := o.Call("getData", "text").String()
-	_ = paste
-	//current := vim.Lines[vim.Y]
-	//vim.Lines[vim.Y] = current[0:len(current)-2] + paste
+	s := vim.getLine()
+	vim.SavedLines[vim.Y+vim.Offset] = s[0:len(s)-2] + paste
 	vim.Render()
 	/*
 		for _, char := range paste {
