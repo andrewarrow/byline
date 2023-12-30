@@ -58,6 +58,7 @@ func RegisterVimEvents() {
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.Stack = []*Operation{}
+	vim.DebugMode = true
 	go func() {
 		//vim.OffsetLines = loadLines()
 		//vim.SavedLines = append([]string{}, vim.OffsetLines...)
@@ -187,8 +188,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		leaveInsertMode()
 	} else if k == "V" {
 		vim.VisualMode = true
-		vim.StartY = vim.Y
-		vim.EndY = vim.Y
+		vim.StartY = vim.Y + vim.FocusStart + vim.Offset
+		vim.EndY = vim.Y + vim.FocusStart + vim.Offset
 	} else if k == ":" {
 		vim.BottomMode = true
 		vim.BottomText = ":"

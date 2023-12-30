@@ -7,7 +7,9 @@ func (v *Vim) VisualArrows(k string) {
 	} else if k == "y" {
 		v.VisualMode = false
 		start, end := blockOfLines(v.StartY, v.EndY)
-		lines := v.OffsetLines[start : end+1]
+		//v.DebugLine = fmt.Sprintf("%d,%d", start, end)
+		//v.Render()
+		lines := v.SavedLines[start : end+1]
 		v.Yanked = append([]string{}, lines...)
 	} else if k == ">" {
 		v.VisualMode = false

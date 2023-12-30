@@ -59,6 +59,8 @@ func (v *Vim) RenderDebug() {
 <p>FocusLevel: %d</p>
 <p>Offset: %d</p>
 <p>Location: %d</p>
+<p>VisualStartY: %d</p>
+<p>VisualEndY: %d</p>
 <p class="font-mono">DebugLine: %s</p>
 `
 	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
@@ -70,6 +72,8 @@ func (v *Vim) RenderDebug() {
 		v.FocusLevel,
 		v.Offset,
 		v.Location,
+		v.StartY,
+		v.EndY,
 		strings.ReplaceAll(v.DebugLine, " ", "_")))
 }
 
