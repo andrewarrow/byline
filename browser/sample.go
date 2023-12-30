@@ -2,14 +2,14 @@ package browser
 
 const sample = `div min-h-full flex flex-col bg-gray-300 
   div p-3 
-    div flex w-full text-green-700  
+    div flex w-full text-green-700 items-center 
       div 
         img src=http://placekitten.com/90/60 rounded-full 
       div w-full text-center 
         div  
-          center
+          mac,windows,linux
       div
-        right
+        css
   div h-1 bg-gray-800 
   div text-gray-600 pb-9 pt-9 text-gray-900 text-center space-y-3 mb-auto 
     div text-4xl my-9 
