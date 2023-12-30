@@ -86,6 +86,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.BottomMode = false
 		vim.GrowMode = false
 		vim.DebugMode = false
+		vim.MenuDiv.Hide()
 		vim.Debug.Hide()
 		vim.Bottom.Set("innerHTML", "&nbsp;")
 		leaveInsertMode()

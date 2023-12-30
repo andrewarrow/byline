@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -27,6 +26,12 @@ func (v *Vim) Insert(k string) {
 		return
 	}
 	if k == "Enter" {
+		v.MenuDiv.Hide()
+		s := v.getLine()
+		prefix = s[0 : v.X+v.FocusLevel]
+		suffix = s[v.X+v.FocusLevel:]
+		newLine := prefix + v.Menu.Value() + " " + suffix
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 		return
 	}
 
@@ -36,7 +41,7 @@ func (v *Vim) Insert(k string) {
 	prefix = s[0 : v.X+v.FocusLevel]
 	suffix = s[v.X+v.FocusLevel:]
 
-	v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, v.X, v.X-v.FocusLevel)
+	//v.DebugLine = fmt.Sprintf("|%s|%s|%d|%d", prefix, suffix, v.X, v.X-v.FocusLevel)
 	//|div_p-|3|1|6
 	//|__div_bg-red-900_p-3_|rounded_|3|19
 
