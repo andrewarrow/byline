@@ -175,7 +175,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ReplaceMode = true
 	} else if k == "o" {
 		op := NewOperation("add_lines")
-		op.Data = []string{"  "}
+		size := len(getSpaces(vim.getLine())) + 2
+		op.Data = []string{sp(size) + "div"}
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 
@@ -230,6 +231,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 }
 
 func leaveInsertMode() {
+	//	fmt.Println(strings.Join(vim.SavedLines, "\n"))
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }

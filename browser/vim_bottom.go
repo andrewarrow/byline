@@ -33,6 +33,7 @@ func (v *Vim) BottomCommand(text string) {
 	} else if text == "hacker" {
 		text := gofakeit.HackerPhrase()
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
+		leaveInsertMode()
 	} else if text == "grow" {
 		vim.GrowMode = true
 	} else if text == "img" {
