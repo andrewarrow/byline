@@ -18,16 +18,14 @@ func (v *Vim) VisualArrows(k string) {
 		//vim.RunOp(op)
 	} else if k == "d" {
 		v.VisualMode = false
-		/*
-			start, end := blockOfLines(v.StartY, v.EndY)
-			lines := v.Lines[start : end+1]
-			v.Yanked = append([]string{}, lines...)
+		start, end := blockOfLines(v.StartY, v.EndY)
+		lines := v.OffsetLines[start : end+1]
+		v.Yanked = append([]string{}, lines...)
 
-			op := NewOperation("remove_lines")
-			op.Data = v.Yanked
-			op.InsertY = start
-			vim.RunOp(op)
-			v.Y = len(v.Lines) - 1*/
+		op := NewOperation("remove_lines")
+		op.Data = v.Yanked
+		op.InsertY = start
+		vim.RunOp(op)
 	} else if k == "ArrowUp" {
 		v.Y--
 		//fmt.Println(v.Y, v.FromY, v.ToY)
