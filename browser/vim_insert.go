@@ -28,8 +28,8 @@ func (v *Vim) Insert(k string) {
 	if k == "Enter" {
 		v.MenuDiv.Hide()
 		s := v.getLine()
-		prefix = s[0 : v.X+v.FocusLevel]
-		suffix = s[v.X+v.FocusLevel:]
+		prefix := s[0 : v.X+v.FocusLevel]
+		suffix := s[v.X+v.FocusLevel:]
 		newLine := prefix + v.Menu.Value() + " " + suffix
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 		return
