@@ -79,6 +79,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ReplaceMode = false
 		vim.BottomMode = false
 		vim.Bottom.Set("innerHTML", "&nbsp;")
+		leaveInsertMode()
 	}
 
 	if vim.BottomMode {
@@ -90,6 +91,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ReplaceMode = false
 		vim.Replace(k)
 		vim.Render()
+		leaveInsertMode()
 		return nil
 	}
 	if vim.DeleteMode && k == "d" {
@@ -100,6 +102,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 		vim.Render()
+		leaveInsertMode()
 		return nil
 	}
 	if vim.VisualMode {
@@ -131,7 +134,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		size := vim.FocusEnd - vim.FocusStart
 		if size == 0 {
 			vim.Location = vim.Offset + vim.Y
-			size = len(vim.SavedLines) - 1
+			size = len(vim.SavedLines)
 		} else {
 			vim.Location = vim.Offset + vim.Y
 		}
@@ -178,6 +181,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		if vim.X < 0 {
 			vim.X = 0
 		}
+		leaveInsertMode()
 	} else if k == "V" {
 		vim.VisualMode = true
 		vim.StartY = vim.Y
@@ -197,6 +201,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		prefix := s[0 : vim.X+1+vim.FocusLevel]
 		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] = prefix[0 : len(prefix)-1]
 		vim.X = len(prefix) - 1
+		leaveInsertMode()
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "Enter" {
@@ -211,4 +216,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	vim.Render()
 
 	return nil
+}
+
+func leaveInsertMode() {
+	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
+	vim.Preview.Set("innerHTML", h)
 }
