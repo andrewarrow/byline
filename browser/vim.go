@@ -42,12 +42,13 @@ func RegisterVimEvents() {
 	windowHeight := Global.Window.GetInt("innerHeight")
 	//1080 vs 214
 	multiple := int(float64(windowHeight) / 214.0)
-	MAX_LINES = MAX_LINES * multiple
+	_ = multiple
+	MAX_LINES = 20 //MAX_LINES * multiple
 	fmt.Println(windowHeight)
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.OffsetLines = strings.Split(sample, "\n")
-	vim.SavedLines = append([]string{}, vim.OffsetLines...)
+	vim.SavedLines = strings.Split(sample, "\n")
+	vim.OffsetLines = []string{}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Debug = Document.ByIdWrap("debug")
