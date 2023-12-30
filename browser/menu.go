@@ -35,7 +35,7 @@ func (m *Menu) Backspace() {
 func (m *Menu) FillItems() {
 	m.Items = []string{}
 	for _, item := range allItems {
-		if strings.Contains(item, m.Search) {
+		if strings.HasPrefix(item, m.Search) {
 			m.Items = append(m.Items, item)
 			if len(m.Items) > 9 {
 				break

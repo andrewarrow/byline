@@ -16,6 +16,7 @@ type Vim struct {
 	Preview     *wasm.Wrapper
 	Debug       *wasm.Wrapper
 	Bottom      *wasm.Wrapper
+	Menu        *wasm.Wrapper
 	DebugLine   string
 	X           int
 	Y           int
@@ -58,6 +59,7 @@ func RegisterVimEvents() {
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
+	vim.Menu = Document.ByIdWrap("menu")
 	vim.Stack = []*Operation{}
 	//vim.DebugMode = true
 	go func() {

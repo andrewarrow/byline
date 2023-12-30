@@ -40,7 +40,15 @@ func (v *Vim) Insert(k string) {
 	}
 
 	v.X++
-	v.SavedLines[v.Y+v.FocusStart+v.Offset] = prefix + k + suffix
+	newLine := prefix + k + suffix
+	tokens := strings.Split(newLine, " ")
+	last := tokens[len(tokens)-1]
+	if len(last) == 1 {
+		menu := NewMenu(last)
+		Document.RenderToId("menu", "menu", menu)
+		v.Menu.Show()
+	}
+	v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 }
 
 func (v *Vim) FocusLevelSpaces() string {
