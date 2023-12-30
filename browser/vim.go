@@ -25,6 +25,7 @@ type Vim struct {
 	InsertMode  bool
 	VisualMode  bool
 	DeleteMode  bool
+	ShiftMode   bool
 	StartY      int
 	EndY        int
 	Yanked      []string
@@ -60,13 +61,18 @@ func RegisterVimEvents() {
 func vimKeyPress(this js.Value, p []js.Value) any {
 	k := p[0].Get("key").String()
 	//fmt.Println(k)
-	if k == "Meta" || k == "Shift" || k == "Control" {
+	if k == "Meta" || k == "Control" {
 		return nil
 	}
 	if k == "Escape" {
 		vim.InsertMode = false
 		vim.VisualMode = false
 		vim.DeleteMode = false
+		vim.ShiftMode = false
+	}
+	if vim.ShiftMode && k == "Enter" {
+		vim.ShiftMode = false
+		return nil
 	}
 	if vim.DeleteMode && k == "d" {
 		vim.DeleteMode = false
@@ -164,8 +170,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		m := map[string]any{}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
-		vim.Focus()
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+		vim.ShiftMode = true
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "D" {
@@ -175,10 +181,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = len(prefix) - 1
 	} else if k == "u" {
 		vim.Undo()
+	} else if k == "." {
+		vim.Focus()
 	} else if k == "p" {
 		op := NewOperation("add_lines")
 		op.Data = vim.Yanked
-		op.InsertY = vim.Y
+		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 	}
 
