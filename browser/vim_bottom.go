@@ -10,6 +10,8 @@ func (v *Vim) BottomKeyPress(k string) {
 
 	if k == "Enter" {
 		v.BottomCommand(v.BottomText[1:])
+	} else if k == "Backspace" {
+		v.BottomText = v.BottomText[0 : len(v.BottomText)-1]
 	} else {
 		v.BottomText += k
 	}
@@ -22,6 +24,8 @@ func (v *Vim) BottomCommand(text string) {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+	} else if text == "debug" {
+		vim.DebugMode = true
 	} else if text == "new" {
 		vim.SavedLines = []string{"div min-h-full flex flex-col bg-gray-300 text-gray-600", "  div p-3", "    blank"}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)

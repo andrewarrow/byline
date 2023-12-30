@@ -6,8 +6,7 @@ vim inspired editor for tailwindcss specific content.
 
 # how to use
 
-use normal vim commands to edit and :w 
-save and update the right side of the screen.
+use normal vim commands to edit and :w save 
 
 Use [Enter] in command mode to focus on a specific tag.
 

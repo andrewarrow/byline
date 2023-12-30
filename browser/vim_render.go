@@ -46,6 +46,10 @@ func (v *Vim) pageLines() []string {
 }
 
 func (v *Vim) RenderDebug() {
+	if v.DebugMode == false {
+		return
+	}
+	v.Debug.Show()
 	debug := `<p>Saved Lines: %d</p>
 <p>FocusStart: %d</p>
 <p>FocusEnd: %d</p>

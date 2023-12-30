@@ -29,6 +29,7 @@ type Vim struct {
 	DeleteMode  bool
 	ReplaceMode bool
 	BottomMode  bool
+	DebugMode   bool
 	BottomText  string
 	StartY      int
 	EndY        int
@@ -78,6 +79,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.DeleteMode = false
 		vim.ReplaceMode = false
 		vim.BottomMode = false
+		vim.DebugMode = false
+		vim.Debug.Hide()
 		vim.Bottom.Set("innerHTML", "&nbsp;")
 		leaveInsertMode()
 	}
