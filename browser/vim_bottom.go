@@ -29,6 +29,16 @@ func (v *Vim) BottomCommand(text string) {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+	} else if text == "grow" {
+		vim.GrowMode = true
+	} else if text == "img" {
+		op := NewOperation("add_lines")
+		size := len(getSpaces(v.getLine())) + 2
+		op.Data = []string{
+			fmt.Sprintf("%simg src=http://placekitten.com/90/60 rounded-full", sp(size)),
+		}
+		op.InsertY = vim.Y + vim.Offset
+		vim.RunOp(op)
 	} else if text == "3" {
 		op := NewOperation("add_lines")
 		size := len(getSpaces(v.getLine())) + 2

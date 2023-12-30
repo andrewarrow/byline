@@ -45,4 +45,5 @@ func (v *Vim) RunOp(op *Operation) {
 	}
 	v.SavedLines = buffer
 	v.Stack = append(v.Stack, op)
+	leaveInsertMode()
 }

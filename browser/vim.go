@@ -30,6 +30,7 @@ type Vim struct {
 	ReplaceMode bool
 	BottomMode  bool
 	DebugMode   bool
+	GrowMode    bool
 	BottomText  string
 	StartY      int
 	EndY        int
@@ -80,6 +81,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.DeleteMode = false
 		vim.ReplaceMode = false
 		vim.BottomMode = false
+		vim.GrowMode = false
 		vim.DebugMode = false
 		vim.Debug.Hide()
 		vim.Bottom.Set("innerHTML", "&nbsp;")
@@ -88,6 +90,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 
 	if vim.BottomMode {
 		vim.BottomKeyPress(k)
+		return nil
+	}
+
+	if vim.GrowMode {
+		vim.GrowTag(k)
 		return nil
 	}
 
