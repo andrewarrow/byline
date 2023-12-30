@@ -8,13 +8,15 @@ import (
 
 func (v *Vim) BottomKeyPress(k string) {
 
-	if v.BottomTypeMode {
-		v.BottomText += k
-		vim.Bottom.Set("innerHTML", ":"+vim.BottomText)
-	} else if k == "Enter" {
+	if k == "Enter" {
 		m := map[string]any{}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+		vim.BottomMode = false
+		v.BottomText = "&nbsp;"
+	} else {
+		v.BottomText += k
 	}
+	vim.Bottom.Set("innerHTML", vim.BottomText)
 }

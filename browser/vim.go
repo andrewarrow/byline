@@ -10,32 +10,31 @@ import (
 )
 
 type Vim struct {
-	OffsetLines    []string
-	SavedLines     []string
-	Editor         *wasm.Wrapper
-	Preview        *wasm.Wrapper
-	Debug          *wasm.Wrapper
-	Bottom         *wasm.Wrapper
-	DebugLine      string
-	X              int
-	Y              int
-	Location       int
-	FocusY         int
-	FocusStart     int
-	FocusEnd       int
-	FocusLevel     int
-	InsertMode     bool
-	VisualMode     bool
-	DeleteMode     bool
-	ReplaceMode    bool
-	BottomMode     bool
-	BottomTypeMode bool
-	BottomText     string
-	StartY         int
-	EndY           int
-	Yanked         []string
-	Stack          []*Operation
-	Offset         int
+	OffsetLines []string
+	SavedLines  []string
+	Editor      *wasm.Wrapper
+	Preview     *wasm.Wrapper
+	Debug       *wasm.Wrapper
+	Bottom      *wasm.Wrapper
+	DebugLine   string
+	X           int
+	Y           int
+	Location    int
+	FocusY      int
+	FocusStart  int
+	FocusEnd    int
+	FocusLevel  int
+	InsertMode  bool
+	VisualMode  bool
+	DeleteMode  bool
+	ReplaceMode bool
+	BottomMode  bool
+	BottomText  string
+	StartY      int
+	EndY        int
+	Yanked      []string
+	Stack       []*Operation
+	Offset      int
 }
 
 var MAX_LINES = 20
@@ -185,6 +184,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.EndY = vim.Y
 	} else if k == ":" {
 		vim.BottomMode = true
+		vim.BottomText = ":"
 		vim.Bottom.Set("innerHTML", ":")
 	} else if k == "a" {
 		vim.InsertMode = true
