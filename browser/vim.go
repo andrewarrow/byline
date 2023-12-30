@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"strings"
 	"syscall/js"
 
@@ -33,11 +34,16 @@ type Vim struct {
 	Offset      int
 }
 
-const MAX_LINES = 16
+var MAX_LINES = 20
 
 var vim = Vim{}
 
 func RegisterVimEvents() {
+	windowHeight := Global.Window.GetInt("innerHeight")
+	//1080 vs 214
+	multiple := int(float64(windowHeight) / 214.0)
+	MAX_LINES = MAX_LINES * multiple
+	fmt.Println(windowHeight)
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	vim.OffsetLines = []string{"div p-3",
