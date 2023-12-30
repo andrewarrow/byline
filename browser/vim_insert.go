@@ -13,10 +13,17 @@ func (v *Vim) Replace(k string) {
 }
 
 func (v *Vim) Insert(k string) {
-	//chars := []rune(v.Lines[v.Y])
-	//replacementRune := []rune(k)[0]
-	//chars[v.X] = replacementRune
-	if k == "ArrowUp" || k == "ArrowDown" || k == "ArrowLeft" || k == "ArrowRight" {
+	if k == "ArrowUp" {
+		v.Menu.Selected--
+		Document.RenderToId("menu", "menu", v.Menu)
+		return
+	} else if k == "ArrowDown" {
+		v.Menu.Selected++
+		Document.RenderToId("menu", "menu", v.Menu)
+		return
+	} else if k == "ArrowRight" {
+		return
+	} else if k == "ArrowLeft" {
 		return
 	}
 	if k == "Enter" {
@@ -43,10 +50,9 @@ func (v *Vim) Insert(k string) {
 	newLine := prefix + k + suffix
 	tokens := strings.Split(strings.TrimSpace(newLine), " ")
 	last := tokens[len(tokens)-1]
-	fmt.Println(tokens, last, len(last))
-	menu := NewMenu(last)
-	Document.RenderToId("menu", "menu", menu)
-	v.Menu.Show()
+	v.Menu = NewMenu(last)
+	Document.RenderToId("menu", "menu", v.Menu)
+	v.MenuDiv.Show()
 	v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 }
 
