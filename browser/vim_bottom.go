@@ -23,7 +23,7 @@ func (v *Vim) BottomCommand(text string) {
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if text == "new" {
-		vim.SavedLines = []string{"div p-3 bg-gray-700", "  div", "    blank"}
+		vim.SavedLines = []string{"div min-h-full flex flex-col bg-gray-300 text-gray-600", "  div p-3", "    blank"}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 	}
