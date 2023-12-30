@@ -24,10 +24,21 @@ func (v *Vim) BottomCommand(text string) {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
+	} else if text == "3" {
+		op := NewOperation("add_lines")
+		op.Data = []string{"    div flex space-x-9",
+			"      div",
+			"        one",
+			"      div",
+			"        two",
+			"      div",
+			"        three"}
+		op.InsertY = vim.Y + vim.Offset
+		vim.RunOp(op)
 	} else if text == "debug" {
 		vim.DebugMode = true
 	} else if text == "new" {
-		vim.SavedLines = []string{"div min-h-full flex flex-col bg-gray-300 text-gray-600", "  div p-3", "    blank"}
+		vim.SavedLines = []string{"div min-h-full flex flex-col bg-gray-300 text-gray-600", "  div p-3", "    blank", "  div p-3", "    blank"}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 	}

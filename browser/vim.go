@@ -58,7 +58,7 @@ func RegisterVimEvents() {
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.Stack = []*Operation{}
-	vim.DebugMode = true
+	//vim.DebugMode = true
 	go func() {
 		//vim.OffsetLines = loadLines()
 		//vim.SavedLines = append([]string{}, vim.OffsetLines...)
