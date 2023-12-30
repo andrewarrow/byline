@@ -41,13 +41,12 @@ func (v *Vim) Insert(k string) {
 
 	v.X++
 	newLine := prefix + k + suffix
-	tokens := strings.Split(newLine, " ")
+	tokens := strings.Split(strings.TrimSpace(newLine), " ")
 	last := tokens[len(tokens)-1]
-	if len(last) == 1 {
-		menu := NewMenu(last)
-		Document.RenderToId("menu", "menu", menu)
-		v.Menu.Show()
-	}
+	fmt.Println(tokens, last, len(last))
+	menu := NewMenu(last)
+	Document.RenderToId("menu", "menu", menu)
+	v.Menu.Show()
 	v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 }
 
