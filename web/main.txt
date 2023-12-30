@@ -45,6 +45,7 @@ func main() {
 		//r.Paths["register"] = app.Register
 		//r.Paths["tickets"] = app.Ticket
 		r.Paths["markup"] = app.Markup
+		r.NotFoundFunc = app.Slug404
 		r.ListenAndServe(":" + os.Args[2])
 	} else if arg == "help" {
 	}

@@ -2,9 +2,7 @@ html attr-1
   head
     {{ $build := index . "build" }}
     link rel=stylesheet type=text/css href=/assets/css/tail.min.css?id!{{$build}}
-    {{ if index . "USE_LIVE_TEMPLATES" }}
-      script src=https://cdn.tailwindcss.com
-    {{ end }}
+    script src=https://cdn.tailwindcss.com
     script src=/assets/javascript/wasm_exec.js?id!{{$build}}
     script
       function $(id) { return document.getElementById(id); }
