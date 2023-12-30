@@ -1,4 +1,17 @@
+# byline
 
+vim inspired editor for tailwindcss specific content.
+
+![wefw](https://i.imgur.com/gQPd0kO.png)
+
+# how to use
+
+use normal vim commands to edit and hit [Enter] in command
+mode to update the right side of the screen.
+
+# special features for tailwind
+
+coming soon...
 
 ```
 div p-3
