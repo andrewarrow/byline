@@ -24,7 +24,7 @@ func (v *Vim) VisualArrows(k string) {
 
 		op := NewOperation("remove_lines")
 		op.Data = v.Yanked
-		op.InsertY = start
+		op.InsertY = start + v.Offset
 		vim.RunOp(op)
 	} else if k == "ArrowUp" {
 		v.Y--
