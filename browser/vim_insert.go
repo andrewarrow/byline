@@ -5,6 +5,13 @@ import (
 	"strings"
 )
 
+func (v *Vim) Replace(k string) {
+	s := v.getLine()
+	prefix := s[0 : v.X+v.FocusLevel]
+	suffix := s[v.X+v.FocusLevel:]
+	v.SavedLines[v.Y+v.FocusStart+v.Offset] = prefix[0:len(prefix)] + k + suffix[1:]
+}
+
 func (v *Vim) Insert(k string) {
 	//chars := []rune(v.Lines[v.Y])
 	//replacementRune := []rune(k)[0]

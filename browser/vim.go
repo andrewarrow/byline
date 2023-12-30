@@ -25,7 +25,7 @@ type Vim struct {
 	InsertMode  bool
 	VisualMode  bool
 	DeleteMode  bool
-	ShiftMode   bool
+	ReplaceMode bool
 	StartY      int
 	EndY        int
 	Yanked      []string
@@ -68,6 +68,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.InsertMode = false
 		vim.VisualMode = false
 		vim.DeleteMode = false
+		vim.ReplaceMode = false
+	}
+	if vim.ReplaceMode {
+		vim.ReplaceMode = false
+		vim.Replace(k)
+		vim.Render()
+		return nil
 	}
 	if vim.DeleteMode && k == "d" {
 		vim.DeleteMode = false
@@ -134,6 +141,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		}
 	} else if k == "i" {
 		vim.InsertMode = true
+	} else if k == "r" {
+		vim.ReplaceMode = true
 	} else if k == "o" {
 		op := NewOperation("add_lines")
 		op.Data = []string{"  "}
