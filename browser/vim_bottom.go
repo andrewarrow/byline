@@ -10,7 +10,6 @@ func (v *Vim) BottomKeyPress(k string) {
 
 	if k == "Enter" {
 		v.BottomCommand(v.BottomText[1:])
-		return
 	} else {
 		v.BottomText += k
 	}
@@ -24,10 +23,11 @@ func (v *Vim) BottomCommand(text string) {
 		vim.Preview.Set("innerHTML", h)
 		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if text == "new" {
-		vim.SavedLines = []string{"div p-3\n  div\n    blank"}
+		vim.SavedLines = []string{"div p-3 bg-gray-700", "  div", "    blank"}
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 	}
 	vim.BottomMode = false
 	v.BottomText = "&nbsp;"
+	v.Render()
 }
