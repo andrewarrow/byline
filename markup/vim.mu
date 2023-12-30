@@ -3,7 +3,7 @@ div text-lg h-full
     div hidden md:block md:w-1/2 font-mono
       div flex flex-col h-full
         div h-full id=editor
-        div pl-3 mb-auto id=command bg-purple-900
+        div pl-3 mb-auto id=bottom bg-purple-900
           commands 
           a href=https://github.com/andrewarrow/byline
             github

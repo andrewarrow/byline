@@ -15,6 +15,7 @@ type Vim struct {
 	Editor      *wasm.Wrapper
 	Preview     *wasm.Wrapper
 	Debug       *wasm.Wrapper
+	Bottom      *wasm.Wrapper
 	DebugLine   string
 	X           int
 	Y           int
@@ -27,6 +28,7 @@ type Vim struct {
 	VisualMode  bool
 	DeleteMode  bool
 	ReplaceMode bool
+	BottomMode  bool
 	StartY      int
 	EndY        int
 	Yanked      []string
@@ -52,6 +54,7 @@ func RegisterVimEvents() {
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Debug = Document.ByIdWrap("debug")
+	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.Stack = []*Operation{}
 	go func() {
 		//vim.OffsetLines = loadLines()
@@ -73,7 +76,17 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.VisualMode = false
 		vim.DeleteMode = false
 		vim.ReplaceMode = false
+		vim.BottomMode = false
 	}
+
+	if vim.BottomMode && k == "Enter" {
+		m := map[string]any{}
+		h := markup.ToHTMLFromLines(m, vim.SavedLines)
+		vim.Preview.Set("innerHTML", h)
+		go saveLines(strings.Join(vim.SavedLines, "\n"))
+		return nil
+	}
+
 	if vim.ReplaceMode {
 		vim.ReplaceMode = false
 		vim.Replace(k)
@@ -170,15 +183,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.VisualMode = true
 		vim.StartY = vim.Y
 		vim.EndY = vim.Y
+	} else if k == ":" {
+		vim.BottomMode = true
+		vim.Bottom.Set("innerHTML", ":")
 	} else if k == "a" {
 		vim.InsertMode = true
 		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] += " "
 		vim.X++
-	} else if k == "Enter" {
-		m := map[string]any{}
-		h := markup.ToHTMLFromLines(m, vim.SavedLines)
-		vim.Preview.Set("innerHTML", h)
-		go saveLines(strings.Join(vim.SavedLines, "\n"))
 	} else if k == "d" {
 		vim.DeleteMode = true
 	} else if k == "D" {
@@ -188,7 +199,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = len(prefix) - 1
 	} else if k == "u" {
 		vim.Undo()
-	} else if k == "." {
+	} else if k == "Enter" {
 		vim.Focus()
 	} else if k == "p" {
 		op := NewOperation("add_lines")

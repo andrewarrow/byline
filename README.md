@@ -6,8 +6,10 @@ vim inspired editor for tailwindcss specific content.
 
 # how to use
 
-use normal vim commands to edit and hit [Enter] in command
-mode to update the right side of the screen.
+use normal vim commands to edit and :w 
+save and update the right side of the screen.
+
+Use [Enter] in command mode to focus on a specific tag.
 
 # special features for tailwind
 
