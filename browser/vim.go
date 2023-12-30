@@ -71,9 +71,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	if vim.DeleteMode && k == "d" {
 		vim.DeleteMode = false
 		op := NewOperation("remove_lines")
-		op.Data = []string{string(vim.getLine())}
+		op.Data = []string{vim.getLine()}
 		vim.Yanked = op.Data
-		op.InsertY = vim.Y
+		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 		vim.Render()
 		return nil

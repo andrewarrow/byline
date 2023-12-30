@@ -35,15 +35,13 @@ func (v *Vim) RunOp(op *Operation) {
 				buffer = append(buffer, spaces+line)
 			}*/
 	} else if op.Name == "remove_lines" {
-		/*
-			for i, line := range v.Lines {
-				if i >= op.InsertY && i < op.InsertY+len(op.Data) {
-					continue
-				}
-				buffer = append(buffer, line)
+		for i, line := range v.SavedLines {
+			if i >= op.InsertY && i < op.InsertY+len(op.Data) {
+				continue
 			}
-			op.InsertY--
-		*/
+			buffer = append(buffer, line)
+		}
+		op.InsertY--
 	}
 	v.SavedLines = buffer
 	v.Stack = append(v.Stack, op)
