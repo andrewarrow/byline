@@ -46,20 +46,15 @@ func RegisterVimEvents() {
 	fmt.Println(windowHeight)
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.OffsetLines = []string{"div p-3",
-		"  div flex",
-		"    div",
-		"      left",
-		"    div",
-		"      right"}
+	vim.OffsetLines = strings.Split(sample, "\n")
 	vim.SavedLines = append([]string{}, vim.OffsetLines...)
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Stack = []*Operation{}
 	go func() {
-		vim.OffsetLines = loadLines()
-		vim.SavedLines = append([]string{}, vim.OffsetLines...)
+		//vim.OffsetLines = loadLines()
+		//vim.SavedLines = append([]string{}, vim.OffsetLines...)
 		vim.Render()
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
