@@ -33,7 +33,7 @@ type Vim struct {
 	Offset      int
 }
 
-const MAX_LINES = 20
+const MAX_LINES = 16
 
 var vim = Vim{}
 
@@ -55,6 +55,8 @@ func RegisterVimEvents() {
 		vim.OffsetLines = loadLines()
 		vim.SavedLines = append([]string{}, vim.OffsetLines...)
 		vim.Render()
+		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
+		vim.Preview.Set("innerHTML", h)
 	}()
 }
 
