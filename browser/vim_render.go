@@ -87,7 +87,7 @@ func (v *Vim) Render() {
 		}
 		v.Editor.AppendChild(p.JValue)
 		//p.AddClass("whitespace-nowrap")
-		if i != vim.Y {
+		if i != vim.Y || vim.BottomMode {
 			str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
 			p.Set("innerHTML", str)
 			continue

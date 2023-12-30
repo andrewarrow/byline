@@ -77,6 +77,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.DeleteMode = false
 		vim.ReplaceMode = false
 		vim.BottomMode = false
+		vim.Bottom.Set("innerHTML", "&nbsp;")
 	}
 
 	if vim.BottomMode && k == "Enter" {
