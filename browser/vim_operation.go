@@ -16,6 +16,18 @@ func NewOperation(name string) *Operation {
 	return &no
 }
 
+func (v *Vim) AddOneNewLine() {
+	op := NewOperation("add_lines")
+	size := len(getSpaces(vim.getLine())) + 2
+	op.Data = []string{sp(size) + " "}
+	op.InsertY = vim.Y + vim.Offset
+	vim.RunOp(op)
+
+	vim.Y++
+	vim.X = size
+	vim.InsertMode = true
+}
+
 func (v *Vim) RunOp(op *Operation) {
 	buffer := []string{}
 	if op.Name == "add_lines" {
