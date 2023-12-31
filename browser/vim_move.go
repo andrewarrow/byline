@@ -23,14 +23,14 @@ func (v *Vim) MoveChildrenLeft() {
 func (v *Vim) MoveChildrenRight() {
 	line := v.getLine()
 	theSpaces := getSpaces(line)
-	count := len(theSpaces) - 2
+	count := len(theSpaces)
 	start := v.Y + v.Offset + v.FocusStart
 	s := 0
 	for i := start + 1; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
 		s = len(getSpaces(line))
 		fmt.Println(s, line, count)
-		if s-2 > count {
+		if s < count {
 			break
 		}
 		v.SavedLines[i] = "  " + line

@@ -1,5 +1,7 @@
 package browser
 
+import "fmt"
+
 type Operation struct {
 	Name    string
 	Data    []string
@@ -30,8 +32,8 @@ func (v *Vim) AddOneNewLine() {
 
 func (v *Vim) AddOneNewLineAbove() {
 	op := NewOperation("add_line_above")
-	size := len(getSpaces(vim.getLineAbove())) + 2
-	op.Data = []string{sp(size) + "  "}
+	size := len(getSpaces(vim.getLine()))
+	op.Data = []string{sp(size)}
 	op.InsertY = vim.Y + vim.Offset
 	vim.RunOp(op)
 
@@ -50,8 +52,9 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 		}
 	} else if op.Name == "add_line_above" {
+		fmt.Println("d1", len(v.SavedLines))
 		for i, line := range v.SavedLines {
-			if i == op.InsertY+1 {
+			if i == op.InsertY {
 				buffer = append(buffer, op.Data...)
 			}
 			buffer = append(buffer, line)
@@ -83,6 +86,7 @@ func (v *Vim) RunOp(op *Operation) {
 		op.InsertY--
 	}
 	v.SavedLines = buffer
+	fmt.Println("d2", len(v.SavedLines))
 	v.Stack = append(v.Stack, op)
 	leaveInsertMode()
 }
