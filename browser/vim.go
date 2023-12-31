@@ -181,12 +181,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "o" {
 		op := NewOperation("add_lines")
 		size := len(getSpaces(vim.getLine())) + 2
-		op.Data = []string{sp(size) + "div"}
+		op.Data = []string{sp(size) + " "}
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 
 		vim.Y++
-		vim.X = 1
+		vim.X = size
 		vim.InsertMode = true
 	} else if k == "x" {
 		s := vim.getLine()
