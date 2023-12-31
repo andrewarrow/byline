@@ -22,24 +22,30 @@ func (v *Vim) AddOneNewLine() {
 	op := NewOperation("add_lines")
 	size := len(getSpaces(vim.getLine())) + 2
 	op.Data = []string{sp(size) + "  "}
-	op.InsertY = vim.Y + vim.Offset
+	op.InsertY = vim.Y + vim.Offset + vim.FocusStart
 	vim.RunOp(op)
 
 	vim.Y++
-	vim.X = size
-	vim.InsertMode = true
+	vim.X = 0
+	if v.FocusStart > 0 {
+		v.FocusEnd++
+	}
+	//vim.InsertMode = true
 }
 
 func (v *Vim) AddOneNewLineAbove() {
 	op := NewOperation("add_line_above")
 	size := len(getSpaces(vim.getLine()))
 	op.Data = []string{sp(size)}
-	op.InsertY = vim.Y + vim.Offset
+	op.InsertY = vim.Y + vim.Offset + vim.FocusStart
 	vim.RunOp(op)
 
 	vim.Y++
-	vim.X = size
-	vim.InsertMode = true
+	vim.X = 0
+	if v.FocusStart > 0 {
+		v.FocusEnd++
+	}
+	//vim.InsertMode = true
 }
 
 func (v *Vim) RunOp(op *Operation) {
@@ -86,7 +92,9 @@ func (v *Vim) RunOp(op *Operation) {
 		op.InsertY--
 	}
 	v.SavedLines = buffer
-	fmt.Println("d2", len(v.SavedLines))
+	for _, line := range v.SavedLines {
+		fmt.Println("_i", line)
+	}
 	v.Stack = append(v.Stack, op)
 	leaveInsertMode()
 }
