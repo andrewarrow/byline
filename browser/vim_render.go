@@ -11,6 +11,12 @@ func (v *Vim) getLine() string {
 func (v *Vim) getLineBelow() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset+1]
 }
+func (v *Vim) lineAtSameLevelAsChild() bool {
+	line := v.getLine()
+	below := v.getLineBelow()
+	belowCount := len(getSpaces(below))
+	return belowCount == len(getSpaces(line))
+}
 
 func windowOfLines(offset int, lines []string) []string {
 	buffer := []string{}

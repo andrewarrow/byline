@@ -23,20 +23,25 @@ func (v *Vim) MoveChildrenLeft() {
 func (v *Vim) MoveChildrenRight() {
 	line := v.getLine()
 	theSpaces := getSpaces(line)
-	count := len(theSpaces)
+	count := len(theSpaces) - 2
 	start := v.Y + v.Offset + v.FocusStart
 	s := 0
-	for i := start; i < len(v.SavedLines); i++ {
+	for i := start + 1; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
 		s = len(getSpaces(line))
 		fmt.Println(s, line, count)
-		if s-2 >= count {
+		if s-2 > count {
 			break
 		}
 		v.SavedLines[i] = "  " + line
 	}
 
 	v.SavedLines[start] = sp(s-2) + "div "
+
+	if v.lineAtSameLevelAsChild() {
+		v.SavedLines[start] = sp(s-4) + "div "
+	}
+
 	v.X = len(v.SavedLines[start]) - 1
 }
 
