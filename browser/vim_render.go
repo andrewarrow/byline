@@ -17,6 +17,12 @@ func (v *Vim) lineAtSameLevelAsChild() bool {
 	belowCount := len(getSpaces(below))
 	return belowCount == len(getSpaces(line))
 }
+func (v *Vim) hasDirectChildren() bool {
+	line := v.getLine()
+	below := v.getLineBelow()
+	belowCount := len(getSpaces(below))
+	return belowCount > len(getSpaces(line))
+}
 
 func windowOfLines(offset int, lines []string) []string {
 	buffer := []string{}

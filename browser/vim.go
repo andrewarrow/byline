@@ -118,13 +118,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Yanked = op.Data
 		op.InsertY = vim.Y + vim.Offset
 
-		below := vim.getLineBelow()
-		belowCount := len(getSpaces(below))
-		hasDirectChildren := belowCount > len(getSpaces(line))
-
 		vim.RunOp(op)
 		vim.X = 0
-		if hasDirectChildren {
+		if vim.hasDirectChildren() {
 			vim.MoveChildrenLeft()
 		}
 		vim.Render()
@@ -187,8 +183,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "r" {
 		vim.ReplaceMode = true
 	} else if k == "o" {
+		saveBool := vim.hasDirectChildren()
 		vim.AddOneNewLine()
-		vim.MoveChildrenRight()
+		if saveBool {
+			vim.MoveChildrenRight()
+		}
 	} else if k == "x" {
 		s := vim.getLine()
 		vim.X++
