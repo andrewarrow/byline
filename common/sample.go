@@ -1,6 +1,6 @@
-package browser
+package common
 
-const sample = `div min-h-full flex flex-col bg-gray-300 
+const Sample = `div min-h-full flex flex-col bg-gray-300 
   div flex bg-r justify-center
     using bg-r will give a random color
   div p-3 

@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"byline/common"
 	"fmt"
 	"strings"
 	"syscall/js"
@@ -54,7 +55,7 @@ func RegisterVimEvents() {
 	fmt.Println(windowHeight)
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.SavedLines = strings.Split(sample, "\n")
+	vim.SavedLines = strings.Split(common.Sample, "\n")
 	vim.OffsetLines = []string{}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
@@ -67,8 +68,8 @@ func RegisterVimEvents() {
 		//vim.OffsetLines = loadLines()
 		//vim.SavedLines = append([]string{}, vim.OffsetLines...)
 		vim.Render()
-		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
-		vim.Preview.Set("innerHTML", h)
+		//h := markup.ToHTMLFromLines(nil, vim.SavedLines)
+		//vim.Preview.Set("innerHTML", h)
 	}()
 }
 
