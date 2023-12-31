@@ -179,6 +179,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ReplaceMode = true
 	} else if k == "o" {
 		vim.AddOneNewLine()
+		vim.MoveChildrenRight()
 	} else if k == "x" {
 		s := vim.getLine()
 		vim.X++
