@@ -118,9 +118,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Yanked = op.Data
 		op.InsertY = vim.Y + vim.Offset
 
+		saveBool := vim.hasDirectChildren()
 		vim.RunOp(op)
 		vim.X = 0
-		if vim.hasDirectChildren() {
+		if saveBool {
 			vim.MoveChildrenLeft()
 		}
 		vim.Render()
