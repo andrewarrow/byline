@@ -24,6 +24,22 @@ func (v *Vim) BottomKeyPress(k string) {
 func sp(width int) string {
 	return fmt.Sprintf("%-*s", width, " ")
 }
+func (v *Vim) AddImage(imgSize string) {
+	op := NewOperation("add_lines")
+	size := len(getSpaces(v.getLine())) + 2
+	w := 90
+	h := 60
+	if imgSize == "md" {
+		w *= 2
+		h *= 2
+	}
+	op.Data = []string{
+		fmt.Sprintf("%simg src=http://placekitten.com/%d/%d rounded-full",
+			sp(size), w, h),
+	}
+	op.InsertY = vim.Y + vim.Offset + vim.FocusStart
+	vim.RunOp(op)
+}
 
 func (v *Vim) BottomCommand(text string) {
 	m := map[string]any{}
@@ -37,18 +53,14 @@ func (v *Vim) BottomCommand(text string) {
 		leaveInsertMode()
 	} else if text == "grow" {
 		vim.GrowMode = true
-	} else if text == "img" {
-		op := NewOperation("add_lines")
-		size := len(getSpaces(v.getLine())) + 2
-		op.Data = []string{
-			fmt.Sprintf("%simg src=http://placekitten.com/90/60 rounded-full", sp(size)),
-		}
-		op.InsertY = vim.Y + vim.Offset
-		vim.RunOp(op)
+	} else if text == "img sm" {
+		v.AddImage("sm")
+	} else if text == "img md" {
+		v.AddImage("md")
 	} else if text == "top" {
 		op := NewOperation("add_lines")
 		op.Data = strings.Split(common.Top, "\n")
-		op.InsertY = vim.Y + vim.Offset
+		op.InsertY = vim.Y + vim.Offset + vim.FocusStart
 		vim.RunOp(op)
 	} else if text == "3" {
 		op := NewOperation("add_lines")

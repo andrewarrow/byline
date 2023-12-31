@@ -227,7 +227,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		leaveInsertMode()
 		vim.InsertMode = true
 	} else if k == "u" {
-		vim.Undo()
+		previous := Global.LocalStorage.GetItem("byline_previous")
+		vim.SavedLines = strings.Split(previous, "\n")
+		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
+		vim.Preview.Set("innerHTML", h)
 	} else if k == "Enter" {
 		vim.Focus()
 	} else if k == "p" {
@@ -245,7 +248,15 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 func leaveInsertMode() {
 	lines := strings.Join(vim.SavedLines, "\n")
 	//fmt.Println(lines)
+	//saved := Global.LocalStorage.GetItem("saved")
+	//index, _ := strconv.Atoi(save)
+	//if index > 0 {
+	current := Global.LocalStorage.GetItem("byline")
+	Global.LocalStorage.SetItem("byline_previous", current)
+	//Global.LocalStorage.SetItem(fmt.Sprintf("byline_%d", index), current)
+	//}
 	Global.LocalStorage.SetItem("byline", lines)
+	//Global.LocalStorage.SetItem("saved", fmt.Sprintf("%d", index))
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }
