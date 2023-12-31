@@ -11,6 +11,7 @@ func (v *Vim) VisualArrows(k string) {
 		//v.Render()
 		lines := v.SavedLines[start : end+1]
 		v.Yanked = append([]string{}, lines...)
+		v.X = 0
 	} else if k == ">" {
 		v.VisualMode = false
 		//start, end := blockOfLines(v.StartY, v.EndY)

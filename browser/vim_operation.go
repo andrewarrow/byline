@@ -28,6 +28,18 @@ func (v *Vim) AddOneNewLine() {
 	vim.InsertMode = true
 }
 
+func (v *Vim) AddOneNewLineAbove() {
+	op := NewOperation("add_line_above")
+	size := len(getSpaces(vim.getLine())) + 2
+	op.Data = []string{sp(size) + "  "}
+	op.InsertY = vim.Y + vim.Offset
+	vim.RunOp(op)
+
+	vim.Y++
+	vim.X = size
+	vim.InsertMode = true
+}
+
 func (v *Vim) RunOp(op *Operation) {
 	buffer := []string{}
 	if op.Name == "add_lines" {
@@ -36,6 +48,14 @@ func (v *Vim) RunOp(op *Operation) {
 			if i == op.InsertY {
 				buffer = append(buffer, op.Data...)
 			}
+		}
+	} else if op.Name == "add_line_above" {
+		for i := len(v.SavedLines) - 1; i >= 0; i-- {
+			line := v.SavedLines[i]
+			if i == op.InsertY {
+				buffer = append(op.Data, buffer...)
+			}
+			buffer = append([]string{line}, buffer...)
 		}
 	} else if op.Name == "indent_lines" {
 		/*

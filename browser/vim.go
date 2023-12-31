@@ -184,7 +184,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.ReplaceMode = true
 	} else if k == "o" {
 		saveBool := vim.hasDirectChildren()
-		vim.AddOneNewLine()
+		if saveBool {
+			vim.AddOneNewLineAbove()
+		} else {
+			vim.AddOneNewLine()
+		}
 		if saveBool {
 			vim.MoveChildrenRight()
 		}
@@ -237,7 +241,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 }
 
 func leaveInsertMode() {
-	//	fmt.Println(strings.Join(vim.SavedLines, "\n"))
+	fmt.Println(strings.Join(vim.SavedLines, "\n"))
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }
