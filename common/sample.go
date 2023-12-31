@@ -1,5 +1,21 @@
 package common
 
+const Top = `  div flex bg-r justify-center
+    special messages go here
+  div p-3 
+    div flex w-full text-green-700 items-center 
+      div 
+        img src=http://placekitten.com/90/60 rounded-full 
+      div w-full text-center 
+        div  
+          center
+      div
+        right
+  div h-1 bg-r 
+  div text-gray-600 pb-9 pt-9 text-gray-900 text-center space-y-3 mb-auto 
+    div text-4xl my-9 
+      Ready To Render`
+
 const Sample = `div min-h-full flex flex-col bg-gray-300 
   div flex bg-r justify-center
     using bg-r will give a random color

@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"byline/common"
 	"fmt"
 	"strings"
 
@@ -42,6 +43,11 @@ func (v *Vim) BottomCommand(text string) {
 		op.Data = []string{
 			fmt.Sprintf("%simg src=http://placekitten.com/90/60 rounded-full", sp(size)),
 		}
+		op.InsertY = vim.Y + vim.Offset
+		vim.RunOp(op)
+	} else if text == "top" {
+		op := NewOperation("add_lines")
+		op.Data = strings.Split(common.Top, "\n")
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
 	} else if text == "3" {
