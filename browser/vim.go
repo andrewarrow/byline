@@ -216,9 +216,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "D" {
 		s := vim.getLine()
 		prefix := s[0 : vim.X+1+vim.FocusLevel]
-		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] = prefix[0 : len(prefix)-1]
+		vim.SavedLines[vim.Y+vim.FocusStart+vim.Offset] = prefix[0:len(prefix)-1] + " "
 		vim.X = len(prefix) - 1
 		leaveInsertMode()
+		vim.InsertMode = true
 	} else if k == "u" {
 		vim.Undo()
 	} else if k == "Enter" {
