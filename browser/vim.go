@@ -244,7 +244,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 }
 
 func leaveInsertMode() {
-	fmt.Println(strings.Join(vim.SavedLines, "\n"))
+	lines := strings.Join(vim.SavedLines, "\n")
+	//fmt.Println(lines)
+	Global.LocalStorage.SetItem("byline", lines)
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }
