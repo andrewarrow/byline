@@ -3,6 +3,7 @@ package browser
 import (
 	"byline/common"
 	"fmt"
+	"strconv"
 	"strings"
 	"syscall/js"
 
@@ -227,7 +228,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		leaveInsertMode()
 		vim.InsertMode = true
 	} else if k == "u" {
-		previous := Global.LocalStorage.GetItem("byline_previous")
+		saved := Global.LocalStorage.GetItem("saved")
+		index, _ := strconv.Atoi(saved)
+		key := fmt.Sprintf("%d", index-1)
+		Global.LocalStorage.SetItem("saved", key)
+		key = fmt.Sprintf("byline_%d", index)
+		previous := Global.LocalStorage.GetItem(key)
+		fmt.Println("key = ", key, len(previous), previous)
 		vim.SavedLines = strings.Split(previous, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
@@ -245,18 +252,28 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	return nil
 }
 
+func addToStack(data string) {
+	saved := Global.LocalStorage.GetItem("saved")
+	index, _ := strconv.Atoi(saved)
+	key := fmt.Sprintf("byline_%d", index)
+	Global.LocalStorage.SetItem(key, data)
+	fmt.Println("addToStack", key)
+
+	key = fmt.Sprintf("%d", index+1)
+	Global.LocalStorage.SetItem("saved", key)
+	fmt.Println("saveIndex", key)
+}
+
 func leaveInsertMode() {
-	lines := strings.Join(vim.SavedLines, "\n")
 	//fmt.Println(lines)
-	//saved := Global.LocalStorage.GetItem("saved")
-	//index, _ := strconv.Atoi(save)
-	//if index > 0 {
+	lines := strings.Join(vim.SavedLines, "\n")
+
 	current := Global.LocalStorage.GetItem("byline")
-	Global.LocalStorage.SetItem("byline_previous", current)
-	//Global.LocalStorage.SetItem(fmt.Sprintf("byline_%d", index), current)
-	//}
-	Global.LocalStorage.SetItem("byline", lines)
-	//Global.LocalStorage.SetItem("saved", fmt.Sprintf("%d", index))
+	if current != lines {
+		addToStack(current)
+		Global.LocalStorage.SetItem("byline", lines)
+	}
+
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }
