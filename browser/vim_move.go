@@ -12,7 +12,7 @@ func (v *Vim) MoveChildrenLeft() {
 			break
 		}
 	}
-
+	v.X = 0
 }
 
 func (v *Vim) searchDown(start, level int) int {
