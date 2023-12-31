@@ -36,10 +36,10 @@ func (v *Vim) MoveChildrenRight() {
 		v.SavedLines[i] = "  " + line
 	}
 
-	v.SavedLines[start] = sp(s-2) + "div "
+	v.SavedLines[start] = sp(count) + "div "
 
 	if v.lineAtSameLevelAsChild() {
-		v.SavedLines[start] = sp(s-4) + "div "
+		//v.SavedLines[start] = sp(s-4) + "div "
 	}
 
 	v.X = len(v.SavedLines[start]) - 1
