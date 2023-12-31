@@ -1,7 +1,5 @@
 package browser
 
-import "fmt"
-
 func (v *Vim) MoveChildrenLeft() {
 	line := v.getLine()
 	count := len(getSpaces(line))
@@ -19,18 +17,21 @@ func (v *Vim) MoveChildrenLeft() {
 
 func (v *Vim) MoveChildrenRight() {
 	line := v.getLine()
-	count := len(getSpaces(line))
+	theSpaces := getSpaces(line)
+	count := len(theSpaces)
 	start := v.Y + v.Offset + v.FocusStart
 	for i := start; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
 		v.SavedLines[i] = "  " + line
 		s := len(getSpaces(line))
-		fmt.Println(s, line, count)
+		//fmt.Println(s, line, count)
 		if s-2 > count {
 			break
 		}
 	}
-	v.X = 0
+
+	v.SavedLines[start] = theSpaces[0:len(theSpaces)-2] + " div "
+	v.X = len(v.SavedLines[start]) - 1
 }
 
 func (v *Vim) searchDown(start, level int) int {
