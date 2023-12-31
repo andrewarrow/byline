@@ -18,6 +18,9 @@ func NewMenu(s string) *Menu {
 }
 
 func (m *Menu) Value() string {
+	if len(m.Items) == 0 {
+		return ""
+	}
 	return m.Items[m.Selected]
 }
 

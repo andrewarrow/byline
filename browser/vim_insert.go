@@ -12,18 +12,20 @@ func (v *Vim) Replace(k string) {
 }
 
 func (v *Vim) Insert(k string) {
-	if k == "ArrowUp" {
-		v.Menu.Selected--
-		Document.RenderToId("menu", "menu", v.Menu)
-		return
-	} else if k == "ArrowDown" {
-		v.Menu.Selected++
-		Document.RenderToId("menu", "menu", v.Menu)
-		return
-	} else if k == "ArrowRight" {
-		return
-	} else if k == "ArrowLeft" {
-		return
+	if v.Menu != nil {
+		if k == "ArrowUp" {
+			v.Menu.Selected--
+			Document.RenderToId("menu", "menu", v.Menu)
+			return
+		} else if k == "ArrowDown" {
+			v.Menu.Selected++
+			Document.RenderToId("menu", "menu", v.Menu)
+			return
+		} else if k == "ArrowRight" {
+			return
+		} else if k == "ArrowLeft" {
+			return
+		}
 	}
 	if k == "Enter" && v.Menu != nil {
 		v.MenuDiv.Hide()
