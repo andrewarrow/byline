@@ -55,7 +55,11 @@ func RegisterVimEvents() {
 	fmt.Println(windowHeight)
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
-	vim.SavedLines = strings.Split(common.Sample, "\n")
+	lines := Global.LocalStorage.GetItem("byline")
+	if lines == "<null>" {
+		lines = common.Sample
+	}
+	vim.SavedLines = strings.Split(lines, "\n")
 	vim.OffsetLines = []string{}
 	vim.Editor = Document.ByIdWrap("editor")
 	vim.Preview = Document.ByIdWrap("preview")
@@ -64,13 +68,8 @@ func RegisterVimEvents() {
 	vim.MenuDiv = Document.ByIdWrap("menu")
 	vim.Stack = []*Operation{}
 	//vim.DebugMode = true
-	go func() {
-		//vim.OffsetLines = loadLines()
-		//vim.SavedLines = append([]string{}, vim.OffsetLines...)
-		vim.Render()
-		//h := markup.ToHTMLFromLines(nil, vim.SavedLines)
-		//vim.Preview.Set("innerHTML", h)
-	}()
+	vim.Render()
+	leaveInsertMode()
 }
 
 func vimKeyPress(this js.Value, p []js.Value) any {
