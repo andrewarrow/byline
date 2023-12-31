@@ -117,6 +117,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Yanked = op.Data
 		op.InsertY = vim.Y + vim.Offset
 		vim.RunOp(op)
+		vim.MoveChildrenLeft()
 		vim.Render()
 		leaveInsertMode()
 		return nil
