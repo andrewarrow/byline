@@ -10,14 +10,6 @@ func HandleSpace(c *router.Context, second, third string) {
 	//if router.NotLoggedIn(c) {
 	//	return
 	//}
-	if second == "" && third == "" && c.Method == "GET" {
-		handleSpaceIndex(c)
-		return
-	}
-	if second == "vim" && third == "" && c.Method == "GET" {
-		handleSpaceVim(c)
-		return
-	}
 	if second == "save" && third == "" && c.Method == "POST" {
 		handleSpaceSave(c)
 		return

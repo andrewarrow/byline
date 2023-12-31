@@ -1,6 +1,8 @@
 package browser
 
 const sample = `div min-h-full flex flex-col bg-gray-300 
+  div flex bg-r justify-center
+    using bg-r will give a random color
   div p-3 
     div flex w-full text-green-700 items-center 
       div 
