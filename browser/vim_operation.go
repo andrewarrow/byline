@@ -26,7 +26,7 @@ func (v *Vim) AddOneNewLine() {
 	vim.RunOp(op)
 
 	vim.Y++
-	vim.X = 0
+	vim.X = size - vim.FocusLevel
 	if v.FocusStart > 0 {
 		v.FocusEnd++
 	}
@@ -41,7 +41,7 @@ func (v *Vim) AddOneNewLineAbove() {
 	vim.RunOp(op)
 
 	vim.Y++
-	vim.X = 0
+	vim.X = size - vim.FocusLevel
 	if v.FocusStart > 0 {
 		v.FocusEnd++
 	}
