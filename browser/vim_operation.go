@@ -30,7 +30,7 @@ func (v *Vim) AddOneNewLine() {
 	if v.FocusStart > 0 {
 		v.FocusEnd++
 	}
-	//vim.InsertMode = true
+	vim.InsertMode = true
 }
 
 func (v *Vim) AddOneNewLineAbove() {
@@ -41,11 +41,11 @@ func (v *Vim) AddOneNewLineAbove() {
 	vim.RunOp(op)
 
 	vim.Y++
-	vim.X = size - vim.FocusLevel
+	vim.X = 0
 	if v.FocusStart > 0 {
 		v.FocusEnd++
 	}
-	//vim.InsertMode = true
+	vim.InsertMode = true
 }
 
 func (v *Vim) RunOp(op *Operation) {
