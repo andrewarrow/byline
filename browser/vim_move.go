@@ -5,12 +5,13 @@ import "fmt"
 func (v *Vim) MoveChildrenLeft() {
 	line := v.getLine()
 	count := len(getSpaces(line))
-	fmt.Println(line, count)
 	start := v.Y + v.Offset + v.FocusStart
+
+	s := 0
 	for i := start; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
-		s := len(getSpaces(line))
-		//fmt.Println(s, line, count)
+		s = len(getSpaces(line))
+		fmt.Println(s, line, count)
 		if s < count {
 			break
 		}
@@ -27,12 +28,12 @@ func (v *Vim) MoveChildrenRight() {
 	s := 0
 	for i := start; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
-		v.SavedLines[i] = "  " + line
 		s = len(getSpaces(line))
-		//fmt.Println(s, line, count)
-		if s-2 > count {
+		fmt.Println(s, line, count)
+		if s-2 >= count {
 			break
 		}
+		v.SavedLines[i] = "  " + line
 	}
 
 	v.SavedLines[start] = sp(s-2) + "div "

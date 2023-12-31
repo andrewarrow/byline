@@ -8,6 +8,9 @@ import (
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
+func (v *Vim) getLineBelow() string {
+	return v.SavedLines[v.Y+v.FocusStart+v.Offset+1]
+}
 
 func windowOfLines(offset int, lines []string) []string {
 	buffer := []string{}

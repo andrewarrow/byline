@@ -112,12 +112,21 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	}
 	if vim.DeleteMode && k == "d" {
 		vim.DeleteMode = false
+		line := vim.getLine()
 		op := NewOperation("remove_lines")
-		op.Data = []string{vim.getLine()}
+		op.Data = []string{line}
 		vim.Yanked = op.Data
 		op.InsertY = vim.Y + vim.Offset
+
+		below := vim.getLineBelow()
+		belowCount := len(getSpaces(below))
+		hasDirectChildren := belowCount > len(getSpaces(line))
+
 		vim.RunOp(op)
-		vim.MoveChildrenLeft()
+		vim.X = 0
+		if hasDirectChildren {
+			vim.MoveChildrenLeft()
+		}
 		vim.Render()
 		leaveInsertMode()
 		return nil

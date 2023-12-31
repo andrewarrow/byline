@@ -19,7 +19,7 @@ func NewOperation(name string) *Operation {
 func (v *Vim) AddOneNewLine() {
 	op := NewOperation("add_lines")
 	size := len(getSpaces(vim.getLine())) + 2
-	op.Data = []string{sp(size) + " "}
+	op.Data = []string{sp(size)}
 	op.InsertY = vim.Y + vim.Offset
 	vim.RunOp(op)
 
