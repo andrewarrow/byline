@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -33,6 +32,7 @@ func (v *Vim) Insert(k string) {
 		suffix := s[v.X+v.FocusLevel:]
 		newLine := prefix[0:len(prefix)-len(v.Menu.Search)] + v.Menu.Value() + " " + suffix
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
+		v.X = len(newLine) - 1
 		return
 	}
 
@@ -58,7 +58,6 @@ func (v *Vim) Insert(k string) {
 	if len(tokens) > 1 {
 		tokens = tokens[1:]
 		last := tokens[len(tokens)-1]
-		fmt.Println("|", last+"|", tokens)
 		if last != "" {
 			v.Menu = NewMenu(last)
 			Document.RenderToId("menu", "menu", v.Menu)
