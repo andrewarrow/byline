@@ -1,16 +1,20 @@
 package browser
 
+import "fmt"
+
 func (v *Vim) MoveChildrenLeft() {
 	line := v.getLine()
 	count := len(getSpaces(line))
+	fmt.Println(line, count)
 	start := v.Y + v.Offset + v.FocusStart
 	for i := start; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
-		v.SavedLines[i] = line[2:]
 		s := len(getSpaces(line))
+		//fmt.Println(s, line, count)
 		if s < count {
 			break
 		}
+		v.SavedLines[i] = line[2:]
 	}
 	v.X = 0
 }
@@ -20,17 +24,18 @@ func (v *Vim) MoveChildrenRight() {
 	theSpaces := getSpaces(line)
 	count := len(theSpaces)
 	start := v.Y + v.Offset + v.FocusStart
+	s := 0
 	for i := start; i < len(v.SavedLines); i++ {
 		line := v.SavedLines[i]
 		v.SavedLines[i] = "  " + line
-		s := len(getSpaces(line))
+		s = len(getSpaces(line))
 		//fmt.Println(s, line, count)
 		if s-2 > count {
 			break
 		}
 	}
 
-	v.SavedLines[start] = theSpaces[0:len(theSpaces)-2] + " div "
+	v.SavedLines[start] = sp(s-2) + "div "
 	v.X = len(v.SavedLines[start]) - 1
 }
 
