@@ -30,7 +30,7 @@ func (v *Vim) MoveChildrenRight() {
 		line := v.SavedLines[i]
 		s = len(getSpaces(line))
 		fmt.Println(s, line, count)
-		if s < count {
+		if s < count || (s == count && i > start+1) {
 			break
 		}
 		v.SavedLines[i] = "  " + line
