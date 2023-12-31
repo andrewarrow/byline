@@ -1,6 +1,7 @@
 package browser
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -54,10 +55,16 @@ func (v *Vim) Insert(k string) {
 	v.X++
 	newLine := prefix + k + suffix
 	tokens := strings.Split(strings.TrimSpace(newLine), " ")
-	last := tokens[len(tokens)-1]
-	v.Menu = NewMenu(last)
-	Document.RenderToId("menu", "menu", v.Menu)
-	v.MenuDiv.Show()
+	if len(tokens) > 1 {
+		tokens = tokens[1:]
+		last := tokens[len(tokens)-1]
+		fmt.Println("|", last+"|", tokens)
+		if last != "" {
+			v.Menu = NewMenu(last)
+			Document.RenderToId("menu", "menu", v.Menu)
+			v.MenuDiv.Show()
+		}
+	}
 	v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 }
 
