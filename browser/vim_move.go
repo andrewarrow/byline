@@ -37,7 +37,9 @@ func (v *Vim) MoveChildrenRight() {
 	}
 
 	v.SavedLines[start] = sp(count) + "div "
+
 	v.X = len(v.SavedLines[start]) - 1 - v.FocusLevel
+
 }
 
 func (v *Vim) searchDown(start, level int) int {

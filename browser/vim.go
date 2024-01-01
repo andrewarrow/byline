@@ -185,6 +185,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "r" {
 		vim.ReplaceMode = true
 	} else if k == "o" {
+		tag := vim.getFirstToken()
+		validTag := markup.IsValidTag(tag)
+		_ = validTag
+
 		saveBool := vim.hasDirectChildren()
 		if saveBool {
 			fmt.Println("vim.AddOneNewLineAbove", vim.getLine())

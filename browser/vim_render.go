@@ -5,6 +5,14 @@ import (
 	"strings"
 )
 
+func (v *Vim) getFirstToken() string {
+	s := v.getLine()
+	tokens := strings.Fields(s)
+	if len(tokens) > 0 {
+		return tokens[0]
+	}
+	return ""
+}
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
