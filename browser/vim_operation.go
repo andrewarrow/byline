@@ -29,9 +29,6 @@ func (v *Vim) AddOneNewLine() {
 
 	vim.Y++
 	vim.X = size - vim.FocusLevel
-	if v.FocusStart > 0 {
-		v.FocusEnd++
-	}
 	vim.InsertMode = true
 }
 
@@ -59,6 +56,7 @@ func (v *Vim) RunOp(op *Operation) {
 				buffer = append(buffer, op.Data...)
 			}
 		}
+		v.FocusEnd += len(op.Data)
 	} else if op.Name == "add_line_above" {
 		for i, line := range v.SavedLines {
 			if i == op.InsertY {
@@ -90,7 +88,7 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
-		v.FocusEnd--
+		v.FocusEnd -= len(op.Data)
 	}
 	lines := strings.Join(v.SavedLines, "\n")
 	v.UndoStack = append(v.UndoStack, lines)

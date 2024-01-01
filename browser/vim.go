@@ -261,7 +261,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	} else if k == "p" {
 		op := NewOperation("add_lines")
 		op.Data = vim.Yanked
-		op.InsertY = vim.Y + vim.Offset
+		op.InsertY = vim.Y + vim.Offset + vim.FocusStart
 		vim.RunOp(op)
 	}
 
