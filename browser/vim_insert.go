@@ -31,7 +31,7 @@ func (v *Vim) Insert(k string) {
 			return
 		}
 	}
-	if k == "Enter" && v.Menu != nil {
+	if k == "Enter" && v.Menu != nil && v.Menu.Value() != "" {
 		v.MenuDiv.Hide()
 		s := v.getLine()
 		prefix := s[0 : v.X+v.FocusLevel]
@@ -40,6 +40,10 @@ func (v *Vim) Insert(k string) {
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = newLine
 		v.X = len(newLine) - 1 - v.FocusLevel
 		v.Menu = nil
+		return
+	} else if k == "Enter" && v.Menu != nil {
+		v.MenuDiv.Hide()
+		v.InsertMode = false
 		return
 	} else if k == "Enter" {
 		v.AddOneNewLine()

@@ -11,6 +11,7 @@ func (v *Vim) AddNewLineAbove() {
 		vim.Y--
 		vim.MoveChildrenRight()
 	}
+	vim.Refocus()
 }
 
 func (v *Vim) CreateOneLineOp(dir string, amount int) {

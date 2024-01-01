@@ -93,7 +93,9 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
-		v.FocusEnd -= len(op.Data)
+		if v.FocusLevel > 0 {
+			v.FocusEnd -= len(op.Data)
+		}
 	}
 	lines := strings.Join(v.SavedLines, "\n")
 	v.UndoStack = append(v.UndoStack, lines)
