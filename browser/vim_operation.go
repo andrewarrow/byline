@@ -74,6 +74,14 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 			buffer = append(buffer, spaces+line)
 		}
+	} else if op.Name == "unindent_lines" {
+		for i, line := range v.SavedLines {
+			spaces := line
+			if i >= op.From && i <= op.To {
+				spaces = spaces[2:]
+			}
+			buffer = append(buffer, spaces)
+		}
 	} else if op.Name == "remove_lines" {
 		for i, line := range v.SavedLines {
 			if i >= op.InsertY && i < op.InsertY+len(op.Data) {
