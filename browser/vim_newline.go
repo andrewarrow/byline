@@ -9,7 +9,6 @@ import (
 func (v *Vim) AddNewLine() {
 	tag := vim.getFirstToken()
 	validTag := markup.IsValidTag(tag)
-	_ = validTag
 	if validTag == false {
 		vim.CreateOneLineOp("back", 2)
 		return

@@ -150,7 +150,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		} else if vim.Y < 0 && vim.FocusY > 0 {
 			vim.Refocus()
 		}
-		vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
+		tag := vim.getFirstToken()
+		validTag := markup.IsValidTag(tag)
+		if validTag {
+			vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
+		}
 	} else if k == "ArrowDown" {
 		vim.Y++
 		size := vim.FocusEnd - vim.FocusStart
@@ -167,9 +171,11 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 			vim.Y--
 			vim.Offset++
 		}
-		//if vim.X+vim.FocusLevel >= len(vim.getLine()) {
-		vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
-		//}
+		tag := vim.getFirstToken()
+		validTag := markup.IsValidTag(tag)
+		if validTag {
+			vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
+		}
 	} else if k == "ArrowRight" {
 		vim.X++
 		if vim.X+vim.FocusLevel >= len(vim.getLine()) {
