@@ -228,11 +228,15 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = len(prefix) - 1
 		leaveInsertMode()
 		vim.InsertMode = true
-	} else if k == "?" {
+	} else if k == "m" {
+
+		fmt.Println("len(vim.RedoStack)", len(vim.RedoStack))
 		if len(vim.RedoStack) == 0 {
 			return nil
 		}
+		fmt.Println(vim.RedoStack)
 		pop := vim.RedoStack[len(vim.RedoStack)-1]
+		vim.UndoStack = append(vim.UndoStack, strings.Join(vim.SavedLines, "\n"))
 		vim.RedoStack = vim.RedoStack[0 : len(vim.RedoStack)-1]
 		vim.SavedLines = strings.Split(pop, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
@@ -242,7 +246,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 			return nil
 		}
 		pop := vim.UndoStack[len(vim.UndoStack)-1]
-		vim.RedoStack = append(vim.RedoStack, pop)
+		vim.RedoStack = append(vim.RedoStack, strings.Join(vim.SavedLines, "\n"))
 		vim.UndoStack = vim.UndoStack[0 : len(vim.UndoStack)-1]
 		vim.SavedLines = strings.Split(pop, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
