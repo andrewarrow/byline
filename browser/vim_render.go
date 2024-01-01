@@ -30,7 +30,11 @@ func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
 func (v *Vim) getLineBelow() string {
-	return v.SavedLines[v.Y+v.FocusStart+v.Offset+1]
+	val := v.Y + v.FocusStart + v.Offset + 1
+	if val < len(v.SavedLines) {
+		return v.SavedLines[val]
+	}
+	return ""
 }
 func (v *Vim) getLineAbove() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset-1]
