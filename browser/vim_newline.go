@@ -1,30 +1,12 @@
 package browser
 
-import (
-	"fmt"
-
-	"github.com/andrewarrow/feedback/markup"
-)
-
 func (v *Vim) AddNewLineBelow() {
 	v.AddOneNewLine()
 }
 
-func (v *Vim) AddNewLine() {
-	tag := vim.getFirstToken()
-	validTag := markup.IsValidTag(tag)
-	if validTag == false {
-		vim.CreateOneLineOp("back", 2)
-		return
-	}
-
+func (v *Vim) AddNewLineAbove() {
 	saveBool := vim.hasDirectChildren()
-	if saveBool {
-		fmt.Println("vim.AddOneNewLineAbove", vim.getLine())
-		vim.AddOneNewLineAbove()
-	} else {
-		vim.AddOneNewLine()
-	}
+	vim.AddOneNewLineAbove()
 	if saveBool {
 		vim.Y--
 		vim.MoveChildrenRight()

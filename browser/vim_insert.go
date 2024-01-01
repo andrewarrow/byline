@@ -56,9 +56,9 @@ func (v *Vim) Insert(k string) {
 	}
 
 	s := v.getLine()
-	if strings.HasSuffix(s, "  ") && k == " " {
-		return
-	}
+	//if strings.HasSuffix(s, "  ") && k == " " {
+	//	return
+	//}
 
 	prefix := ""
 	suffix := ""

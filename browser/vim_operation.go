@@ -66,6 +66,9 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 			buffer = append(buffer, line)
 		}
+		if v.FocusLevel > 0 {
+			v.FocusEnd += len(op.Data)
+		}
 	} else if op.Name == "indent_lines" {
 		for i, line := range v.SavedLines {
 			spaces := ""
