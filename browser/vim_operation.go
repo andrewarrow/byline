@@ -95,6 +95,6 @@ func (v *Vim) RunOp(op *Operation) {
 	for _, line := range v.SavedLines {
 		fmt.Println("_i", line)
 	}
-	v.Stack = append(v.Stack, op)
+	//v.Stack = append(v.Stack, op)
 	leaveInsertMode()
 }

@@ -3,7 +3,6 @@ package browser
 import (
 	"byline/common"
 	"fmt"
-	"strconv"
 	"strings"
 	"syscall/js"
 
@@ -39,7 +38,7 @@ type Vim struct {
 	StartY      int
 	EndY        int
 	Yanked      []string
-	Stack       []*Operation
+	Stack       []string
 	Offset      int
 }
 
@@ -57,7 +56,7 @@ func RegisterVimEvents() {
 	Document.Document.Call("addEventListener", "paste", js.FuncOf(vimPaste))
 	Document.Document.Call("addEventListener", "keydown", js.FuncOf(vimKeyPress))
 	lines := Global.LocalStorage.GetItem("byline")
-	if lines == "<null>" {
+	if lines == "" {
 		lines = common.Sample
 	}
 	vim.SavedLines = strings.Split(lines, "\n")
@@ -67,7 +66,7 @@ func RegisterVimEvents() {
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.MenuDiv = Document.ByIdWrap("menu")
-	vim.Stack = []*Operation{}
+	vim.Stack = []string{}
 	//vim.DebugMode = true
 	vim.Render()
 	leaveInsertMode()
@@ -228,14 +227,12 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		leaveInsertMode()
 		vim.InsertMode = true
 	} else if k == "u" {
-		saved := Global.LocalStorage.GetItem("saved")
-		index, _ := strconv.Atoi(saved)
-		key := fmt.Sprintf("%d", index-1)
-		Global.LocalStorage.SetItem("saved", key)
-		key = fmt.Sprintf("byline_%d", index)
-		previous := Global.LocalStorage.GetItem(key)
-		fmt.Println("key = ", key, len(previous), previous)
-		vim.SavedLines = strings.Split(previous, "\n")
+		if len(vim.Stack) == 0 {
+			return nil
+		}
+		pop := vim.Stack[len(vim.Stack)-1]
+		vim.Stack = vim.Stack[0 : len(vim.Stack)-1]
+		vim.SavedLines = strings.Split(pop, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 	} else if k == "Enter" {
@@ -252,25 +249,13 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 	return nil
 }
 
-func addToStack(data string) {
-	saved := Global.LocalStorage.GetItem("saved")
-	index, _ := strconv.Atoi(saved)
-	key := fmt.Sprintf("byline_%d", index)
-	Global.LocalStorage.SetItem(key, data)
-	fmt.Println("addToStack", key)
-
-	key = fmt.Sprintf("%d", index+1)
-	Global.LocalStorage.SetItem("saved", key)
-	fmt.Println("saveIndex", key)
-}
-
 func leaveInsertMode() {
 	//fmt.Println(lines)
 	lines := strings.Join(vim.SavedLines, "\n")
 
 	current := Global.LocalStorage.GetItem("byline")
 	if current != lines {
-		addToStack(current)
+		vim.Stack = append(vim.Stack, current)
 		Global.LocalStorage.SetItem("byline", lines)
 	}
 
