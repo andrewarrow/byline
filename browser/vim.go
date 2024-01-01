@@ -238,7 +238,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
 	} else if k == "u" {
-		if len(vim.Stack) == 0 {
+		if len(vim.UndoStack) == 0 {
 			return nil
 		}
 		pop := vim.UndoStack[len(vim.UndoStack)-1]

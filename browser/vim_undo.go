@@ -1,9 +1,9 @@
 package browser
 
 func (v *Vim) Undo() {
-	if len(v.Stack) == 0 {
-		return
-	}
+	//if len(v.Stack) == 0 {
+	//	return
+	//}
 	//lastOp := v.Stack[len(v.Stack)-1]
 	//v.Stack = v.Stack[0 : len(v.Stack)-1]
 	//v.UndoOp(lastOp)
