@@ -53,6 +53,13 @@ func (v *Vim) BottomCommand(text string) {
 			filename = t[len(t)-1]
 		}
 		Global.LocalStorage.SetItem(filename, lines)
+	} else if strings.HasPrefix(text, "o") {
+		if len(text) > 1 {
+			t := strings.Split(text, " ")
+			filename := t[len(t)-1]
+			lines := Global.LocalStorage.GetItem(filename)
+			vim.SavedLines = strings.Split(lines, "\n")
+		}
 	} else if text == "hacker" {
 		text := gofakeit.HackerPhrase()
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
