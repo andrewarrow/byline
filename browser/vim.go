@@ -229,12 +229,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		leaveInsertMode()
 		vim.InsertMode = true
 	} else if k == "m" {
-
-		fmt.Println("len(vim.RedoStack)", len(vim.RedoStack))
 		if len(vim.RedoStack) == 0 {
 			return nil
 		}
-		fmt.Println(vim.RedoStack)
 		pop := vim.RedoStack[len(vim.RedoStack)-1]
 		vim.UndoStack = append(vim.UndoStack, strings.Join(vim.SavedLines, "\n"))
 		vim.RedoStack = vim.RedoStack[0 : len(vim.RedoStack)-1]
@@ -272,7 +269,6 @@ func leaveInsertMode() {
 	current := Global.LocalStorage.GetItem("byline")
 	if current != lines {
 		vim.UndoStack = append(vim.UndoStack, current)
-		Global.LocalStorage.SetItem("byline", lines)
 	}
 
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
