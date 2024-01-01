@@ -250,6 +250,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.SavedLines = strings.Split(pop, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
+		vim.Refocus()
 	} else if k == "Enter" {
 		vim.Focus()
 	} else if k == "0" {
@@ -271,6 +272,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 }
 
 func leaveInsertMode() {
+	s := strings.Join(vim.SavedLines, "\n")
+	fmt.Println(s)
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }

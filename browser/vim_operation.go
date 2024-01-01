@@ -56,7 +56,9 @@ func (v *Vim) RunOp(op *Operation) {
 				buffer = append(buffer, op.Data...)
 			}
 		}
-		v.FocusEnd += len(op.Data)
+		if v.FocusLevel > 0 {
+			v.FocusEnd += len(op.Data)
+		}
 	} else if op.Name == "add_line_above" {
 		for i, line := range v.SavedLines {
 			if i == op.InsertY {

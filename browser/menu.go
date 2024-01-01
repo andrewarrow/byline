@@ -51,6 +51,7 @@ var allItems = []string{
 	"line-through",
 	"text-red-600",
 	"mb-auto",
+	"bg-white",
 	"bg-r", "text-center", "text-left", "text-right", "text-white", "text-black",
 	"cursor-pointer", "flex", "flex-grow", "flex-col", "items-start", "items-end",
 	"items-center", "justify-left", "justify-center", "justify-right", "center-text",
