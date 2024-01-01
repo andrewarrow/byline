@@ -266,9 +266,12 @@ func leaveInsertMode() {
 	//fmt.Println(lines)
 	lines := strings.Join(vim.SavedLines, "\n")
 
-	current := Global.LocalStorage.GetItem("byline")
-	if current != lines {
-		vim.UndoStack = append(vim.UndoStack, current)
+	peek := ""
+	if len(vim.UndoStack) > 0 {
+		peek = vim.UndoStack[len(vim.UndoStack)-1]
+	}
+	if peek != lines {
+		vim.UndoStack = append(vim.UndoStack, lines)
 	}
 
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
