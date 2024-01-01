@@ -43,11 +43,16 @@ func (v *Vim) AddImage(imgSize string) {
 
 func (v *Vim) BottomCommand(text string) {
 	m := map[string]any{}
-	if text == "w" {
+	if strings.HasPrefix(text, "w") {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		v.Preview.Set("innerHTML", h)
 		lines := strings.Join(vim.SavedLines, "\n")
-		Global.LocalStorage.SetItem("byline", lines)
+		filename := "byline"
+		if len(text) > 1 {
+			t := strings.Split(text, " ")
+			filename = t[len(t)-1]
+		}
+		Global.LocalStorage.SetItem(filename, lines)
 	} else if text == "hacker" {
 		text := gofakeit.HackerPhrase()
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
