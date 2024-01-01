@@ -38,7 +38,8 @@ type Vim struct {
 	StartY      int
 	EndY        int
 	Yanked      []string
-	Stack       []string
+	UndoStack   []string
+	RedoStack   []string
 	Offset      int
 }
 
@@ -66,7 +67,8 @@ func RegisterVimEvents() {
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.MenuDiv = Document.ByIdWrap("menu")
-	vim.Stack = []string{}
+	vim.UndoStack = []string{}
+	vim.RedoStack = []string{}
 	//vim.DebugMode = true
 	vim.Render()
 	leaveInsertMode()
@@ -226,12 +228,22 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.X = len(prefix) - 1
 		leaveInsertMode()
 		vim.InsertMode = true
+	} else if k == "?" {
+		if len(vim.RedoStack) == 0 {
+			return nil
+		}
+		pop := vim.RedoStack[len(vim.RedoStack)-1]
+		vim.RedoStack = vim.RedoStack[0 : len(vim.RedoStack)-1]
+		vim.SavedLines = strings.Split(pop, "\n")
+		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
+		vim.Preview.Set("innerHTML", h)
 	} else if k == "u" {
 		if len(vim.Stack) == 0 {
 			return nil
 		}
-		pop := vim.Stack[len(vim.Stack)-1]
-		vim.Stack = vim.Stack[0 : len(vim.Stack)-1]
+		pop := vim.UndoStack[len(vim.UndoStack)-1]
+		vim.RedoStack = append(vim.RedoStack, pop)
+		vim.UndoStack = vim.UndoStack[0 : len(vim.UndoStack)-1]
 		vim.SavedLines = strings.Split(pop, "\n")
 		h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 		vim.Preview.Set("innerHTML", h)
@@ -255,7 +267,7 @@ func leaveInsertMode() {
 
 	current := Global.LocalStorage.GetItem("byline")
 	if current != lines {
-		vim.Stack = append(vim.Stack, current)
+		vim.UndoStack = append(vim.UndoStack, current)
 		Global.LocalStorage.SetItem("byline", lines)
 	}
 
