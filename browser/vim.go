@@ -250,6 +250,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Preview.Set("innerHTML", h)
 	} else if k == "Enter" {
 		vim.Focus()
+	} else if k == "0" {
+		s := vim.getLine()
+		vim.X = len(getSpaces(s)) - vim.FocusLevel
 	} else if k == "$" {
 		s := vim.getLine()
 		vim.X = len(s) - vim.FocusLevel
