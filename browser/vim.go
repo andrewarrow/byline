@@ -117,7 +117,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		op := NewOperation("remove_lines")
 		op.Data = []string{line}
 		vim.Yanked = op.Data
-		op.InsertY = vim.Y + vim.Offset
+		op.InsertY = vim.Y + vim.Offset + vim.FocusStart
 
 		saveBool := vim.hasDirectChildren()
 		vim.RunOp(op)

@@ -84,15 +84,16 @@ func (v *Vim) RunOp(op *Operation) {
 		}
 	} else if op.Name == "remove_lines" {
 		for i, line := range v.SavedLines {
+			//fmt.Println("remove_lines", i, op.InsertY)
 			if i >= op.InsertY && i < op.InsertY+len(op.Data) {
 				continue
 			}
 			buffer = append(buffer, line)
 		}
-		op.InsertY--
+		v.FocusEnd--
 	}
-	lines := strings.Join(vim.SavedLines, "\n")
-	vim.UndoStack = append(vim.UndoStack, lines)
+	lines := strings.Join(v.SavedLines, "\n")
+	v.UndoStack = append(v.UndoStack, lines)
 	v.SavedLines = buffer
 	//for _, line := range v.SavedLines {
 	//fmt.Println("_i", line)
