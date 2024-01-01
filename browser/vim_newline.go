@@ -6,6 +6,10 @@ import (
 	"github.com/andrewarrow/feedback/markup"
 )
 
+func (v *Vim) AddNewLineBelow() {
+	v.AddOneNewLine()
+}
+
 func (v *Vim) AddNewLine() {
 	tag := vim.getFirstToken()
 	validTag := markup.IsValidTag(tag)

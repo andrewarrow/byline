@@ -194,8 +194,10 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.InsertMode = true
 	} else if k == "r" {
 		vim.ReplaceMode = true
-	} else if k == "o" {
+	} else if k == "O" {
 		vim.AddNewLine()
+	} else if k == "o" {
+		vim.AddNewLineBelow()
 	} else if k == "x" {
 		s := vim.getLine()
 		vim.X++
