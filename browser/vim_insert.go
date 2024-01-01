@@ -11,6 +11,14 @@ func (v *Vim) Replace(k string) {
 	v.SavedLines[v.Y+v.FocusStart+v.Offset] = prefix[0:len(prefix)] + k + suffix[1:]
 }
 
+func singleSpace(s string) string {
+	//fmt.Println("|", s, "|")
+	spaces := getSpaces(s)
+	r := spaces + strings.Join(strings.Fields(s), " ")
+	//fmt.Println("|", r, "|")
+	return r + "  "
+}
+
 func (v *Vim) Insert(k string) {
 	if v.Menu != nil {
 		if k == "ArrowUp" {

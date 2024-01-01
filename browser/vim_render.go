@@ -13,6 +13,10 @@ func (v *Vim) getFirstToken() string {
 	}
 	return ""
 }
+func (v *Vim) endOfLine() int {
+	s := v.getLine()
+	return len(s)
+}
 func (v *Vim) getLine() string {
 	return v.SavedLines[v.Y+v.FocusStart+v.Offset]
 }
@@ -48,7 +52,6 @@ func windowOfLines(offset int, lines []string) []string {
 }
 
 func (v *Vim) pageLines() []string {
-
 	if v.FocusStart == 0 {
 		return windowOfLines(v.Offset, v.SavedLines)
 	}
@@ -126,12 +129,12 @@ func (v *Vim) Render() {
 		v.Editor.AppendChild(p.JValue)
 		//p.AddClass("whitespace-nowrap")
 		if i != vim.Y || vim.BottomMode {
-			str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
+			str := fmt.Sprintf(strings.ReplaceAll(singleSpace(line), " ", "&nbsp;"))
 			p.Set("innerHTML", str)
 			continue
 		}
 
-		for j, char := range line {
+		for j, char := range singleSpace(line) {
 			s := fmt.Sprintf("%c", char)
 			if s == " " {
 				s = "&nbsp;"
