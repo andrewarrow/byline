@@ -17,7 +17,7 @@ const Top = `  div flex bg-r justify-center
       Ready To Render`
 
 const Sample = `div min-h-full flex flex-col bg-gray-300 
-  div flex bg-r justify-center
+  div flex justify-center bg-red-600 text-white
     using bg-r will give a random color
   div p-3 
     div flex w-full text-green-700 items-center 
@@ -29,7 +29,7 @@ const Sample = `div min-h-full flex flex-col bg-gray-300
       div
         css
   div h-1 bg-gray-800 
-  div text-gray-600 pb-9 pt-9 text-gray-900 text-center space-y-3 mb-auto 
+  div text-gray-600 pb-9 pt-9 text-gray-900 text-center space-y-3 mb-auto bg-white flex-grow  
     div text-4xl my-9 
       Andrew Arrow 1099
     div 
