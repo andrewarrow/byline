@@ -53,11 +53,25 @@ func (v *Vim) BottomCommand(text string) {
 			Global.LocalStorage.SetItem(filename, lines)
 		}
 		Global.LocalStorage.SetItem("byline", lines)
-	} else if strings.HasPrefix(text, "color ") {
-		t := strings.Split(text, " ")
-		color := t[len(t)-1]
+	} else if strings.HasPrefix(text, "hex") {
+		// #3E28DF
+		tag, m := v.getTokenMap()
+		color := ""
+		for k, _ := range m {
+			if strings.HasPrefix(k, "#") {
+				color = k
+				break
+			}
+		}
+		delete(m, color)
+		fmt.Println(color, m)
 		match := markup.ClosestColor(color)
-		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + " " + match
+		buffer := []string{tag}
+		for k, _ := range m {
+			buffer = append(buffer, k)
+		}
+		s := strings.Join(buffer, " ") + " " + match
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + s
 		leaveInsertMode()
 	} else if strings.HasPrefix(text, "o") {
 		if len(text) > 1 {
@@ -72,10 +86,10 @@ func (v *Vim) BottomCommand(text string) {
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
 		leaveInsertMode()
 	} else if text == "lock" {
-		m := v.getTokenMap()
+		tag, m := v.getTokenMap()
 		delete(m, "bg-r")
 		color := markup.RandomColor()
-		buffer := []string{}
+		buffer := []string{tag}
 		for k, _ := range m {
 			buffer = append(buffer, k)
 		}

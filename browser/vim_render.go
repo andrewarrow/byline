@@ -5,14 +5,14 @@ import (
 	"strings"
 )
 
-func (v *Vim) getTokenMap() map[string]int {
+func (v *Vim) getTokenMap() (string, map[string]int) {
 	s := v.getLine()
 	tokens := strings.Fields(s)
 	m := map[string]int{}
-	for i, token := range tokens {
+	for i, token := range tokens[1:] {
 		m[token] = i
 	}
-	return m
+	return tokens[0], m
 }
 func (v *Vim) getFirstToken() string {
 	s := v.getLine()
