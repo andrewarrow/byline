@@ -79,6 +79,8 @@ func (v *Vim) RenderDebug() {
 <p>Location: %d</p>
 <p>VisualStartY: %d</p>
 <p>VisualEndY: %d</p>
+<p>UndoStack: %d</p>
+<p>RedoStack: %d</p>
 <p class="font-mono">DebugLine: %s</p>
 `
 	v.Debug.Set("innerHTML", fmt.Sprintf(debug, len(v.SavedLines),
@@ -92,6 +94,8 @@ func (v *Vim) RenderDebug() {
 		v.Location,
 		v.StartY,
 		v.EndY,
+		len(v.UndoStack),
+		len(v.RedoStack),
 		strings.ReplaceAll(v.DebugLine, " ", "_")))
 }
 
