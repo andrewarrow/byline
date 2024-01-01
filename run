@@ -8,6 +8,7 @@ gzip json.wasm
 cd ../..
 
 cp web/main.txt main.go
+rm assets/css/tail.min.css
 tailwindcss -i assets/css/tail.components.css -o assets/css/tail.min.css --minify
 uuid=$(uuidgen); go build -ldflags="-X main.buildTag=$uuid"
 echo 3
