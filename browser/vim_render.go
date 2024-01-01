@@ -118,11 +118,12 @@ func (v *Vim) Render() {
 		p := Document.NewTag("p", "")
 		p.Set("id", fmt.Sprintf("p%d", i+1))
 		if v.VisualMode {
-			if v.StartY == v.EndY && i == v.StartY {
+			offsetI := i + v.Offset + v.FocusStart
+			if v.StartY == v.EndY && offsetI == v.StartY {
 				p.AddClass("bg-gray-600")
-			} else if v.StartY > v.EndY && (i >= v.EndY && i <= v.StartY) {
+			} else if v.StartY > v.EndY && (offsetI >= v.EndY && offsetI <= v.StartY) {
 				p.AddClass("bg-gray-600")
-			} else if v.StartY < v.EndY && (i >= v.StartY && i <= v.EndY) {
+			} else if v.StartY < v.EndY && (offsetI >= v.StartY && offsetI <= v.EndY) {
 				p.AddClass("bg-gray-600")
 			}
 		}
