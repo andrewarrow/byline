@@ -47,12 +47,12 @@ func (v *Vim) BottomCommand(text string) {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
 		v.Preview.Set("innerHTML", h)
 		lines := strings.Join(vim.SavedLines, "\n")
-		filename := "byline"
 		if len(text) > 1 {
 			t := strings.Split(text, " ")
-			filename = t[len(t)-1]
+			filename := t[len(t)-1]
+			Global.LocalStorage.SetItem(filename, lines)
 		}
-		Global.LocalStorage.SetItem(filename, lines)
+		Global.LocalStorage.SetItem("byline", lines)
 	} else if strings.HasPrefix(text, "o") {
 		if len(text) > 1 {
 			t := strings.Split(text, " ")
@@ -60,6 +60,7 @@ func (v *Vim) BottomCommand(text string) {
 			lines := Global.LocalStorage.GetItem(filename)
 			vim.SavedLines = strings.Split(lines, "\n")
 		}
+		leaveInsertMode()
 	} else if text == "hacker" {
 		text := gofakeit.HackerPhrase()
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
