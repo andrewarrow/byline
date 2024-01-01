@@ -263,18 +263,6 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 }
 
 func leaveInsertMode() {
-	lines := strings.Join(vim.SavedLines, "\n")
-
-	peek := ""
-	if len(vim.UndoStack) > 0 {
-		peek = vim.UndoStack[len(vim.UndoStack)-1]
-	}
-
-	if peek != lines {
-		vim.UndoStack = append(vim.UndoStack, lines)
-	}
-	//fmt.Println(peek, lines)
-
 	h := markup.ToHTMLFromLines(nil, vim.SavedLines)
 	vim.Preview.Set("innerHTML", h)
 }

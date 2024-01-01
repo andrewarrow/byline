@@ -21,10 +21,6 @@ func (v *Vim) Insert(k string) {
 			v.Menu.Selected++
 			Document.RenderToId("menu", "menu", v.Menu)
 			return
-		} else if k == "ArrowRight" {
-			return
-		} else if k == "ArrowLeft" {
-			return
 		}
 	}
 	if k == "Enter" && v.Menu != nil {
@@ -39,6 +35,15 @@ func (v *Vim) Insert(k string) {
 		return
 	} else if k == "Enter" {
 		v.AddOneNewLine()
+		return
+	}
+	if k == "ArrowUp" {
+		return
+	} else if k == "ArrowDown" {
+		return
+	} else if k == "ArrowRight" {
+		return
+	} else if k == "ArrowLeft" {
 		return
 	}
 

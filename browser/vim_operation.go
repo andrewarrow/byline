@@ -1,6 +1,9 @@
 package browser
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Operation struct {
 	Name    string
@@ -91,10 +94,11 @@ func (v *Vim) RunOp(op *Operation) {
 		}
 		op.InsertY--
 	}
+	lines := strings.Join(vim.SavedLines, "\n")
+	vim.UndoStack = append(vim.UndoStack, lines)
 	v.SavedLines = buffer
-	for _, line := range v.SavedLines {
-		fmt.Println("_i", line)
-	}
-	//v.Stack = append(v.Stack, op)
+	//for _, line := range v.SavedLines {
+	//fmt.Println("_i", line)
+	//}
 	leaveInsertMode()
 }
