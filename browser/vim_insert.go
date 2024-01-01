@@ -55,9 +55,13 @@ func (v *Vim) Insert(k string) {
 		return
 	}
 
+	s := v.getLine()
+	if strings.HasSuffix(s, "  ") && k == " " {
+		return
+	}
+
 	prefix := ""
 	suffix := ""
-	s := v.getLine()
 	if len(s) > 0 {
 		prefix = s[0 : v.X+v.FocusLevel]
 		suffix = s[v.X+v.FocusLevel:]
