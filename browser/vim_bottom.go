@@ -53,6 +53,12 @@ func (v *Vim) BottomCommand(text string) {
 			Global.LocalStorage.SetItem(filename, lines)
 		}
 		Global.LocalStorage.SetItem("byline", lines)
+	} else if strings.HasPrefix(text, "color ") {
+		t := strings.Split(text, " ")
+		color := t[len(t)-1]
+		match := markup.ClosestColor(color)
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + " " + match
+		leaveInsertMode()
 	} else if strings.HasPrefix(text, "o") {
 		if len(text) > 1 {
 			t := strings.Split(text, " ")
