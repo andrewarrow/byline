@@ -154,6 +154,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		validTag := markup.IsValidTag(tag)
 		if validTag {
 			vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
+		} else {
+			vim.X = len(getSpaces(vim.getLine())) - vim.FocusLevel
 		}
 	} else if k == "ArrowDown" {
 		vim.Y++
@@ -175,6 +177,8 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		validTag := markup.IsValidTag(tag)
 		if validTag {
 			vim.X = len(vim.getLine()) - 1 - vim.FocusLevel
+		} else {
+			vim.X = len(getSpaces(vim.getLine())) - vim.FocusLevel
 		}
 	} else if k == "ArrowRight" {
 		vim.X++
@@ -246,6 +250,9 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 		vim.Preview.Set("innerHTML", h)
 	} else if k == "Enter" {
 		vim.Focus()
+	} else if k == "$" {
+		s := vim.getLine()
+		vim.X = len(s) - vim.FocusLevel
 	} else if k == "p" {
 		op := NewOperation("add_lines")
 		op.Data = vim.Yanked
