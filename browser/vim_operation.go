@@ -1,7 +1,6 @@
 package browser
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -61,30 +60,20 @@ func (v *Vim) RunOp(op *Operation) {
 			}
 		}
 	} else if op.Name == "add_line_above" {
-		fmt.Println("d1", len(v.SavedLines))
 		for i, line := range v.SavedLines {
 			if i == op.InsertY {
 				buffer = append(buffer, op.Data...)
 			}
 			buffer = append(buffer, line)
 		}
-		/*
-			for i := len(v.SavedLines) - 1; i >= 0; i-- {
-				line := v.SavedLines[i]
-				if i == op.InsertY {
-					buffer = append(op.Data, buffer...)
-				}
-				buffer = append([]string{line}, buffer...)
-			}*/
 	} else if op.Name == "indent_lines" {
-		/*
-			for i, line := range v.Lines {
-				spaces := ""
-				if i >= op.From && i <= op.To {
-					spaces = "  "
-				}
-				buffer = append(buffer, spaces+line)
-			}*/
+		for i, line := range v.SavedLines {
+			spaces := ""
+			if i >= op.From && i <= op.To {
+				spaces = "  "
+			}
+			buffer = append(buffer, spaces+line)
+		}
 	} else if op.Name == "remove_lines" {
 		for i, line := range v.SavedLines {
 			if i >= op.InsertY && i < op.InsertY+len(op.Data) {

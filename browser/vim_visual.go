@@ -14,11 +14,11 @@ func (v *Vim) VisualArrows(k string) {
 		v.X = 0
 	} else if k == ">" {
 		v.VisualMode = false
-		//start, end := blockOfLines(v.StartY, v.EndY)
-		//op := NewOperation("indent_lines")
-		//op.From = start
-		//op.To = end
-		//vim.RunOp(op)
+		start, end := blockOfLines(v.StartY, v.EndY)
+		op := NewOperation("indent_lines")
+		op.From = start
+		op.To = end
+		vim.RunOp(op)
 	} else if k == "d" {
 		v.VisualMode = false
 		start, end := blockOfLines(v.StartY, v.EndY)
