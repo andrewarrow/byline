@@ -5,6 +5,15 @@ import (
 	"strings"
 )
 
+func (v *Vim) getTokenMap() map[string]int {
+	s := v.getLine()
+	tokens := strings.Fields(s)
+	m := map[string]int{}
+	for i, token := range tokens {
+		m[token] = i
+	}
+	return m
+}
 func (v *Vim) getFirstToken() string {
 	s := v.getLine()
 	tokens := strings.Fields(s)
@@ -130,12 +139,12 @@ func (v *Vim) Render() {
 		v.Editor.AppendChild(p.JValue)
 		//p.AddClass("whitespace-nowrap")
 		if i != vim.Y || vim.BottomMode {
-			str := fmt.Sprintf(strings.ReplaceAll(singleSpace(line), " ", "&nbsp;"))
+			str := fmt.Sprintf(strings.ReplaceAll(line, " ", "&nbsp;"))
 			p.Set("innerHTML", str)
 			continue
 		}
 
-		for j, char := range singleSpace(line) {
+		for j, char := range line {
 			s := fmt.Sprintf("%c", char)
 			if s == " " {
 				s = "&nbsp;"

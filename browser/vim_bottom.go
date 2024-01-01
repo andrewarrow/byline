@@ -45,15 +45,25 @@ func (v *Vim) BottomCommand(text string) {
 	m := map[string]any{}
 	if text == "w" {
 		h := markup.ToHTMLFromLines(m, vim.SavedLines)
-		vim.Preview.Set("innerHTML", h)
+		v.Preview.Set("innerHTML", h)
 		lines := strings.Join(vim.SavedLines, "\n")
 		Global.LocalStorage.SetItem("byline", lines)
 	} else if text == "hacker" {
 		text := gofakeit.HackerPhrase()
 		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + text
 		leaveInsertMode()
+	} else if text == "lock" {
+		m := v.getTokenMap()
+		delete(m, "bg-r")
+		color := markup.RandomColor()
+		buffer := []string{}
+		for k, _ := range m {
+			buffer = append(buffer, k)
+		}
+		s := strings.Join(buffer, " ") + " " + color
+		v.SavedLines[v.Y+v.FocusStart+v.Offset] = getSpaces(v.getLine()) + s
 	} else if text == "grow" {
-		vim.GrowMode = true
+		v.GrowMode = true
 	} else if text == "img sm" {
 		v.AddImage("sm")
 	} else if text == "img md" {
