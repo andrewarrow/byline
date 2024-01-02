@@ -17,7 +17,10 @@ Use [Enter] in command mode to focus on a specific tag.
 # special features for tailwind
 
 https://heroicons.com/
+
 https://feathericons.com/
+
+https://daisyui.com/components/accordion/
 
 coming soon...
 
