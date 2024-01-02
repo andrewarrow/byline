@@ -201,6 +201,7 @@ func vimKeyPress(this js.Value, p []js.Value) any {
 			vim.FullScreenPreview()
 		}
 	} else if k == "i" {
+		vim.InsertMode = true
 	} else if k == "r" {
 		vim.ReplaceMode = true
 	} else if k == "O" {

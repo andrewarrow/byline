@@ -4,4 +4,7 @@
 
 @layer components {
 
+  .force-md-breakpoint {
+    @apply md:w-1/2;
+  } 
 }
