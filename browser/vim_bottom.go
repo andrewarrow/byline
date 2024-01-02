@@ -53,6 +53,8 @@ func (v *Vim) BottomCommand(text string) {
 			Global.LocalStorage.SetItem(filename, lines)
 		}
 		Global.LocalStorage.SetItem("byline", lines)
+	} else if strings.HasPrefix(text, "p") {
+		v.Left.Show()
 	} else if strings.HasPrefix(text, "hex") {
 		// #3E28DF
 		tag, m := v.getTokenMap()

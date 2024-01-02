@@ -12,3 +12,4 @@ div text-lg h-full
         {{ index . "preview" }}
   div w-96 h-96 p-3 text-black bg-red-700 fixed top-0 left-2/4 id=debug hidden
   div w-96 h-96 p-3 text-black bg-red-700 fixed top-0 left-2/4 id=menu hidden
+  div text-black bg-red-700 fixed top-0 left-0 w-full h-full hidden id=left

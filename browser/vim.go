@@ -18,6 +18,7 @@ type Vim struct {
 	Debug       *wasm.Wrapper
 	Bottom      *wasm.Wrapper
 	MenuDiv     *wasm.Wrapper
+	Left        *wasm.Wrapper
 	Menu        *Menu
 	DebugLine   string
 	X           int
@@ -67,6 +68,7 @@ func RegisterVimEvents() {
 	vim.Debug = Document.ByIdWrap("debug")
 	vim.Bottom = Document.ByIdWrap("bottom")
 	vim.MenuDiv = Document.ByIdWrap("menu")
+	vim.Left = Document.ByIdWrap("left")
 	vim.UndoStack = []string{}
 	vim.RedoStack = []string{}
 	//vim.DebugMode = true
