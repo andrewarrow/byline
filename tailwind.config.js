@@ -20,6 +20,7 @@ module.exports = {
         poppins: ['Poppins'],
         montserrat: ['Montserrat'],
         oxygen: ['Oxygen Mono'],
+        gotham: ['Papyrus'],
       },
     },
   },
