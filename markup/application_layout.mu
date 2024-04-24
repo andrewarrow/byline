@@ -1,4 +1,4 @@
-html attr-1
+html attr-1 data-theme=dark
   head
     {{ $build := index . "build" }}
     link rel=stylesheet type=text/css href=/assets/css/tail.min.css?id!{{$build}}
@@ -12,6 +12,6 @@ html attr-1
   body
     div id=flash bg-red-600 text-white text-center fixed top-0 left-0 w-full
       {{ index . "flash" }}
-    div bg-black text-gray-300 h-full font-poppins text-base
+    div h-full font-poppins text-base
       {{ index . "content" }}
     {{ index . "wasm" }}

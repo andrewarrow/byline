@@ -1,5 +1,6 @@
 main.go
-
+node_modules
+package*.json
 json.wasm.gz
 byline
 go.sum

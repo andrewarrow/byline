@@ -22,5 +22,5 @@ func handleWelcomeIndex(c *router.Context) {
 	lines := strings.Split(common.Sample, "\n")
 	h := markup.ToHTMLFromLines(nil, lines)
 	send["preview"] = template.HTML(h)
-	c.SendContentInLayout("vim.html", send, 200)
+	c.SendContentInLayout("daisy.html", send, 200)
 }
